@@ -40,15 +40,15 @@ To start the development server, run:
 
 **Using npm**:
 
-    ```
-    npm run dev
-    ```
+```
+npm run dev
+```
 
 **Or using yarn**
 
-    ```
-    yarn run dev
-    ```
+```
+yarn run dev
+```
 
 Open http://localhost:3000 with your browser to see the result.
 
@@ -58,17 +58,17 @@ You can start editing the page by modifying page.tsx. The page auto-updates as y
 
 ### To create an optimized production build, run:
 
-    Using npm:
+**Using npm:**
 
-    ```
-    npm run build
-    ```
+```
+npm run build
+```
 
 **Or using yarn:**
 
-    ```
-    yarn run build
-    ```
+```
+yarn run build
+```
 
 Linting
 To run the linter, use:
