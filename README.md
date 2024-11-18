@@ -8,31 +8,31 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 Make sure you have the following installed on your machine:
 
--   [Node.js](https://nodejs.org/en/download/) (version 14.x or later)
--   [npm](https://www.npmjs.com/get-npm) (version 6.x or later) or [yarn](https://yarnpkg.com/getting-started/install) (version 1.x or later)
+- [Node.js](https://nodejs.org/en/download/) (version 14.x or later)
+- [npm](https://www.npmjs.com/get-npm) (version 6.x or later) or [yarn](https://yarnpkg.com/getting-started/install) (version 1.x or later)
 
 ### Installation
 
 1. **Clone the repository:**
 
-    ```
-    git clone git@github.com:mehedihassandev/nextjs-eCommerce.git
-    cd nextjs-eCommerce
-    ```
+   ```
+   git clone git@github.com:mehedihassandev/nextjs-eCommerce.git
+   cd nextjs-eCommerce
+   ```
 
 2. **Install dependencies:**
 
-    Using npm:
+   Using npm:
 
-    ```
-    npm install
-    ```
+   ```
+   npm install
+   ```
 
-    Or using yarn:
+   Or using yarn:
 
-    ```
-    yarn install
-    ```
+   ```
+   yarn install
+   ```
 
 ### Running the Development Server
 
@@ -103,7 +103,7 @@ This project is set up to use TypeScript. You can add TypeScript files to the pr
 
 To learn more about Next.js, take a look at the following resources:
 
--   Next.js Documentation - learn about Next.js features and API.
--   Learn Next.js - an interactive Next.js tutorial.
+- Next.js Documentation - learn about Next.js features and API.
+- Learn Next.js - an interactive Next.js tutorial.
 
 You can check out the Next.js GitHub repository - your feedback and contributions are welcome!
