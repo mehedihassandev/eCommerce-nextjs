@@ -11,12 +11,19 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
-import { HeartIcon, SearchIcon, ShoppingCart } from 'lucide-react';
+import {
+  HeartIcon,
+  SearchIcon,
+  ShoppingCart,
+  MenuIcon,
+  XIcon,
+} from 'lucide-react';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,18 +92,31 @@ export const Header = () => {
             e-com
           </span>
         </div>
-        <nav className="flex space-x-8">
+        <nav className="hidden md:flex space-x-8">
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
                 <Link href="#" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      'bg-transparent hover:bg-transparent font-bold',
+                      isScrolled ? 'text-gray-700' : 'text-white',
+                    )}
+                  >
                     Home
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Shop</NavigationMenuTrigger>
+                <NavigationMenuTrigger
+                  className={cn(
+                    'bg-transparent hover:bg-transparent font-bold',
+                    isScrolled ? 'text-gray-700' : 'text-white',
+                  )}
+                >
+                  Shop
+                </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                     <ListItem href="#" title="New Arrivals">
@@ -113,7 +133,14 @@ export const Header = () => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+                <NavigationMenuTrigger
+                  className={cn(
+                    'bg-transparent hover:bg-transparent font-bold',
+                    isScrolled ? 'text-gray-700' : 'text-white',
+                  )}
+                >
+                  Products
+                </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4 md:w-[00px] lg:w-[600px] md:grid-cols-3">
                     {components.map((component) => (
@@ -128,21 +155,39 @@ export const Header = () => {
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link href="#" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      'bg-transparent hover:bg-transparent font-bold',
+                      isScrolled ? 'text-gray-700' : 'text-white',
+                    )}
+                  >
                     Blog
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link href="#" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      'bg-transparent hover:bg-transparent font-bold',
+                      isScrolled ? 'text-gray-700' : 'text-white',
+                    )}
+                  >
                     About Us
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link href="#" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      'bg-transparent hover:bg-transparent font-bold',
+                      isScrolled ? 'text-gray-700' : 'text-white',
+                    )}
+                  >
                     Contact Us
                   </NavigationMenuLink>
                 </Link>
@@ -175,8 +220,147 @@ export const Header = () => {
               )}
             />
           </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Menu"
+            className="md:hidden"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? (
+              <XIcon
+                className={cn(
+                  'h-6 w-6',
+                  isScrolled ? 'text-gray-700' : 'text-white',
+                )}
+              />
+            ) : (
+              <MenuIcon
+                className={cn(
+                  'h-6 w-6',
+                  isScrolled ? 'text-gray-700' : 'text-white',
+                )}
+              />
+            )}
+          </Button>
         </div>
       </div>
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-[9998] bg-black bg-opacity-50 md:hidden">
+          <div className="fixed right-0 top-0 h-full w-full bg-white shadow-lg">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Close"
+              onClick={() => setIsMenuOpen(false)}
+              className="absolute top-4 right-4"
+            >
+              <XIcon className="h-6 w-6 text-black" />
+            </Button>
+            <NavigationMenu>
+              <NavigationMenuList className="flex flex-col p-4 space-y-4">
+                <NavigationMenuItem>
+                  <Link href="#" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        'bg-transparent hover:bg-transparent font-bold',
+                        isScrolled ? 'text-gray-700' : 'text-black',
+                      )}
+                    >
+                      Home
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger
+                    className={cn(
+                      'bg-transparent hover:bg-transparent font-bold',
+                      isScrolled ? 'text-gray-700' : 'text-black',
+                    )}
+                  >
+                    Shop
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid gap-3 p-6">
+                      <ListItem href="#" title="New Arrivals">
+                        Re-usable components built using Radix UI and Tailwind
+                        CSS.
+                      </ListItem>
+                      <ListItem href="#" title="Weekly Trend">
+                        How to install dependencies and structure your app.
+                      </ListItem>
+                      <ListItem href="#" title="Rating Product">
+                        Styles for headings, paragraphs, lists...etc
+                      </ListItem>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger
+                    className={cn(
+                      'bg-transparent hover:bg-transparent font-bold',
+                      isScrolled ? 'text-gray-700' : 'text-black',
+                    )}
+                  >
+                    Products
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid gap-3 p-4">
+                      {components.map((component) => (
+                        <Item
+                          key={component.title}
+                          title={component.title}
+                          href={component.href}
+                        />
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link href="#" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        'bg-transparent hover:bg-transparent font-bold',
+                        isScrolled ? 'text-gray-700' : 'text-black',
+                      )}
+                    >
+                      Blog
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link href="#" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        'bg-transparent hover:bg-transparent font-bold',
+                        isScrolled ? 'text-gray-700' : 'text-black',
+                      )}
+                    >
+                      About Us
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link href="#" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        'bg-transparent hover:bg-transparent font-bold',
+                        isScrolled ? 'text-gray-700' : 'text-black',
+                      )}
+                    >
+                      Contact Us
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+        </div>
+      )}
     </header>
   );
 };
