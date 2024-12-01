@@ -36,7 +36,7 @@ const footerSections = {
 
 export const Footer = () => {
   return (
-    <footer className="bg-gray-50 text-gray-800 py-12 mt-12">
+    <footer className="bg-gray-50 text-gray-800 py-12">
       <div className="max-w-screen-2xl mx-auto px-6 sm:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {/* Store Location */}

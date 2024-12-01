@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
@@ -9,11 +11,24 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
-import { CarTaxiFrontIcon, HeartIcon, SearchIcon } from 'lucide-react';
+import { HeartIcon, SearchIcon, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export const Header = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const components: { title: string; href: string; description: string }[] = [
     {
       title: 'Alert Dialog',
@@ -53,10 +68,22 @@ export const Header = () => {
   ];
 
   return (
-    <header className="bg-white border-b border-gray-200">
+    <header
+      className={cn(
+        'border-b border-gray-200 fixed top-0 left-0 w-full z-[9999] transition-colors duration-300',
+        isScrolled ? 'bg-white' : 'bg-transparent',
+      )}
+    >
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <div className="flex items-center">
-          <span className="text-3xl font-bold text-gray-900">e-com</span>
+          <span
+            className={cn(
+              'text-3xl font-bold',
+              isScrolled ? 'text-gray-700' : 'text-white',
+            )}
+          >
+            e-com
+          </span>
         </div>
         <nav className="flex space-x-8">
           <NavigationMenu>
@@ -123,15 +150,30 @@ export const Header = () => {
             </NavigationMenuList>
           </NavigationMenu>
         </nav>
-        <div className="flex space-x-6">
+        <div className="flex space-x-2">
           <Button variant="ghost" size="icon" aria-label="Search">
-            <SearchIcon className="h-6 w-6 text-gray-700" />
+            <SearchIcon
+              className={cn(
+                'h-6 w-6',
+                isScrolled ? 'text-gray-700' : 'text-white',
+              )}
+            />
           </Button>
           <Button variant="ghost" size="icon" aria-label="Wishlist">
-            <HeartIcon className="h-6 w-6 text-gray-700" />
+            <HeartIcon
+              className={cn(
+                'h-6 w-6',
+                isScrolled ? 'text-gray-700' : 'text-white',
+              )}
+            />
           </Button>
           <Button variant="ghost" size="icon" aria-label="Cart">
-            <CarTaxiFrontIcon className="h-6 w-6 text-gray-700" />
+            <ShoppingCart
+              className={cn(
+                'h-6 w-6',
+                isScrolled ? 'text-gray-700' : 'text-white',
+              )}
+            />
           </Button>
         </div>
       </div>
