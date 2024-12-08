@@ -44,4 +44,4 @@ jobs:
 
       - name: Run commitlint
         run: |
-          npx commitlint --from=origin/main --to=HEAD
+          npx commitlint --from=origin/develop --to=HEAD
