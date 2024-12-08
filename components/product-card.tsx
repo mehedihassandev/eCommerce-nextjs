@@ -43,7 +43,7 @@ const ProductCard: FC<IProductCard> = ({
     <div className="w-full group relative space-y-4">
       <figure className="group-hover:opacity-90">
         <Image
-          className="w-full rounded-lg aspect-square object-center"
+          className="w-full rounded-lg aspect-square object-cover"
           src={image}
           width={300}
           height={500}
@@ -63,7 +63,7 @@ const ProductCard: FC<IProductCard> = ({
           <p className="text-lg font-semibold">${offerPrice}</p>
         </div>
       </div>
-      <div>
+      <div className="pb-4">
         <p className="text-sm text-muted-foreground">{description}</p>
       </div>
       <div className="flex gap-4">
