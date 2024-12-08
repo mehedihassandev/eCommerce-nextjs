@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { HeartIcon, PlusIcon } from 'lucide-react';
 import { IProduct } from '@/app/modals/products';
+import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 
 interface IProductCard {
   data: IProduct;
@@ -17,7 +18,26 @@ const ProductCard: FC<IProductCard> = ({
   handleAddToCart,
   handleAddToWhitelist,
 }) => {
-  const { name, image, price, category } = data;
+  const { name, image, price, offerPrice, category, description, rating } =
+    data;
+
+  const renderRating = (rating: number) => {
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 !== 0;
+    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+    return (
+      <div className="flex items-center mt-2">
+        {[...Array(fullStars)].map((_, i) => (
+          <FaStar key={i} className="text-yellow-500" />
+        ))}
+        {halfStar && <FaStarHalfAlt className="text-yellow-500" />}
+        {[...Array(emptyStars)].map((_, i) => (
+          <FaRegStar key={i} className="text-yellow-500" />
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className="w-full group relative space-y-4">
@@ -34,8 +54,17 @@ const ProductCard: FC<IProductCard> = ({
         <div>
           <h3 className="text-lg">{name}</h3>
           <p className="text-sm text-muted-foreground">{category}</p>
+          {renderRating(rating)}
         </div>
-        <p className="text-lg font-semibold">{price}</p>
+        <div className="flex justify-center items-baseline gap-3">
+          <p className="text-sm font-semibold text-gray-700 line-through">
+            $ {price}
+          </p>
+          <p className="text-lg font-semibold">${offerPrice}</p>
+        </div>
+      </div>
+      <div>
+        <p className="text-sm text-muted-foreground">{description}</p>
       </div>
       <div className="flex gap-4">
         <Button
