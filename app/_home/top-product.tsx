@@ -4,6 +4,7 @@ import ProductCard from '@/components/product-card';
 import React from 'react';
 import { IProduct } from '@/app/modals/products';
 import { topProducts } from '../data/products';
+import { Button } from '@/components/ui/button';
 
 export const TopProduct = () => {
   const handleAddToCart = (product: IProduct) => {
@@ -15,8 +16,11 @@ export const TopProduct = () => {
   };
 
   return (
-    <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16 flex flex-col justify-between items-center">
-      <h2 className="text-3xl font-bold pb-10">Top Products</h2>
+    <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16 flex flex-col justify-between">
+      <div className="flex justify-between mb-6">
+        <h2 className="text-3xl font-bold">Top Products</h2>
+        <Button>View All</Button>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
         {topProducts.map((product, index) => (
           <ProductCard
