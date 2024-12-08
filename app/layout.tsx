@@ -16,7 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'E-commerce',
+  title: 'e-com',
   description: 'A simple e-commerce site',
 };
 
