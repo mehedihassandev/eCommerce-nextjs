@@ -13,7 +13,7 @@ interface IProductCard {
   handleAddToWhitelist: () => void;
 }
 
-const ProductCard: FC<IProductCard> = ({
+export const ProductCard: FC<IProductCard> = ({
   data,
   handleAddToCart,
   handleAddToWhitelist,

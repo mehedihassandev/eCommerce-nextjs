@@ -1,10 +1,10 @@
 'use client';
 
-import ProductCard from '@/components/product-card';
 import React from 'react';
 import { IProduct } from '@/app/modals/products';
 import { topProducts } from '../data/products';
 import { Button } from '@/components/ui/button';
+import { ProductCard } from './product-card';
 
 export const TopProduct = () => {
   const handleAddToCart = (product: IProduct) => {

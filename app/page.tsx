@@ -1,5 +1,10 @@
-import { HomePage } from './_home/page';
+import { Banner, TopProduct } from './_components';
 
 export default function Home() {
-  return <HomePage />;
+  return (
+    <>
+      <Banner />
+      <TopProduct />
+    </>
+  );
 }
