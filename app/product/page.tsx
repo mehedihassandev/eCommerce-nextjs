@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { IProduct } from '@/app/modals/products';
+import { IProduct } from '@/app/models/products';
 import { topProducts } from '../data/products';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';

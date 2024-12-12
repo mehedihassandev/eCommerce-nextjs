@@ -3,8 +3,8 @@
 import React, { FC } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { HeartIcon, InfoIcon, PlusIcon } from 'lucide-react';
-import { IProduct } from '@/app/modals/products';
+import { HeartIcon, PlusIcon } from 'lucide-react';
+import { IProduct } from '@/app/models/products';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import { calculateRatingStars } from '../../app/helper/product';
 
@@ -24,17 +24,18 @@ export const ProductCard: FC<IProductCard> = ({
   const { name, image, price, offerPrice, category, description, rating } =
     data;
 
-  const { fullStars, halfStar, emptyStars } = calculateRatingStars(rating);
+  const { fullStars, halfStar, emptyStars } = calculateRatingStars(rating || 0);
 
   return (
     <div className="w-full group relative space-y-4">
       <figure className="group-hover:opacity-90">
         <Image
-          className="w-full rounded-lg aspect-square object-cover"
-          src={image}
+          className="w-full rounded-lg aspect-square object-cover cursor-pointer"
+          src={image || '/default-image.jpg'}
           width={300}
           height={500}
-          alt={name}
+          alt={name || 'Product image'}
+          onClick={handleNavigateToProduct}
         />
       </figure>
       <div className="flex justify-between">
@@ -72,13 +73,6 @@ export const ProductCard: FC<IProductCard> = ({
         </Button>
         <Button variant="outline" className="w-full" onClick={handleAddToCart}>
           <PlusIcon className="size-4 me-1" /> Add to Cart
-        </Button>
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={handleNavigateToProduct}
-        >
-          <InfoIcon className="size-4 me-1" /> Details
         </Button>
       </div>
     </div>

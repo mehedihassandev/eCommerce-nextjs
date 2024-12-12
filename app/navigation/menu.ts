@@ -1,5 +1,5 @@
 import { HeartIcon, SearchIcon, ShoppingCart } from 'lucide-react';
-import { INavItem } from '../modals/menu';
+import { INavItem } from '../models/menu';
 import { ROUTER } from './router';
 
 export const navItems: INavItem[] = [
