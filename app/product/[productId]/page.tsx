@@ -13,11 +13,14 @@ import { ProductCard } from '@/components/home';
 import { getSpecifications } from '@/app/constants/product';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const ProductPage = () => {
   const params = useParams();
   const navigate = useRouter();
   const [quantity, setQuantity] = useState(1);
+  const [isHovered, setIsHovered] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -67,10 +70,25 @@ const ProductPage = () => {
     product.offerPrice,
   );
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const { left, top } = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - left,
+      y: e.clientY - top,
+    });
+  };
+
   return (
-    <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:pt-12 lg:pt-28 flex flex-col justify-between">
+    <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-12 lg:pt-28 flex flex-col justify-between">
       <div className="container grid grid-cols-1 md:grid-cols-3 gap-16">
-        <div className="flex flex-col items-start gap-6 col-span-1">
+        <div
+          className={`flex flex-col items-start gap-6 col-span-1 relative ${
+            isHovered ? 'cursor-zoom-in' : ''
+          }`}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onMouseMove={handleMouseMove}
+        >
           <Image
             src={product.image}
             alt="Product Image"
@@ -78,6 +96,28 @@ const ProductPage = () => {
             height={600}
             className="rounded-lg w-full aspect-square object-cover"
           />
+          {isHovered && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1.8 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              className="absolute w-full h-full left-full top-44 ml-52 p-2 bg-white border border-gray-300 rounded-sm shadow-lg z-10 overflow-hidden hidden md:block"
+            >
+              <Image
+                src={product.image}
+                alt="Zoomed Product Image"
+                width={1980}
+                height={1440}
+                className="rounded-lg w-full aspect-square object-cover"
+                style={{
+                  transform: `scale(2) translate(-${mousePosition.x / 2}px, -${
+                    mousePosition.y / 2
+                  }px)`,
+                  transformOrigin: 'top left',
+                }}
+              />
+            </motion.div>
+          )}
         </div>
         <div className="flex flex-col items-start gap-6 col-span-2">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">
@@ -151,7 +191,7 @@ const ProductPage = () => {
         </div>
       </div>
 
-      <div className="container grid gap-12 mt-24">
+      <div className="container grid gap-8 mt-14">
         <div className="grid gap-6">
           <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight">
             Product Details
@@ -174,7 +214,7 @@ const ProductPage = () => {
             )}
           </div>
         </div>
-        <div className="grid gap-6">
+        <div className="grid gap-6 mt-14">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
             Related Products
           </h2>
