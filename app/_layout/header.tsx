@@ -24,6 +24,8 @@ import { usePathname } from 'next/navigation';
 
 export const Header = () => {
   const path = usePathname();
+  const isHome = path === '/';
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -37,10 +39,6 @@ export const Header = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  const isHome = path === '/';
-
-  console.log('isHome', isHome);
 
   return (
     <header

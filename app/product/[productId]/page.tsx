@@ -1,7 +1,8 @@
 'use client';
 
-import { topProducts } from '@/app/data/products';
+import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { topProducts } from '@/app/data/products';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { IProduct } from '@/app/models/products';
@@ -12,7 +13,6 @@ import { HeartIcon, PlusIcon } from 'lucide-react';
 import { ProductCard } from '@/components/home';
 import { getSpecifications } from '@/app/constants/product';
 import { Input } from '@/components/ui/input';
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const ProductPage = () => {
@@ -21,6 +21,15 @@ const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [product, setProduct] = useState<IProduct | null>(null);
+
+  useEffect(() => {
+    const productId = Number(params.productId);
+    const foundProduct = topProducts.find(
+      (product) => product.id === productId,
+    );
+    setProduct(foundProduct || null);
+  }, [params.productId]);
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -30,6 +39,10 @@ const ProductPage = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
     }
+  };
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuantity(Number(e.target.value));
   };
 
   const handleAddToCart = (product: IProduct) => {
@@ -44,18 +57,13 @@ const ProductPage = () => {
     navigate.push(`/${LINK.PRODUCT}/${product.id}`);
   };
 
-  const product = topProducts.find(
-    (product) => product.id === Number(params.productId),
-  );
-
-  const { fullStars, halfStar, emptyStars } = calculateRatingStars(
-    product?.rating || 0,
-  );
-
   if (!product) {
     return <div>Product not found</div>;
   }
 
+  const { fullStars, halfStar, emptyStars } = calculateRatingStars(
+    product.rating || 0,
+  );
   const specifications = getSpecifications(product);
 
   const calculateDiscountPercentage = (
@@ -65,10 +73,10 @@ const ProductPage = () => {
     return ((originalPrice - offerPrice) / originalPrice) * 100;
   };
 
-  const discountPercentage = calculateDiscountPercentage(
-    product.price,
-    product.offerPrice,
-  );
+  const discountPercentage =
+    product.price && product.offerPrice
+      ? calculateDiscountPercentage(product.price, product.offerPrice)
+      : 0;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const { left, top } = e.currentTarget.getBoundingClientRect();
@@ -90,7 +98,7 @@ const ProductPage = () => {
           onMouseMove={handleMouseMove}
         >
           <Image
-            src={product.image}
+            src={product.image || '/default-image.jpg'}
             alt="Product Image"
             width={600}
             height={600}
@@ -104,7 +112,7 @@ const ProductPage = () => {
               className="absolute w-full h-full left-full top-44 ml-52 p-2 bg-white border border-gray-300 rounded-sm shadow-lg z-10 overflow-hidden hidden md:block"
             >
               <Image
-                src={product.image}
+                src={product.image || '/default-image.jpg'}
                 alt="Zoomed Product Image"
                 width={1980}
                 height={1440}
@@ -164,6 +172,7 @@ const ProductPage = () => {
               type="number"
               className="w-12 text-center"
               value={quantity}
+              onChange={handleQuantityChange}
             />
 
             <Button variant="outline" className="w-10" onClick={handleIncrease}>

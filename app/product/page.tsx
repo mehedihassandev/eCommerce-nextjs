@@ -4,7 +4,6 @@ import React from 'react';
 import { IProduct } from '@/app/models/products';
 import { topProducts } from '../data/products';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { LINK } from '../navigation/router';
 import { ProductCard } from '@/components/home';
@@ -32,15 +31,13 @@ const Product = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
         {topProducts.map((product, index) => (
-          <Link href={`/product/${product.id}`} key={index}>
-            <ProductCard
-              key={index}
-              data={product}
-              handleAddToCart={() => handleAddToCart(product)}
-              handleAddToWhitelist={() => handleAddToWhitelist(product)}
-              handleNavigateToProduct={() => handleNavigateToProduct(product)}
-            />
-          </Link>
+          <ProductCard
+            key={index}
+            data={product}
+            handleAddToCart={() => handleAddToCart(product)}
+            handleAddToWhitelist={() => handleAddToWhitelist(product)}
+            handleNavigateToProduct={() => handleNavigateToProduct(product)}
+          />
         ))}
       </div>
     </div>
