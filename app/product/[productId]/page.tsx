@@ -14,7 +14,7 @@ import { getSpecifications } from '@/app/constants/product';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 
-export const ProductInfo = () => {
+const ProductPage = () => {
   const params = useParams();
   const navigate = useRouter();
   const [quantity, setQuantity] = useState(1);
@@ -195,4 +195,4 @@ export const ProductInfo = () => {
   );
 };
 
-export default ProductInfo;
+export default ProductPage;

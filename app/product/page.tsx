@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { LINK } from '../navigation/router';
 import { ProductCard } from '@/components/home';
 
-export const Product = () => {
+const Product = () => {
   const navigate = useRouter();
 
   const handleAddToCart = (product: IProduct) => {
