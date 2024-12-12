@@ -3,7 +3,7 @@
 import React, { FC } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { HeartIcon, PlusIcon } from 'lucide-react';
+import { HeartIcon, InfoIcon, PlusIcon } from 'lucide-react';
 import { IProduct } from '@/app/modals/products';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 
@@ -11,12 +11,14 @@ interface IProductCard {
   data: IProduct;
   handleAddToCart: () => void;
   handleAddToWhitelist: () => void;
+  handleNavigateToProduct: () => void;
 }
 
 export const ProductCard: FC<IProductCard> = ({
   data,
   handleAddToCart,
   handleAddToWhitelist,
+  handleNavigateToProduct,
 }) => {
   const { name, image, price, offerPrice, category, description, rating } =
     data;
@@ -77,6 +79,13 @@ export const ProductCard: FC<IProductCard> = ({
         </Button>
         <Button variant="outline" className="w-full" onClick={handleAddToCart}>
           <PlusIcon className="size-4 me-1" /> Add to Cart
+        </Button>
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={handleNavigateToProduct}
+        >
+          <InfoIcon className="size-4 me-1" /> Details
         </Button>
       </div>
     </div>
