@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { HeartIcon, InfoIcon, PlusIcon } from 'lucide-react';
 import { IProduct } from '@/app/modals/products';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
+import { calculateRatingStars } from '../../app/helper/product';
 
 interface IProductCard {
   data: IProduct;
@@ -23,23 +24,7 @@ export const ProductCard: FC<IProductCard> = ({
   const { name, image, price, offerPrice, category, description, rating } =
     data;
 
-  const renderRating = (rating: number) => {
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 !== 0;
-    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-
-    return (
-      <div className="flex items-center mt-2">
-        {[...Array(fullStars)].map((_, i) => (
-          <FaStar key={i} className="text-yellow-500" />
-        ))}
-        {halfStar && <FaStarHalfAlt className="text-yellow-500" />}
-        {[...Array(emptyStars)].map((_, i) => (
-          <FaRegStar key={i} className="text-yellow-500" />
-        ))}
-      </div>
-    );
-  };
+  const { fullStars, halfStar, emptyStars } = calculateRatingStars(rating);
 
   return (
     <div className="w-full group relative space-y-4">
@@ -56,7 +41,15 @@ export const ProductCard: FC<IProductCard> = ({
         <div>
           <h3 className="text-lg">{name}</h3>
           <p className="text-sm text-muted-foreground">{category}</p>
-          {renderRating(rating)}
+          <div className="flex items-center mt-2">
+            {[...Array(fullStars)].map((_, i) => (
+              <FaStar key={i} className="text-yellow-500" />
+            ))}
+            {halfStar && <FaStarHalfAlt className="text-yellow-500" />}
+            {[...Array(emptyStars)].map((_, i) => (
+              <FaRegStar key={i} className="text-yellow-500" />
+            ))}
+          </div>
         </div>
         <div className="flex justify-center items-baseline gap-3">
           <p className="text-sm font-semibold text-gray-700 line-through">

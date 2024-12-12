@@ -5,9 +5,9 @@ import { IProduct } from '@/app/modals/products';
 import { topProducts } from '../data/products';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ProductCard } from '../_components';
 import { useRouter } from 'next/navigation';
 import { LINK } from '../navigation/router';
+import { ProductCard } from '@/components/home';
 
 export const Product = () => {
   const navigate = useRouter();
@@ -34,6 +34,7 @@ export const Product = () => {
         {topProducts.map((product, index) => (
           <Link href={`/product/${product.id}`} key={index}>
             <ProductCard
+              key={index}
               data={product}
               handleAddToCart={() => handleAddToCart(product)}
               handleAddToWhitelist={() => handleAddToWhitelist(product)}

@@ -2,11 +2,11 @@
 
 import React from 'react';
 import { IProduct } from '@/app/modals/products';
-import { topProducts } from '../data/products';
+import { topProducts } from '../../app/data/products';
 import { Button } from '@/components/ui/button';
-import { ProductCard } from './product-card';
 import { useRouter } from 'next/navigation';
-import { LINK } from '../navigation/router';
+import { LINK } from '../../app/navigation/router';
+import { ProductCard } from './product-card';
 
 export const TopProduct = () => {
   const navigate = useRouter();
