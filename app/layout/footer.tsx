@@ -7,32 +7,7 @@ import {
 } from 'lucide-react';
 import { TbBrandVisa, TbBrandMastercard } from 'react-icons/tb';
 import { FaCcAmex, FaPaypal, FaCcDiscover } from 'react-icons/fa';
-
-const footerSections = {
-  Shop: [
-    { title: 'Shop All', href: '#' },
-    { title: 'Computers', href: '#' },
-    { title: 'Tablets', href: '#' },
-    { title: 'Drones & Cameras', href: '#' },
-    { title: 'Audio', href: '#' },
-    { title: 'Mobile', href: '#' },
-    { title: 'T.V & Home Cinema', href: '#' },
-    { title: 'Wearable Tech', href: '#' },
-    { title: 'Sale', href: '#' },
-  ],
-  'Customer Support': [
-    { title: 'Contact Us', href: '#' },
-    { title: 'Help Center', href: '#' },
-    { title: 'About Us', href: '#' },
-    { title: 'Careers', href: '#' },
-  ],
-  Policy: [
-    { title: 'Shipping & Returns', href: '#' },
-    { title: 'Terms & Conditions', href: '#' },
-    { title: 'Payment Methods', href: '#' },
-    { title: 'FAQ', href: '#' },
-  ],
-};
+import { footerMenu } from '../navigation/menu';
 
 export const Footer = () => {
   return (
@@ -68,7 +43,7 @@ export const Footer = () => {
             </div>
           </div>
 
-          {Object.entries(footerSections).map(([section, links]) => (
+          {Object.entries(footerMenu).map(([section, links]) => (
             <div key={section} className="space-y-4">
               <h3 className="text-lg font-semibold">{section}</h3>
               <ul className="space-y-2 pt-4">

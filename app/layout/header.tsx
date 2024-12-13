@@ -11,40 +11,21 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
-import {
-  HeartIcon,
-  SearchIcon,
-  ShoppingCart,
-  MenuIcon,
-  XIcon,
-} from 'lucide-react';
+import { MenuIcon, XIcon } from 'lucide-react';
 import Link from 'next/link';
 import {
   useState,
   useEffect,
   ComponentPropsWithoutRef,
   forwardRef,
-  ComponentType,
-  SVGProps,
 } from 'react';
-
-interface INavItem {
-  type: 'nav' | 'button';
-  title?: string;
-  href?: string;
-  hasSubMenu?: boolean;
-  subMenu?: ISubMenuItem[];
-  ariaLabel?: string;
-  icon?: ComponentType<SVGProps<SVGSVGElement>>;
-}
-
-interface ISubMenuItem {
-  title: string;
-  href: string;
-  description?: string;
-}
+import { navItems } from '../navigation/menu';
+import { usePathname } from 'next/navigation';
 
 export const Header = () => {
+  const path = usePathname();
+  const isHome = path === '/';
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -59,56 +40,11 @@ export const Header = () => {
     };
   }, []);
 
-  const navItems: INavItem[] = [
-    { type: 'nav', title: 'Home', href: '#' },
-    {
-      type: 'nav',
-      title: 'Shop',
-      href: '#',
-      hasSubMenu: true,
-      subMenu: [
-        {
-          title: 'Alert Dialog',
-          href: '#',
-        },
-        {
-          title: 'Hover Card',
-          href: '#',
-        },
-      ],
-    },
-    {
-      type: 'nav',
-      title: 'Products',
-      href: '#',
-      hasSubMenu: true,
-      subMenu: [
-        {
-          title: 'Progress',
-          href: '#',
-          description:
-            'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
-        },
-        {
-          title: 'Scroll-area',
-          href: '#',
-          description: 'Visually or semantically separates content.',
-        },
-      ],
-    },
-    { type: 'nav', title: 'Blog', href: '#' },
-    { type: 'nav', title: 'About Us', href: '#' },
-    { type: 'nav', title: 'Contact Us', href: '#' },
-    { type: 'button', ariaLabel: 'Search', icon: SearchIcon },
-    { type: 'button', ariaLabel: 'Wishlist', icon: HeartIcon },
-    { type: 'button', ariaLabel: 'Cart', icon: ShoppingCart },
-  ];
-
   return (
     <header
       className={cn(
         'border-b border-gray-200 fixed top-0 left-0 w-full z-[9999] transition-colors duration-300',
-        isScrolled ? 'bg-white' : 'bg-transparent',
+        isScrolled || !isHome ? 'bg-white' : 'bg-transparent  backdrop-blur-md',
       )}
     >
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
@@ -116,7 +52,7 @@ export const Header = () => {
           <span
             className={cn(
               'text-3xl font-bold',
-              isScrolled ? 'text-gray-700' : 'text-white',
+              isScrolled || !isHome ? 'text-gray-700' : 'text-white',
             )}
           >
             e-com
@@ -133,7 +69,7 @@ export const Header = () => {
                         <NavigationMenuTrigger
                           className={cn(
                             'bg-transparent hover:bg-transparent font-bold',
-                            isScrolled
+                            isScrolled || !isHome
                               ? 'text-gray-700'
                               : 'text-white hover:bg-accent hover:text-accent-foreground',
                           )}
@@ -160,7 +96,7 @@ export const Header = () => {
                             className={cn(
                               navigationMenuTriggerStyle(),
                               'bg-transparent hover:bg-transparent font-bold',
-                              isScrolled
+                              isScrolled || !isHome
                                 ? 'text-gray-700'
                                 : 'text-white hover:bg-accent hover:text-accent-foreground',
                             )}
@@ -186,7 +122,7 @@ export const Header = () => {
                 aria-label={item.ariaLabel}
                 className={cn(
                   'hover:bg-transparent',
-                  isScrolled ? 'text-gray-700' : 'text-white',
+                  isScrolled || !isHome ? 'text-gray-700' : 'text-white',
                 )}
               >
                 <item.icon className="h-6 w-6" />
@@ -199,7 +135,7 @@ export const Header = () => {
             aria-label="Menu"
             className={cn(
               'md:hidden',
-              isScrolled ? 'text-gray-700' : 'text-white',
+              isScrolled || !isHome ? 'text-gray-700' : 'text-white',
             )}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
@@ -235,7 +171,9 @@ export const Header = () => {
                           <NavigationMenuTrigger
                             className={cn(
                               'bg-transparent hover:bg-transparent font-bold',
-                              isScrolled ? 'text-gray-700' : 'text-black',
+                              isScrolled || !isHome
+                                ? 'text-gray-700'
+                                : 'text-white',
                             )}
                           >
                             {item.title}
@@ -260,7 +198,9 @@ export const Header = () => {
                               className={cn(
                                 navigationMenuTriggerStyle(),
                                 'bg-transparent hover:bg-transparent font-bold',
-                                isScrolled ? 'text-gray-700' : 'text-black',
+                                isScrolled || !isHome
+                                  ? 'text-gray-700'
+                                  : 'text-black',
                               )}
                             >
                               {item.title}
