@@ -54,7 +54,7 @@ jobs:
       - uses: maor-rozenfeld/prlint-reloaded@v1
         with:
           title-regex: ^NE-\d+: [A-Z][a-z]+
-          error-message: Your title must be in the format 'NE-[0-9]+: First Capital Later', e.g. 'NE-123: Add GO support'
+          error-message: Your title must be in the format.
 
       - uses: maor-rozenfeld/prlint-reloaded@v1
         with:
