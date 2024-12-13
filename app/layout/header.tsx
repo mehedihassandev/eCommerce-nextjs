@@ -44,7 +44,7 @@ export const Header = () => {
     <header
       className={cn(
         'border-b border-gray-200 fixed top-0 left-0 w-full z-[9999] transition-colors duration-300',
-        isScrolled || !isHome ? 'bg-white' : 'bg-transparent  backdrop-blur-md',
+        isScrolled || !isHome ? 'bg-white' : 'bg-black/65  backdrop-blur-md',
       )}
     >
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
