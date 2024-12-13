@@ -42,3 +42,29 @@ export const navItems: INavItem[] = [
   { type: 'button', ariaLabel: 'Wishlist', icon: HeartIcon },
   { type: 'button', ariaLabel: 'Cart', icon: ShoppingCart },
 ];
+
+export const footerMenu = {
+  Shop: [
+    { title: 'Shop All', href: '#' },
+    { title: 'Computers', href: '#' },
+    { title: 'Tablets', href: '#' },
+    { title: 'Drones & Cameras', href: '#' },
+    { title: 'Audio', href: '#' },
+    { title: 'Mobile', href: '#' },
+    { title: 'T.V & Home Cinema', href: '#' },
+    { title: 'Wearable Tech', href: '#' },
+    { title: 'Sale', href: '#' },
+  ],
+  'Customer Support': [
+    { title: 'Contact Us', href: '#' },
+    { title: 'Help Center', href: '#' },
+    { title: 'About Us', href: '#' },
+    { title: 'Careers', href: '#' },
+  ],
+  Policy: [
+    { title: 'Shipping & Returns', href: '#' },
+    { title: 'Terms & Conditions', href: '#' },
+    { title: 'Payment Methods', href: '#' },
+    { title: 'FAQ', href: '#' },
+  ],
+};

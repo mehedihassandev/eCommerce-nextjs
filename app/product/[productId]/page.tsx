@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { topProducts } from '@/app/data/products';
 import { Button } from '@/components/ui/button';
@@ -41,7 +41,7 @@ const ProductPage = () => {
     }
   };
 
-  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleQuantityChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuantity(Number(e.target.value));
   };
 
