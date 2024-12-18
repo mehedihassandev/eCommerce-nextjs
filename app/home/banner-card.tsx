@@ -2,7 +2,7 @@
 
 import React, { FC } from 'react';
 import { motion } from 'framer-motion';
-import { Button } from '../ui/button';
+import { Button } from '../../components/ui/button';
 
 interface IBannerCardProps {
   backgroundImage: string;

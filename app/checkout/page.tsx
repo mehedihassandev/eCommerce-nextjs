@@ -5,7 +5,7 @@ import { MinusIcon, MoveRight, PlusIcon } from 'lucide-react';
 import Image from 'next/image';
 import { MdFavoriteBorder } from 'react-icons/md';
 import { CiCircleRemove } from 'react-icons/ci';
-import { ProductCard } from '@/components/home';
+import { ProductCard } from '@/app/home';
 import { topProducts } from '../data/products';
 import { ChangeEvent, useState } from 'react';
 import { IProduct } from '../models/products';

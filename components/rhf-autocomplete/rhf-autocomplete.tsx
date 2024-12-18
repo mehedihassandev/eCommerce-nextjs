@@ -6,7 +6,7 @@ import {
   FieldValues,
 } from 'react-hook-form';
 import { Label } from '../ui/label';
-import { Autocomplete } from '../ui/auto-complete';
+import { Autocomplete } from '../ui/autocomplete';
 
 type RhfAutocompleteProps<T extends FieldValues> = {
   control: Control<T>;
