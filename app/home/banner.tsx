@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { slides } from '../../app/data/banner';
+import { slides } from '../data/banner';
 
 export const Banner = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

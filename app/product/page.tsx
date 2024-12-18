@@ -6,7 +6,7 @@ import { topProducts } from '../data/products';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { LINK } from '../navigation/router';
-import { ProductCard } from '@/components/home';
+import { ProductCard } from '@/app/home';
 
 const Product = () => {
   const navigate = useRouter();

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { HeartIcon, PlusIcon } from 'lucide-react';
 import { IProduct } from '@/app/models/products';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
-import { calculateRatingStars } from '../../app/helper/product';
+import { calculateRatingStars } from '../app/helper/product';
 
 interface IProductCard {
   data: IProduct;
