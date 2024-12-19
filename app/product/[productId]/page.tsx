@@ -232,7 +232,6 @@ const ProductPage = () => {
               <ProductCard
                 key={index}
                 data={product}
-                handleAddToCart={() => handleAddToCart(product)}
                 handleAddToWhitelist={() => handleAddToWhitelist(product)}
                 handleNavigateToProduct={() => handleNavigateToProduct(product)}
               />

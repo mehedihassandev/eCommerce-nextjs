@@ -12,11 +12,14 @@ import { IProduct } from '../models/products';
 import { LINK } from '../navigation/router';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
+import { useCartStore } from '@/stores/cart-store';
 
 export default function Checkout() {
   const navigate = useRouter();
 
   const [quantity, setQuantity] = useState(1);
+
+  const { cartItems } = useCartStore();
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -29,10 +32,6 @@ export default function Checkout() {
   };
   const handleQuantityChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuantity(Number(e.target.value));
-  };
-
-  const handleAddToCart = (product: IProduct) => {
-    console.log('Added to cart:', product);
   };
 
   const handleAddToWhitelist = (product: IProduct) => {
@@ -52,50 +51,51 @@ export default function Checkout() {
         <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
           <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
             <div className="space-y-6">
-              <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
-                <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-                  <Image
-                    className="h-32 w-32 dark:hidden object-cover rounded-lg"
-                    src="https://cdn.pixabay.com/photo/2021/01/09/12/30/speaker-5902204_1280.jpg"
-                    alt="imac image"
-                    width={300}
-                    height={300}
-                  />
+              {cartItems.map((product) => (
+                <div
+                  key={product.id}
+                  className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6"
+                >
+                  <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
+                    <Image
+                      className="h-32 w-32 dark:hidden object-cover rounded-lg"
+                      src={product.image || '/path/to/default/image.jpg'}
+                      alt={product.name || 'Product Image'}
+                      width={300}
+                      height={300}
+                    />
 
-                  <div className="flex items-center justify-between md:order-3 md:justify-end">
-                    <div className="flex items-center">
-                      <Button variant="ghost" onClick={handleDecrease}>
-                        <MinusIcon className="h-2.5 w-2.5 text-gray-900 dark:text-white" />
-                      </Button>
-                      <Input
-                        type="text"
-                        className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
-                        value={quantity}
-                        onChange={handleQuantityChange}
-                        required
-                      />
-                      <Button variant="ghost" onClick={handleIncrease}>
-                        <PlusIcon className="h-2.5 w-2.5 text-gray-900 dark:text-white" />
-                      </Button>
+                    <div className="flex items-center justify-between md:order-3 md:justify-end">
+                      <div className="flex items-center">
+                        <Button variant="ghost" onClick={handleDecrease}>
+                          <MinusIcon className="h-2.5 w-2.5 text-gray-900 dark:text-white" />
+                        </Button>
+                        <Input
+                          type="text"
+                          className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
+                          value={quantity}
+                          onChange={handleQuantityChange}
+                          readOnly
+                        />
+                        <Button variant="ghost" onClick={handleIncrease}>
+                          <PlusIcon className="h-2.5 w-2.5 text-gray-900 dark:text-white" />
+                        </Button>
+                      </div>
+                      <div className="text-end md:order-4 md:w-32">
+                        <p className="text-base font-bold text-gray-900 dark:text-white">
+                          ${product.price}
+                        </p>
+                      </div>
                     </div>
-                    <div className="text-end md:order-4 md:w-32">
-                      <p className="text-base font-bold text-gray-900 dark:text-white">
-                        $1,499
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="w-full min-w-0 flex-1 space-y-1 md:order-2 md:max-w-md">
                     <div className="flex flex-col justify-between gap-1">
                       <p className="text-lg font-medium text-gray-900 dark:text-white">
-                        Headphone with Mic
-                      </p>
-
-                      <p className="text-base text-gray-500 dark:text-gray-400">
-                        Catagory: Headphones
+                        {product.name}
                       </p>
                       <p className="text-base text-gray-500 dark:text-gray-400">
-                        Color: Red
+                        Category: {product.category}
+                      </p>
+                      <p className="text-base text-gray-500 dark:text-gray-400">
+                        Color: {product.specifications?.color ?? 'N/A'}
                       </p>
                     </div>
 
@@ -119,7 +119,7 @@ export default function Checkout() {
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
             <div className="hidden xl:mt-16 xl:block">
               <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
@@ -131,7 +131,6 @@ export default function Checkout() {
                   <ProductCard
                     key={index}
                     data={product}
-                    handleAddToCart={() => handleAddToCart(product)}
                     handleAddToWhitelist={() => handleAddToWhitelist(product)}
                     handleNavigateToProduct={() =>
                       handleNavigateToProduct(product)
