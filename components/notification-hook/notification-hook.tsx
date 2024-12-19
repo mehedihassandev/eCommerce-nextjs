@@ -4,10 +4,13 @@ import { createContext, useCallback, useContext, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
+// Define the NotificationType type
+type NotificationType = 'success' | 'error';
+
 // Define the NotificationContext type
 type NotificationContextType = (
   message: string,
-  type: 'success' | 'error',
+  type: NotificationType,
 ) => void;
 
 const NotificationContext = createContext<NotificationContextType | undefined>(
@@ -24,26 +27,28 @@ export const useNotification = (): NotificationContextType => {
   return context;
 };
 
-interface NotificationProviderProps {
+interface INotificationProviderProps {
   children: React.ReactNode;
 }
 
-export const NotificationProvider: React.FC<NotificationProviderProps> = ({
+interface INotification {
+  id: string;
+  message: string;
+  type: NotificationType;
+}
+
+export const NotificationProvider: React.FC<INotificationProviderProps> = ({
   children,
 }) => {
-  const [notifications, setNotifications] = useState<
-    { id: string; message: string; type: 'success' | 'error' }[]
-  >([]);
+  const [notifications, setNotifications] = useState<INotification[]>([]);
 
   const showNotification: NotificationContextType = useCallback(
     (message, type) => {
       const id = Math.random().toString(36).substr(2, 9);
-      setNotifications((prev) => [...prev, { id, message, type }]);
+      setNotifications([{ id, message, type }]);
       setTimeout(() => {
-        setNotifications((prev) =>
-          prev.filter((notification) => notification.id !== id),
-        );
-      }, 5000); // Auto-remove after 5 seconds
+        setNotifications([]);
+      }, 5000);
     },
     [],
   );

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { LINK } from '../navigation/router';
 import { ProductCard } from '../../components/product-card';
-import ContentWrapper from '@/components/content-wrapper/content-wrapper'; // Correct import
+import ContentWrapper from '@/components/content-wrapper/content-wrapper';
 
 export const TopProduct = () => {
   const navigate = useRouter();

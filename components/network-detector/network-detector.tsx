@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
   ReactNode,
+  FC,
 } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -24,13 +25,13 @@ export const useNetworkDetector = () => {
   return network;
 };
 
-interface NetworkDetectorProviderProps {
+interface INetworkDetectorProviderProps {
   children: ReactNode;
 }
 
-export const NetworkDetectorProvider: React.FC<
-  NetworkDetectorProviderProps
-> = ({ children }) => {
+export const NetworkDetectorProvider: FC<INetworkDetectorProviderProps> = ({
+  children,
+}) => {
   const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
 
   useEffect(() => {
