@@ -7,17 +7,16 @@ import { HeartIcon, PlusIcon } from 'lucide-react';
 import { IProduct } from '@/app/models/products';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import { calculateRatingStars } from '../app/helper/product';
+import { useCartStore } from '@/stores/cart-store';
 
 interface IProductCard {
   data: IProduct;
-  handleAddToCart: () => void;
   handleAddToWhitelist: () => void;
   handleNavigateToProduct: () => void;
 }
 
 export const ProductCard: FC<IProductCard> = ({
   data,
-  handleAddToCart,
   handleAddToWhitelist,
   handleNavigateToProduct,
 }) => {
@@ -25,6 +24,12 @@ export const ProductCard: FC<IProductCard> = ({
     data;
 
   const { fullStars, halfStar, emptyStars } = calculateRatingStars(rating || 0);
+
+  const { addToCart } = useCartStore();
+
+  const handleAddToCart = () => {
+    addToCart(data);
+  };
 
   return (
     <div className="w-full group relative space-y-4">
