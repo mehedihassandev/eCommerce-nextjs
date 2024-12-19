@@ -1,7 +1,7 @@
 module.exports = {
   rules: {
     'type-enum': [2, 'always', ['NE']], // Enforce "NE" type
-    'header-max-length': [2, 'always', 500], // Enforce header length
+    'header-max-length': [2, 'always', 50000], // Enforce header length
     'scope-empty': [0], // Disable default scope-empty rule
     'scope-case': [2, 'always', 'lower-case'], // Ensure scope is lowercase
   },

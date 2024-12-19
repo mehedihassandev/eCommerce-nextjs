@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { LINK } from '../navigation/router';
 import { ProductCard } from '../../components/product-card';
+import ContentWrapper from '@/components/content-wrapper/content-wrapper'; // Correct import
 
 export const TopProduct = () => {
   const navigate = useRouter();
@@ -23,7 +24,7 @@ export const TopProduct = () => {
   };
 
   return (
-    <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16 flex flex-col justify-between">
+    <ContentWrapper>
       <div className="flex justify-between mb-6">
         <h2 className="text-3xl font-bold">Top Products</h2>
         <Button>View All</Button>
@@ -39,7 +40,7 @@ export const TopProduct = () => {
           />
         ))}
       </div>
-    </div>
+    </ContentWrapper>
   );
 };
 

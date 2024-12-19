@@ -1,7 +1,24 @@
+'use client';
+
 import { Banner, TopProduct } from '@/app/home';
-import BannerCard from '@/app/home/banner-card';
+import { BannerCard } from '@/app/home/banner-card';
+import { useNetworkDetector } from '@/components/network-detector/network-detector';
+import { useNotification } from '@/components/notification-hook/notification-hook';
+import { useEffect } from 'react';
 
 export default function Home() {
+  const isOnline = useNetworkDetector();
+  const notify = useNotification();
+
+  useEffect(() => {
+    notify(
+      isOnline
+        ? `So glad you're back!`
+        : 'Your device is having network issues',
+      isOnline ? 'success' : 'error',
+    );
+  }, [isOnline, notify]);
+
   return (
     <>
       <Banner />

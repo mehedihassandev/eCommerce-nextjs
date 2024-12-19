@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
+import { NotificationProvider } from '@/components/notification-hook/notification-hook';
 import { Header } from './layout/header';
 import { Footer } from './layout/footer';
+import { NetworkDetectorProvider } from '@/components/network-detector/network-detector';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -30,9 +32,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        {children}
-        <Footer />
+        <NotificationProvider>
+          <NetworkDetectorProvider>
+            <Header />
+            {children}
+            <Footer />
+          </NetworkDetectorProvider>
+        </NotificationProvider>
       </body>
     </html>
   );
