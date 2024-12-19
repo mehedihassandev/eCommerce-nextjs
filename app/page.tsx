@@ -1,5 +1,5 @@
 import { Banner, TopProduct } from '@/app/home';
-import BannerCard from '@/app/home/banner-card';
+import { BannerCard } from '@/app/home/banner-card';
 
 export default function Home() {
   return (
