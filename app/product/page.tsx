@@ -11,10 +11,6 @@ import { ProductCard } from '@/app/home';
 const Product = () => {
   const navigate = useRouter();
 
-  const handleAddToCart = (product: IProduct) => {
-    console.log('Added to cart:', product);
-  };
-
   const handleAddToWhitelist = (product: IProduct) => {
     console.log('Added to whitelist:', product);
   };
@@ -34,7 +30,6 @@ const Product = () => {
           <ProductCard
             key={index}
             data={product}
-            handleAddToCart={() => handleAddToCart(product)}
             handleAddToWhitelist={() => handleAddToWhitelist(product)}
             handleNavigateToProduct={() => handleNavigateToProduct(product)}
           />
