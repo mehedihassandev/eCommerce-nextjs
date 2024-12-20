@@ -24,12 +24,14 @@ const ProductPage = () => {
   const [product, setProduct] = useState<IProduct | null>(null);
 
   useEffect(() => {
-    const productId = Number(params.productId);
-    const foundProduct = topProducts.find(
-      (product) => product.id === productId,
-    );
-    setProduct(foundProduct || null);
-  }, [params.productId]);
+    if (params && params.productId) {
+      const productId = Number(params.productId);
+      const foundProduct = topProducts.find(
+        (product) => product.id === productId,
+      );
+      setProduct(foundProduct || null);
+    }
+  }, [params]);
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
