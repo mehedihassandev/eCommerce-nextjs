@@ -56,6 +56,11 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      fontFamily: {
+        playfair: ['"Playfair"', 'serif'],
+        noto: ['"Noto Sans", serif'],
+        poppins: ['"Poppins", serif'],
+      },
     },
   },
   // eslint-disable-next-line @typescript-eslint/no-require-imports

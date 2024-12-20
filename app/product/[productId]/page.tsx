@@ -127,35 +127,45 @@ const ProductPage = () => {
             </motion.div>
           )}
         </div>
-        <div className="flex flex-col items-start gap-6 col-span-2">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">
+        <div className="flex flex-col items-start gap-4 col-span-2">
+          <h1 className="text-xl sm:text-2xl md:text-5xl font-bold tracking-tight font-playfair">
             {product.name}
           </h1>
-          <p className="text-muted-foreground text-base">
+          <p className="text-muted-foreground text-base font-noto">
             {product.description}
           </p>
-          <div className="flex gap-4 items-baseline">
-            <div className="flex items-center mt-2 gap-1">
+          <div className="flex gap-4 items-stretch">
+            <div className="flex items-center gap-1">
               {[...Array(fullStars)].map((_, i) => (
-                <FaStar key={i} className="text-yellow-500" />
+                <FaStar
+                  key={i}
+                  className="text-yellow-500 font-noto text-base"
+                />
               ))}
-              {halfStar && <FaStarHalfAlt className="text-yellow-500" />}
+              {halfStar && (
+                <FaStarHalfAlt className="text-yellow-500 font-noto text-base" />
+              )}
               {[...Array(emptyStars)].map((_, i) => (
-                <FaRegStar key={i} className="text-yellow-500" />
+                <FaRegStar
+                  key={i}
+                  className="text-yellow-500 font-noto text-base"
+                />
               ))}
             </div>
-            <p className="text-base font-semibold">
+            <p className="text-base font-semibold font-noto text-gray-700">
               {product.rating} ({product.numberOfReviews} reviews)
             </p>
           </div>
           <div className="flex gap-14">
             <div className="flex flex-col justify-center gap-3 w-full">
-              <p className="text-4xl font-semibold">${product.offerPrice}</p>
+              <p className="text-4xl font-semibold font-noto">
+                $ {product.offerPrice}
+              </p>
               <div className="flex gap-4 items-baseline">
-                <p className="text-lg font-semibold text-gray-700 line-through">
+                <p className="text-lg font-semibold text-gray-700 line-through font-noto">
                   $ {product.price}
                 </p>
-                <p className="text-[12px] font-semibold text-red-500">
+                <p className="text-[12px] font-semibold text-red-500 font-noto">
                   {discountPercentage.toFixed(2)}% off
                 </p>
               </div>
@@ -163,14 +173,14 @@ const ProductPage = () => {
           </div>
 
           <div className="flex gap-2 items-center">
-            <h4 className="text-base font-semibold pr-6">Quantity:</h4>
+            <h4 className="text-lg font-semibold pr-6 font-noto">Quantity:</h4>
 
             <Button variant="outline" className="w-10" onClick={handleDecrease}>
               -
             </Button>
             <Input
               type="number"
-              className="w-12 text-center"
+              className="w-12 text-center font-noto"
               value={quantity}
               onChange={handleQuantityChange}
             />
@@ -180,7 +190,7 @@ const ProductPage = () => {
             </Button>
           </div>
 
-          <div className="flex gap-8">
+          <div className="flex gap-8 mt-14">
             <Button
               variant="default"
               className="w-full"
@@ -201,14 +211,16 @@ const ProductPage = () => {
       </div>
 
       <div className="container grid gap-8 mt-14">
-        <div className="grid gap-6">
-          <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight">
+        <div className="grid gap-4">
+          <h2 className="text-lg sm:text-xl md:text-3xl font-semibold font-playfair">
             Product Details
           </h2>
-          <p className="text-base text-gray-800">{product.details}</p>
+          <p className="text-base text-gray-800 font-noto leading-relaxed">
+            {product.details}
+          </p>
         </div>
-        <div className="grid gap-6">
-          <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight">
+        <div className="grid gap-4">
+          <h2 className="text-lg sm:text-xl md:text-3xl font-semibold font-playfair">
             Product Specifications
           </h2>
           <div className="grid sm:grid-cols-1 gap-2">
@@ -216,8 +228,12 @@ const ProductPage = () => {
               (spec, index) =>
                 spec.value && (
                   <div key={index} className="flex gap-4 items-center">
-                    <p className="text-base font-semibold">{spec.label}: </p>
-                    <p className="text-base text-gray-800">{spec.value}</p>
+                    <p className="text-base font-semibold font-noto">
+                      {spec.label}:{' '}
+                    </p>
+                    <p className="text-base text-gray-800 font-noto">
+                      {spec.value}
+                    </p>
                   </div>
                 ),
             )}

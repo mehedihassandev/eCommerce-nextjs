@@ -20,9 +20,11 @@ import {
   forwardRef,
 } from 'react';
 import { navItems } from '../navigation/menu';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { ROUTER } from '../navigation/router';
 
 export const Header = () => {
+  const navigate = useRouter();
   const path = usePathname();
   const isHome = path === '/';
 
@@ -43,7 +45,7 @@ export const Header = () => {
   return (
     <header
       className={cn(
-        'border-b border-gray-200 fixed top-0 left-0 w-full z-[9999] transition-colors duration-300',
+        'fixed top-0 left-0 w-full z-[9999] transition-colors duration-300 shadow-md',
         isScrolled || !isHome ? 'bg-white' : 'bg-black/65  backdrop-blur-md',
       )}
     >
@@ -51,9 +53,10 @@ export const Header = () => {
         <div className="flex items-center">
           <span
             className={cn(
-              'text-3xl font-bold',
+              'text-3xl font-bold cursor-pointer font-noto',
               isScrolled || !isHome ? 'text-gray-700' : 'text-white',
             )}
+            onClick={() => navigate.push(ROUTER.HOME)}
           >
             e-com
           </span>
@@ -68,7 +71,7 @@ export const Header = () => {
                       <>
                         <NavigationMenuTrigger
                           className={cn(
-                            'bg-transparent hover:bg-transparent font-bold',
+                            'bg-transparent hover:bg-transparent font-medium font-noto text-base',
                             isScrolled || !isHome
                               ? 'text-gray-700'
                               : 'text-white hover:bg-accent hover:text-accent-foreground',
@@ -77,7 +80,7 @@ export const Header = () => {
                           {item.title}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
-                          <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                          <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] font-medium font-noto text-base">
                             {item.subMenu?.map((subItem) => (
                               <Item
                                 key={subItem.title}
@@ -95,7 +98,7 @@ export const Header = () => {
                           <NavigationMenuLink
                             className={cn(
                               navigationMenuTriggerStyle(),
-                              'bg-transparent hover:bg-transparent font-bold',
+                              'bg-transparent hover:bg-transparent font-medium font-noto text-base',
                               isScrolled || !isHome
                                 ? 'text-gray-700'
                                 : 'text-white hover:bg-accent hover:text-accent-foreground',
@@ -121,7 +124,7 @@ export const Header = () => {
                 size="icon"
                 aria-label={item.ariaLabel}
                 className={cn(
-                  'hover:bg-transparent',
+                  'hover:bg-transparent hover:text-white font-medium font-noto',
                   isScrolled || !isHome ? 'text-gray-700' : 'text-white',
                 )}
               >
@@ -147,11 +150,18 @@ export const Header = () => {
           </Button>
         </div>
       </div>
+
+      {/** Mobile Menu **/}
       {isMenuOpen && (
         <div className="fixed inset-0 z-[9998] bg-black bg-opacity-50 md:hidden">
           <div className="fixed right-0 top-0 h-full w-full bg-white shadow-lg">
             <div className="flex items-center p-6 justify-between">
-              <h4 className={cn('text-3xl font-bold text-black')}>e-com</h4>
+              <h4
+                className={cn('text-3xl font-bold cursor-pointer font-noto')}
+                onClick={() => navigate.push(ROUTER.HOME)}
+              >
+                e-com
+              </h4>
               <Button
                 variant="ghost"
                 size="icon"
@@ -170,7 +180,7 @@ export const Header = () => {
                         <>
                           <NavigationMenuTrigger
                             className={cn(
-                              'bg-transparent hover:bg-transparent font-bold',
+                              'bg-transparent hover:bg-transparent font-medium font-noto text-base',
                               isScrolled || !isHome
                                 ? 'text-gray-700'
                                 : 'text-white',
@@ -197,7 +207,7 @@ export const Header = () => {
                             <NavigationMenuLink
                               className={cn(
                                 navigationMenuTriggerStyle(),
-                                'bg-transparent hover:bg-transparent font-bold',
+                                'bg-transparent hover:bg-transparent font-medium font-noto text-base',
                                 isScrolled || !isHome
                                   ? 'text-gray-700'
                                   : 'text-black',
@@ -233,7 +243,7 @@ const Item = forwardRef<HTMLAnchorElement, ItemProps>(
     return (
       <li>
         <NavigationMenuLink asChild>
-          <a
+          <Link
             ref={ref}
             href={href}
             className={cn(
@@ -242,13 +252,15 @@ const Item = forwardRef<HTMLAnchorElement, ItemProps>(
             )}
             {...props}
           >
-            <p className="text-sm font-medium leading-none">{title}</p>
+            <p className="text-base font-medium font-noto leading-none">
+              {title}
+            </p>
             {description && (
-              <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+              <p className="line-clamp-2 text-sm font-noto leading-snug text-muted-foreground">
                 {description}
               </p>
             )}
-          </a>
+          </Link>
         </NavigationMenuLink>
       </li>
     );

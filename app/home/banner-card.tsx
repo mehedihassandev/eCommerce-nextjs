@@ -8,6 +8,7 @@ interface IBannerCardProps {
   backgroundImage: string;
   title: string;
   subtitle: string;
+  descriptions: string;
   buttonText: string;
 }
 
@@ -15,6 +16,7 @@ export const BannerCard: FC<IBannerCardProps> = ({
   backgroundImage,
   title,
   subtitle,
+  descriptions,
   buttonText,
 }) => {
   return (
@@ -39,22 +41,33 @@ export const BannerCard: FC<IBannerCardProps> = ({
       {/* Text Content */}
       <div className="relative text-white w-full px-16">
         <motion.h3
-          className="text-sm font-semibold uppercase tracking-wide mb-2"
-          initial={{ y: -20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.1 }}
-        >
-          {subtitle}
-        </motion.h3>
-        <motion.h1
-          className="text-4xl font-bold mb-8"
+          className="text-sm font-semibold font-noto uppercase tracking-wide text-gray-300"
           initial={{ y: -20, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
+          {subtitle}
+        </motion.h3>
+        <motion.h1
+          className="text-4xl font-semibold mb-2 font-playfair leading-relaxed tracking-wide"
+          initial={{ y: -20, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
           {title}
         </motion.h1>
-        <Button className="mt-4 px-6 py-2 rounded-lg shadow-md font-semibold bg-white/60 hover:bg-white/90">
+        <motion.h1
+          className="text-base font-normal mb-14 font-noto leading-[1.75rem]"
+          initial={{ y: -20, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.7 }}
+        >
+          {descriptions}
+        </motion.h1>
+        <Button
+          variant="secondary"
+          className="mt-4 px-6 py-2 rounded-lg shadow-md font-medium font-poppins text-gray-800"
+        >
           {buttonText}
         </Button>
       </div>

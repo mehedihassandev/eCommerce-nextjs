@@ -23,10 +23,17 @@ export const TopProduct = () => {
   return (
     <ContentWrapper>
       <div className="flex justify-between mb-6">
-        <h2 className="text-3xl font-bold">Top Products</h2>
-        <Button>View All</Button>
+        <h2 className="text-4xl font-bold font-playfair">Top Products</h2>
+        <Button
+          className="w-44 font-poppins "
+          onClick={() => {
+            navigate.push(`/${LINK.PRODUCT}`);
+          }}
+        >
+          View All
+        </Button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8">
         {topProducts.map((product, index) => (
           <ProductCard
             key={index}
