@@ -6,8 +6,8 @@ import { topProducts } from '../data/products';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { LINK } from '../navigation/router';
-import { ProductCard } from '../../components/product-card';
 import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
+import { ProductCard } from '@/components/product-card';
 
 export const TopProduct = () => {
   const navigate = useRouter();

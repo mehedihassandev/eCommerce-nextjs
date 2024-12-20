@@ -10,10 +10,10 @@ import { LINK } from '@/app/navigation/router';
 import { calculateRatingStars } from '@/app/helper/product';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { HeartIcon, PlusIcon } from 'lucide-react';
-import { ProductCard } from '@/app/home';
 import { getSpecifications } from '@/app/constants/product';
 import { Input } from '@/components/ui/input';
 import { motion } from 'framer-motion';
+import { ProductCard } from '@/components/product-card';
 
 const ProductPage = () => {
   const params = useParams();

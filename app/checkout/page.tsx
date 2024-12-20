@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { MinusIcon, MoveRight, PlusIcon } from 'lucide-react';
 import Image from 'next/image';
 import { CiCircleRemove } from 'react-icons/ci';
-import { ProductCard } from '@/app/home';
 import { topProducts } from '../data/products';
 import { useState } from 'react';
 import { IProduct } from '../models/products';
@@ -19,6 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import ProductCard from '@/components/product-card';
 
 export default function Checkout() {
   const navigate = useRouter();
