@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import connect from '@/lib/database/db';
-import Product from '@/lib/database/modals/product';
+import Product from '@/lib/database/models/product';
+import { Types } from 'mongoose';
 import { NextResponse } from 'next/server';
 
-export const GET = async (request: Request) => {
-  try {
-    const { searchParams } = new URL(request.url);
-    const productId = searchParams.get('id');
+export const GET = async (request: Request, context: { params: any }) => {
+  const productId = context.params.product;
 
-    if (!productId) {
+  try {
+    if (!productId || !Types.ObjectId.isValid(productId)) {
       return NextResponse.json(
-        { message: 'Product ID is required' },
-        { status: 404 },
+        { message: 'Product ID not found' },
+        { status: 400 },
       );
     }
 
@@ -26,7 +26,7 @@ export const GET = async (request: Request) => {
       );
     }
 
-    return NextResponse.json(product, { status: 200 });
+    return NextResponse.json(product.toObject(), { status: 200 });
   } catch (error: any) {
     return NextResponse.json(
       { message: 'Internal server error', error: error.message },

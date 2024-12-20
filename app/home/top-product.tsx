@@ -9,7 +9,7 @@ import { ProductCard } from '../../components/product-card';
 import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
 import { getProducts } from '@/utils/lib/data-access/products';
 import { useQuery } from '@tanstack/react-query';
-import axios from '@/utils/lib/axios';
+import { axios } from '@/utils';
 
 export const TopProduct = () => {
   const navigate = useRouter();

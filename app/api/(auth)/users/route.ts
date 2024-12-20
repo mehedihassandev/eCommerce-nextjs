@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import connect from '@/lib/database/db';
-import User from '@/lib/database/modals/user';
+import User from '@/lib/database/models/user';
 import { Types } from 'mongoose';
 import { NextResponse } from 'next/server';
 

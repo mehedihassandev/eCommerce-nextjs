@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input';
 import { useCartStore } from '@/stores/cart-store';
 import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '@/utils/lib/data-access/products';
-import axios from 'axios';
+import { axios } from '@/utils';
 
 export default function Checkout() {
   const navigate = useRouter();

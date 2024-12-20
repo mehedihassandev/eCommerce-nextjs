@@ -14,8 +14,8 @@ import { getSpecifications } from '@/app/constants/product';
 import { Input } from '@/components/ui/input';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import axios from '@/utils/lib/axios';
-import { getProductById } from '@/utils/lib/data-access/products';
+import { getProducts } from '@/utils/lib/data-access/products';
+import { axios } from '@/utils';
 
 const ProductPage = () => {
   const params = useParams();
@@ -24,25 +24,35 @@ const ProductPage = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [product, setProduct] = useState<IProduct | null>(null);
-  const productId = params?.productId;
+  const productId = params?.product;
 
   const { data } = useQuery({
     queryKey: ['products', productId],
     queryFn: () => {
-      const params = new URLSearchParams();
-
-      console.log('params:', params);
-      console.log('productId:', productId);
-
-      params.append('productId', productId as string);
-
-      return getProductById({
+      return getProducts({
         api: axios,
-        url: params as unknown as string,
+        url: `/${productId}`,
       });
     },
     select: (data) => data.data,
   });
+
+  const { data: allProducts } = useQuery({
+    queryKey: ['products'],
+    queryFn: () => {
+      return getProducts({
+        api: axios,
+        url: '',
+      });
+    },
+    select: (data) => data.data,
+  });
+
+  useEffect(() => {
+    if (data) {
+      setProduct(data);
+    }
+  }, [data]);
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -69,16 +79,6 @@ const ProductPage = () => {
   const handleNavigateToProduct = (product: IProduct) => {
     navigate.push(`/${LINK.PRODUCT}/${product._id}`);
   };
-
-  useEffect(() => {
-    if (data) {
-      data.forEach((product: IProduct) => {
-        if (product._id === productId) {
-          setProduct(product);
-        }
-      });
-    }
-  }, [data, productId]);
 
   if (!product) {
     return (
@@ -255,14 +255,19 @@ const ProductPage = () => {
             Related Products
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
-            {data.slice(0, 4).map((product: IProduct, index: number) => (
-              <ProductCard
-                key={index}
-                data={product}
-                handleAddToWhitelist={() => handleAddToWhitelist(product)}
-                handleNavigateToProduct={() => handleNavigateToProduct(product)}
-              />
-            ))}
+            {Array.isArray(allProducts) &&
+              allProducts
+                .slice(0, 4)
+                .map((product: IProduct, index: number) => (
+                  <ProductCard
+                    key={index}
+                    data={product}
+                    handleAddToWhitelist={() => handleAddToWhitelist(product)}
+                    handleNavigateToProduct={() =>
+                      handleNavigateToProduct(product)
+                    }
+                  />
+                ))}
           </div>
         </div>
       </div>

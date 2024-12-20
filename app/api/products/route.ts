@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import connect from '@/lib/database/db';
-import Product from '@/lib/database/modals/product';
+import Product from '@/lib/database/models/product';
 import { NextResponse } from 'next/server';
 
 export const GET = async () => {

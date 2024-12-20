@@ -8,7 +8,7 @@ import { LINK } from '../navigation/router';
 import { ProductCard } from '@/app/home';
 import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '@/utils/lib/data-access/products';
-import axios from 'axios';
+import { axios } from '@/utils';
 
 const Product = () => {
   const navigate = useRouter();

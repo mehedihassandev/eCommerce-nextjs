@@ -3,7 +3,7 @@ import axios, { InternalAxiosRequestConfig } from 'axios';
 const baseURL = process.env.API_BASE_URL;
 
 const instance = axios.create({
-  baseURL, // Use the base URL from the environment variable
+  baseURL,
 });
 
 instance.interceptors.request.use((reqConfig: InternalAxiosRequestConfig) => {
@@ -12,4 +12,4 @@ instance.interceptors.request.use((reqConfig: InternalAxiosRequestConfig) => {
   return reqConfig;
 });
 
-export default instance;
+export { instance as axios };
