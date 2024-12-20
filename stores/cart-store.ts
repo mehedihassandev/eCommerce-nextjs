@@ -17,7 +17,7 @@ export const useCartStore = create(
       removeFromCart: (productId: number) =>
         set((state) => ({
           cartItems: state.cartItems.filter(
-            (product) => product.id !== productId,
+            (product) => product._id !== productId,
           ),
         })),
     }),
