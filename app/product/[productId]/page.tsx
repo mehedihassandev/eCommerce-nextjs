@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { topProducts } from '@/app/data/products';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { IProduct } from '@/app/models/products';
@@ -14,6 +13,9 @@ import { ProductCard } from '@/app/home';
 import { getSpecifications } from '@/app/constants/product';
 import { Input } from '@/components/ui/input';
 import { motion } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
+import axios from '@/utils/lib/axios';
+import { getProductById } from '@/utils/lib/data-access/products';
 
 const ProductPage = () => {
   const params = useParams();
@@ -22,14 +24,25 @@ const ProductPage = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [product, setProduct] = useState<IProduct | null>(null);
+  const productId = params?.productId;
 
-  useEffect(() => {
-    const productId = Number(params.productId);
-    const foundProduct = topProducts.find(
-      (product) => product.id === productId,
-    );
-    setProduct(foundProduct || null);
-  }, [params.productId]);
+  const { data } = useQuery({
+    queryKey: ['products', productId],
+    queryFn: () => {
+      const params = new URLSearchParams();
+
+      console.log('params:', params);
+      console.log('productId:', productId);
+
+      params.append('productId', productId as string);
+
+      return getProductById({
+        api: axios,
+        url: params as unknown as string,
+      });
+    },
+    select: (data) => data.data,
+  });
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -54,11 +67,25 @@ const ProductPage = () => {
   };
 
   const handleNavigateToProduct = (product: IProduct) => {
-    navigate.push(`/${LINK.PRODUCT}/${product.id}`);
+    navigate.push(`/${LINK.PRODUCT}/${product._id}`);
   };
 
+  useEffect(() => {
+    if (data) {
+      data.forEach((product: IProduct) => {
+        if (product._id === productId) {
+          setProduct(product);
+        }
+      });
+    }
+  }, [data, productId]);
+
   if (!product) {
-    return <div>Product not found</div>;
+    return (
+      <div className="h-screen text-5xl items-center justify-center font-bold font-serif align-middle text-center pt-24">
+        Product not found
+      </div>
+    );
   }
 
   const { fullStars, halfStar, emptyStars } = calculateRatingStars(
@@ -228,7 +255,7 @@ const ProductPage = () => {
             Related Products
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
-            {topProducts.slice(0, 4).map((product, index) => (
+            {data.slice(0, 4).map((product: IProduct, index: number) => (
               <ProductCard
                 key={index}
                 data={product}
