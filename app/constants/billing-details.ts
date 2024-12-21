@@ -60,22 +60,13 @@ export const formFields = [
 ];
 
 export const paymentMethods = [
-  {
-    value: 'bank_payment',
-    label: 'Bank Payment',
-  },
-  {
-    value: 'bkash_payment',
-    label: 'Bkash Payment',
-  },
-  {
-    value: 'nagad_payment',
-    label: 'Nagad Payment',
-  },
-  {
-    value: 'cash_on_delivery',
-    label: 'Cash on Delivery',
-  },
+  { name: 'Credit/Debit Card', icon: '💳', disable: false },
+  { name: 'bKash', icon: '🦅', disable: false },
+  { name: 'Nagad', icon: '📱', disable: false },
+  { name: 'Installment', icon: '📅', disable: true },
+  { name: 'DBBL Nexus Card', icon: '🏦', disable: true },
+  { name: 'Rocket', icon: '🚀', disable: true },
+  { name: 'Cash On Delivery', icon: '💵', disable: false },
 ];
 
 export const formValues: IBillingDetailsFormData = {
@@ -88,4 +79,5 @@ export const formValues: IBillingDetailsFormData = {
   phone: '',
   country: '',
   paymentMethod: '',
+  promo_code: '',
 };

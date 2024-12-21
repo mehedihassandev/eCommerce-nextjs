@@ -8,4 +8,5 @@ export interface IBillingDetailsFormData {
   phone: string;
   country: string;
   paymentMethod: string;
+  promo_code: string;
 }

@@ -158,6 +158,7 @@ export default function Checkout() {
                 <Button
                   variant="ghost"
                   className="w-full font-poppins font-medium text-sm"
+                  onClick={() => navigate.push(LINK.HOME)}
                 >
                   Continue Shopping
                   <MoveRight className="h-4 w-4" />
@@ -165,7 +166,10 @@ export default function Checkout() {
 
                 <Button
                   variant="outline"
-                  className="w-full font-poppins font-medium text-sm "
+                  className="w-full font-poppins font-medium text-sm"
+                  onClick={() =>
+                    navigate.push(`${LINK.CHECKOUT}/${LINK.BILLING_DETAILS}`)
+                  }
                 >
                   Proceed to Checkout
                 </Button>

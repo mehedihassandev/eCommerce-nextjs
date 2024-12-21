@@ -9,7 +9,7 @@ export const ROUTER = {
   BLOG: 'blog',
   CONTACT_US: 'contact-us',
   CHECKOUT: 'checkout',
-  BILLING_ADDRESS: 'billing-address',
+  BILLING_DETAILS: 'billing-details',
 };
 
 export const LINK = {
@@ -23,5 +23,5 @@ export const LINK = {
   BLOG: 'blog',
   CONTACT_US: 'contact-us',
   CHECKOUT: 'checkout',
-  BILLING_ADDRESS: 'billing-address',
+  BILLING_DETAILS: 'billing-details',
 };
