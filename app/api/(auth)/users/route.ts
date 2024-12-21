@@ -12,7 +12,7 @@ export const GET = async () => {
     await connect();
 
     const users = await User.find();
-    return new NextResponse(JSON.stringify(users), { status: 200 });
+    return NextResponse.json(users, { status: 200 });
   } catch (error: any) {
     return new NextResponse('Internal server error' + error.message, {
       status: 500,
@@ -28,8 +28,8 @@ export const POST = async (request: Request) => {
     const newUser = new User(body);
     await newUser.save();
 
-    return new NextResponse(
-      JSON.stringify({ message: 'User created successfully', user: newUser }),
+    return NextResponse.json(
+      { message: 'User created successfully', user: newUser },
       { status: 200 },
     );
   } catch (error: any) {
@@ -64,11 +64,11 @@ export const PATCH = async (request: Request) => {
       return new NextResponse('User not found!', { status: 404 });
     }
 
-    return new NextResponse(
-      JSON.stringify({
+    return NextResponse.json(
+      {
         message: 'User updated successfully',
         user: updateUser,
-      }),
+      },
       { status: 200 },
     );
   } catch (error: any) {
@@ -101,11 +101,11 @@ export const DELETE = async (request: Request) => {
       return new NextResponse('User not found!', { status: 404 });
     }
 
-    return new NextResponse(
-      JSON.stringify({
+    return NextResponse.json(
+      {
         message: 'User deleted successfully',
         user: deletedUser,
-      }),
+      },
       { status: 200 },
     );
   } catch (error: any) {
