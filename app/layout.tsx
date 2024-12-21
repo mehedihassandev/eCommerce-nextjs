@@ -4,6 +4,7 @@ import { NotificationProvider } from '@/components/notification-hook/notificatio
 import { Header } from './layout/header';
 import { Footer } from './layout/footer';
 import { NetworkDetectorProvider } from '@/components/network-detector/network-detector';
+import { QueryProvider } from '@/utils';
 
 export const metadata: Metadata = {
   title: 'e-com',
@@ -20,9 +21,11 @@ export default function RootLayout({
       <body className="bg-background dark:bg-gray-900 text-foreground dark:text-white">
         <NotificationProvider>
           <NetworkDetectorProvider>
-            <Header />
-            {children}
-            <Footer />
+            <QueryProvider>
+              <Header />
+              {children}
+              <Footer />
+            </QueryProvider>
           </NetworkDetectorProvider>
         </NotificationProvider>
       </body>

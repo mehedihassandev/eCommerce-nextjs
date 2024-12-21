@@ -4,13 +4,13 @@ import { Button } from '@/components/ui/button';
 import { MinusIcon, MoveRight, PlusIcon } from 'lucide-react';
 import Image from 'next/image';
 import { CiCircleRemove } from 'react-icons/ci';
-import { topProducts } from '../data/products';
 import { useState } from 'react';
 import { IProduct } from '../models/products';
 import { LINK } from '../navigation/router';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { useCartStore } from '@/stores/cart-store';
+import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 import {
   Card,
   CardContent,
@@ -18,7 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import ProductCard from '@/components/product-card';
+import { ProductCard } from '@/components/product-card';
 
 export default function Checkout() {
   const navigate = useRouter();
@@ -26,6 +26,8 @@ export default function Checkout() {
   const [quantity, setQuantity] = useState(1);
 
   const { cartItems } = useCartStore();
+
+  const { data, isLoading } = useProductsQuery('');
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -42,8 +44,9 @@ export default function Checkout() {
   };
 
   const handleNavigateToProduct = (product: IProduct) => {
-    navigate.push(`/${LINK.PRODUCT}/${product.id}`);
+    navigate.push(`/${LINK.PRODUCT}/${product._id}`);
   };
+
   return (
     <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
       <div className="mx-auto max-w-screen-2xl px-6 pt-12">
@@ -56,7 +59,7 @@ export default function Checkout() {
             <div className="space-y-6">
               {cartItems.map((product) => (
                 <Card
-                  key={product.id}
+                  key={product._id}
                   className="relative rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800 flex"
                 >
                   <Button
@@ -187,19 +190,25 @@ export default function Checkout() {
         </div>
 
         <div className="hidden xl:mt-16 xl:block">
-          <h3 className="text-3xl font-semibold font-playfair text-gray-900 dark:text-white">
+          <h3 className="text-4xl font-bold font-playfair text-gray-900 dark:text-white">
             May you also like
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8 mt-6">
-            {topProducts.slice(0, 4).map((product, index) => (
-              <ProductCard
-                key={index}
-                data={product}
-                handleAddToWhitelist={() => handleAddToWhitelist(product)}
-                handleNavigateToProduct={() => handleNavigateToProduct(product)}
-              />
-            ))}
+            {data &&
+              data
+                .slice(0, 4)
+                .map((product: IProduct, index: number) => (
+                  <ProductCard
+                    key={index}
+                    data={product}
+                    handleAddToWhitelist={() => handleAddToWhitelist(product)}
+                    handleNavigateToProduct={() =>
+                      handleNavigateToProduct(product)
+                    }
+                    isLoading={isLoading}
+                  />
+                ))}
           </div>
         </div>
       </div>

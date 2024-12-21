@@ -71,7 +71,7 @@ export const Header = () => {
                       <>
                         <NavigationMenuTrigger
                           className={cn(
-                            'bg-transparent hover:bg-transparent font-medium font-noto text-base',
+                            'bg-transparent hover:bg-transparent font-medium font-noto text-sm',
                             isScrolled || !isHome
                               ? 'text-gray-700'
                               : 'text-white hover:bg-accent hover:text-accent-foreground',
@@ -80,7 +80,7 @@ export const Header = () => {
                           {item.title}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
-                          <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] font-medium font-noto text-base">
+                          <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] font-medium font-noto text-sm">
                             {item.subMenu?.map((subItem) => (
                               <Item
                                 key={subItem.title}
@@ -98,7 +98,7 @@ export const Header = () => {
                           <NavigationMenuLink
                             className={cn(
                               navigationMenuTriggerStyle(),
-                              'bg-transparent hover:bg-transparent font-medium font-noto text-base',
+                              'bg-transparent hover:bg-transparent font-medium font-noto text-sm',
                               isScrolled || !isHome
                                 ? 'text-gray-700'
                                 : 'text-white hover:bg-accent hover:text-accent-foreground',
@@ -180,7 +180,7 @@ export const Header = () => {
                         <>
                           <NavigationMenuTrigger
                             className={cn(
-                              'bg-transparent hover:bg-transparent font-medium font-noto text-base',
+                              'bg-transparent hover:bg-transparent font-medium font-noto text-sm',
                               isScrolled || !isHome
                                 ? 'text-gray-700'
                                 : 'text-white',
@@ -207,7 +207,7 @@ export const Header = () => {
                             <NavigationMenuLink
                               className={cn(
                                 navigationMenuTriggerStyle(),
-                                'bg-transparent hover:bg-transparent font-medium font-noto text-base',
+                                'bg-transparent hover:bg-transparent font-medium font-noto text-sm',
                                 isScrolled || !isHome
                                   ? 'text-gray-700'
                                   : 'text-black',
@@ -252,7 +252,7 @@ const Item = forwardRef<HTMLAnchorElement, ItemProps>(
             )}
             {...props}
           >
-            <p className="text-base font-medium font-noto leading-none">
+            <p className="text-sm font-medium font-noto leading-none">
               {title}
             </p>
             {description && (

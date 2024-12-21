@@ -20,7 +20,7 @@ export const Footer = () => {
               Store Location
             </h3>
             <div className="flex flex-col gap-y-2 pt-4">
-              <h4 className="font-noto text-base">
+              <h4 className="font-noto text-sm md:text-base">
                 Mohammdpur, Townhall Market
               </h4>
               <a
@@ -62,7 +62,7 @@ export const Footer = () => {
                   <li key={link.title}>
                     <a
                       href={link.href}
-                      className="text-gray-600 hover:text-gray-900 font-noto text-base"
+                      className="text-gray-600 hover:text-gray-900 font-noto text-sm md:text-base"
                     >
                       {link.title}
                     </a>

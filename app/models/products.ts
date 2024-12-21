@@ -10,7 +10,7 @@ export interface IProductSpecification {
 }
 
 export interface IProduct {
-  id?: number;
+  _id?: number;
   name?: string;
   offerPrice?: number;
   price?: number;

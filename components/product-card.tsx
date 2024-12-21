@@ -1,6 +1,4 @@
-'use client';
-
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { HeartIcon, PlusIcon } from 'lucide-react';
@@ -15,23 +13,15 @@ interface IProductCard {
   data: IProduct;
   handleAddToWhitelist: () => void;
   handleNavigateToProduct: () => void;
+  isLoading: boolean;
 }
 
 export const ProductCard: FC<IProductCard> = ({
   data,
   handleAddToWhitelist,
   handleNavigateToProduct,
+  isLoading,
 }) => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   const { name, image, price, offerPrice, category, rating, numberOfReviews } =
     data;
   const { fullStars, halfStar, emptyStars } = calculateRatingStars(rating || 0);
@@ -47,7 +37,7 @@ export const ProductCard: FC<IProductCard> = ({
         className="group-hover:opacity-90"
         onClick={handleNavigateToProduct}
       >
-        {loading ? (
+        {isLoading ? (
           <Skeleton className="w-full h-56" />
         ) : (
           <Image
@@ -60,7 +50,7 @@ export const ProductCard: FC<IProductCard> = ({
         )}
       </CardHeader>
       <CardContent>
-        {loading ? (
+        {isLoading ? (
           <div className="space-y-1 mt-3">
             <div className="space-y-1 mt-3">
               <Skeleton className="w-1/2 h-6" />
