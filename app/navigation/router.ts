@@ -8,6 +8,8 @@ export const ROUTER = {
   NEW_ARRIVALS: 'new-arrivals',
   BLOG: 'blog',
   CONTACT_US: 'contact-us',
+  CHECKOUT: 'checkout',
+  BILLING_ADDRESS: 'billing-address',
 };
 
 export const LINK = {
@@ -20,4 +22,6 @@ export const LINK = {
   NEW_ARRIVALS: 'new-arrivals',
   BLOG: 'blog',
   CONTACT_US: 'contact-us',
+  CHECKOUT: 'checkout',
+  BILLING_ADDRESS: 'billing-address',
 };

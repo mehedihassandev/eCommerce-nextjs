@@ -1,11 +1,12 @@
+import { InputHTMLAttributes } from 'react';
 import {
   Control,
   Controller,
   ControllerProps,
   FieldValues,
 } from 'react-hook-form';
+
 import { Input } from '../ui/input';
-import { InputHTMLAttributes } from 'react';
 import { Label } from '../ui/label';
 
 // Create a generic type for the RhfTextField component
@@ -43,7 +44,9 @@ export const RhfTextField = <T extends FieldValues>({
         return (
           <div className="flex flex-col">
             {label && (
-              <Label className="mb-1 text-sm font-medium">{label}</Label>
+              <Label className="mb-2 text-sm font-medium font-noto">
+                {label}
+              </Label>
             )}
             <Input
               className={`border ${error ? 'border-red-500' : ''} rounded p-2`}
@@ -53,7 +56,7 @@ export const RhfTextField = <T extends FieldValues>({
               {...props}
             />
             {error && (
-              <span className="text-red-500 text-sm pt-1 pl-1">
+              <span className="text-red-500 text-sm pt-2 pl-1 font-noto">
                 {error.message}
               </span>
             )}

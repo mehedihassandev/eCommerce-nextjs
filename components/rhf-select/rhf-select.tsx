@@ -1,12 +1,14 @@
+import React from 'react';
 import {
   Control,
   Controller,
   ControllerProps,
   FieldValues,
 } from 'react-hook-form';
+import { SelectProps } from '@radix-ui/react-select';
+
 import { Label } from '../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select';
-import { SelectProps } from '@radix-ui/react-select';
 
 type RhfSelectFieldProps<T extends FieldValues> = {
   control: Control<T>;
@@ -25,26 +27,42 @@ export const RhfSelect = <T extends FieldValues>({
     <Controller
       control={control}
       {...props}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <div className="flex flex-col">
-          {label && <Label className="mb-1 text-sm font-medium">{label}</Label>}
-          <Select onValueChange={onChange} value={value} {...props}>
-            <SelectTrigger>{value || 'Select an option'}</SelectTrigger>
-            <SelectContent>
-              {options?.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {error && (
-            <span className="text-red-500 text-sm pt-1 pl-1">
-              {error.message}
-            </span>
-          )}
-        </div>
-      )}
+      render={({ field: { onChange, value }, fieldState: { error } }) => {
+        const selectedOption = options.find((option) => option.value === value);
+
+        const selectedLabel = selectedOption
+          ? selectedOption.label
+          : 'Select an option...';
+
+        const handleChange = (newValue: string) => {
+          onChange(newValue);
+        };
+
+        return (
+          <div className="flex flex-col">
+            {label && (
+              <Label className="mb-2 text-sm font-medium font-noto">
+                {label}
+              </Label>
+            )}
+            <Select onValueChange={handleChange} value={value} {...props}>
+              <SelectTrigger>{selectedLabel}</SelectTrigger>
+              <SelectContent>
+                {options?.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {error && (
+              <span className="text-red-500 text-sm pt-2 pl-1 font-noto">
+                {error.message}
+              </span>
+            )}
+          </div>
+        );
+      }}
     />
   );
 };
