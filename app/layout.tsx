@@ -1,22 +1,10 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
 import './globals.css';
 import { NotificationProvider } from '@/components/notification-hook/notification-hook';
 import { Header } from './layout/header';
 import { Footer } from './layout/footer';
 import { NetworkDetectorProvider } from '@/components/network-detector/network-detector';
 import { QueryProvider } from '@/utils';
-
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
-});
 
 export const metadata: Metadata = {
   title: 'e-com',
@@ -30,9 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="bg-background dark:bg-gray-900 text-foreground dark:text-white">
         <NotificationProvider>
           <NetworkDetectorProvider>
             <QueryProvider>

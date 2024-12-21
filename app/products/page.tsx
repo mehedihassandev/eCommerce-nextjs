@@ -5,13 +5,13 @@ import { IProduct } from '@/app/models/products';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { LINK } from '../navigation/router';
-import { ProductCard } from '@/app/home';
 import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
+import ProductCard from '@/components/product-card';
 
 const Product = () => {
   const navigate = useRouter();
 
-  const { data } = useProductsQuery('');
+  const { data, isLoading } = useProductsQuery('');
 
   const handleAddToWhitelist = (product: IProduct) => {
     console.log('Added to whitelist:', product);
@@ -37,6 +37,7 @@ const Product = () => {
                 data={product}
                 handleAddToWhitelist={() => handleAddToWhitelist(product)}
                 handleNavigateToProduct={() => handleNavigateToProduct(product)}
+                isLoading={isLoading}
               />
             ))}
       </div>

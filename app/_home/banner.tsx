@@ -36,7 +36,7 @@ export const Banner = () => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -100 }}
                   transition={{ duration: 1 }}
-                  className="absolute w-full h-full flex items-center bg-cover bg-center"
+                  className="absolute w-full h-full flex items-center bg-cover bg-center object-cover"
                   style={{
                     backgroundImage: `url(${slide.image})`,
                     backgroundSize: 'cover',
@@ -45,9 +45,9 @@ export const Banner = () => {
                 >
                   <div className="absolute inset-0 bg-black opacity-65 z-10"></div>
                   <div className="max-w-screen-2xl px-4 sm:px-6 lg:px-48 py-4 flex z-20">
-                    <div className="flex flex-col gap-4 text-white">
+                    <div className="flex flex-col gap-1 text-white">
                       <motion.span
-                        className="text-xl font-bold"
+                        className="text-lg font-normal font-noto pb-2"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
@@ -55,7 +55,7 @@ export const Banner = () => {
                         {slide.title}
                       </motion.span>
                       <motion.h5
-                        className="text-2xl font-semibold pb-2"
+                        className="text-6xl font-bold pb-2 font-playfair w-9/12 leading-tight"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
@@ -63,17 +63,8 @@ export const Banner = () => {
                         {slide.subtitle}
                       </motion.h5>
 
-                      <motion.h3
-                        className="text-4xl font-bold"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                      >
-                        {slide.description}
-                      </motion.h3>
-
                       <motion.p
-                        className="text-lg"
+                        className="text-lg font-noto font-normal w-8/12 pt-8 leading-relaxed"
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7 }}
@@ -81,7 +72,9 @@ export const Banner = () => {
                         {slide.details}
                       </motion.p>
 
-                      <Button className="w-36 mt-10">Shop Now</Button>
+                      <Button className="w-48 h-11 mt-16 font-poppins text-base">
+                        Shop Now
+                      </Button>
                     </div>
                   </div>
                 </motion.div>
