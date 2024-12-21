@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { topProducts } from '@/app/data/products';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { IProduct } from '@/app/models/products';
@@ -14,22 +13,25 @@ import { ProductCard } from '@/app/home';
 import { getSpecifications } from '@/app/constants/product';
 import { Input } from '@/components/ui/input';
 import { motion } from 'framer-motion';
+import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 
 const ProductPage = () => {
   const params = useParams();
   const navigate = useRouter();
+
+  const { data, isLoading } = useProductsQuery(`/${params?.product}`);
+  const { data: allProducts } = useProductsQuery('');
+
   const [quantity, setQuantity] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [product, setProduct] = useState<IProduct | null>(null);
 
   useEffect(() => {
-    const productId = Number(params.productId);
-    const foundProduct = topProducts.find(
-      (product) => product.id === productId,
-    );
-    setProduct(foundProduct || null);
-  }, [params.productId]);
+    if (data) {
+      setProduct(data);
+    }
+  }, [data]);
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -54,17 +56,29 @@ const ProductPage = () => {
   };
 
   const handleNavigateToProduct = (product: IProduct) => {
-    navigate.push(`/${LINK.PRODUCT}/${product.id}`);
+    navigate.push(`/${LINK.PRODUCT}/${product._id}`);
   };
 
-  if (!product) {
-    return <div>Product not found</div>;
+  if (!product && !isLoading) {
+    return (
+      <div className="h-screen text-5xl items-center justify-center font-bold font-serif align-middle text-center pt-24">
+        Product not found
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="h-screen text-5xl items-center justify-center font-bold font-serif align-middle text-center pt-24">
+        Loading...
+      </div>
+    );
   }
 
   const { fullStars, halfStar, emptyStars } = calculateRatingStars(
-    product.rating || 0,
+    product?.rating || 0,
   );
-  const specifications = getSpecifications(product);
+  const specifications = getSpecifications(product || {});
 
   const calculateDiscountPercentage = (
     originalPrice: number,
@@ -74,8 +88,8 @@ const ProductPage = () => {
   };
 
   const discountPercentage =
-    product.price && product.offerPrice
-      ? calculateDiscountPercentage(product.price, product.offerPrice)
+    product?.price && product?.offerPrice
+      ? calculateDiscountPercentage(product?.price, product?.offerPrice)
       : 0;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -98,7 +112,7 @@ const ProductPage = () => {
           onMouseMove={handleMouseMove}
         >
           <Image
-            src={product.image || '/default-image.jpg'}
+            src={product?.image || '/default-image.jpg'}
             alt="Product Image"
             width={600}
             height={600}
@@ -112,7 +126,7 @@ const ProductPage = () => {
               className="absolute w-full h-full left-full top-44 ml-52 p-2 bg-white border border-gray-300 rounded-sm shadow-lg z-10 overflow-hidden hidden md:block"
             >
               <Image
-                src={product.image || '/default-image.jpg'}
+                src={product?.image || '/default-image.jpg'}
                 alt="Zoomed Product Image"
                 width={1980}
                 height={1440}
@@ -129,10 +143,10 @@ const ProductPage = () => {
         </div>
         <div className="flex flex-col items-start gap-6 col-span-2">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">
-            {product.name}
+            {product?.name}
           </h1>
           <p className="text-muted-foreground text-base">
-            {product.description}
+            {product?.description}
           </p>
           <div className="flex gap-4 items-baseline">
             <div className="flex items-center mt-2 gap-1">
@@ -145,15 +159,15 @@ const ProductPage = () => {
               ))}
             </div>
             <p className="text-base font-semibold">
-              {product.rating} ({product.numberOfReviews} reviews)
+              {product?.rating} ({product?.numberOfReviews} reviews)
             </p>
           </div>
           <div className="flex gap-14">
             <div className="flex flex-col justify-center gap-3 w-full">
-              <p className="text-4xl font-semibold">${product.offerPrice}</p>
+              <p className="text-4xl font-semibold">${product?.offerPrice}</p>
               <div className="flex gap-4 items-baseline">
                 <p className="text-lg font-semibold text-gray-700 line-through">
-                  $ {product.price}
+                  $ {product?.price}
                 </p>
                 <p className="text-[12px] font-semibold text-red-500">
                   {discountPercentage.toFixed(2)}% off
@@ -184,7 +198,7 @@ const ProductPage = () => {
             <Button
               variant="default"
               className="w-full"
-              onClick={() => handleAddToCart(product)}
+              onClick={() => handleAddToCart(product || {})}
             >
               <HeartIcon className="size-4 me-1" /> Add to Wishlist
             </Button>
@@ -192,7 +206,7 @@ const ProductPage = () => {
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => handleAddToCart(product)}
+              onClick={() => handleAddToCart(product || {})}
             >
               <PlusIcon className="size-4 me-1" /> Add to Cart
             </Button>
@@ -205,7 +219,7 @@ const ProductPage = () => {
           <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight">
             Product Details
           </h2>
-          <p className="text-base text-gray-800">{product.details}</p>
+          <p className="text-base text-gray-800">{product?.details}</p>
         </div>
         <div className="grid gap-6">
           <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight">
@@ -228,14 +242,19 @@ const ProductPage = () => {
             Related Products
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
-            {topProducts.slice(0, 4).map((product, index) => (
-              <ProductCard
-                key={index}
-                data={product}
-                handleAddToWhitelist={() => handleAddToWhitelist(product)}
-                handleNavigateToProduct={() => handleNavigateToProduct(product)}
-              />
-            ))}
+            {Array.isArray(allProducts) &&
+              allProducts
+                .slice(0, 4)
+                .map((product: IProduct, index: number) => (
+                  <ProductCard
+                    key={index}
+                    data={product}
+                    handleAddToWhitelist={() => handleAddToWhitelist(product)}
+                    handleNavigateToProduct={() =>
+                      handleNavigateToProduct(product)
+                    }
+                  />
+                ))}
           </div>
         </div>
       </div>

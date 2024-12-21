@@ -5,6 +5,7 @@ import { NotificationProvider } from '@/components/notification-hook/notificatio
 import { Header } from './layout/header';
 import { Footer } from './layout/footer';
 import { NetworkDetectorProvider } from '@/components/network-detector/network-detector';
+import { QueryProvider } from '@/utils';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -34,9 +35,11 @@ export default function RootLayout({
       >
         <NotificationProvider>
           <NetworkDetectorProvider>
-            <Header />
-            {children}
-            <Footer />
+            <QueryProvider>
+              <Header />
+              {children}
+              <Footer />
+            </QueryProvider>
           </NetworkDetectorProvider>
         </NotificationProvider>
       </body>
