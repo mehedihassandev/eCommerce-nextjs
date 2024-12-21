@@ -12,9 +12,7 @@ import { LINK } from '../navigation/router';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { useCartStore } from '@/stores/cart-store';
-import { useQuery } from '@tanstack/react-query';
-import { getProducts } from '@/utils/lib/data-access/products';
-import { axios } from '@/utils';
+import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 
 export default function Checkout() {
   const navigate = useRouter();
@@ -23,16 +21,7 @@ export default function Checkout() {
 
   const { cartItems } = useCartStore();
 
-  const { data } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => {
-      return getProducts({
-        api: axios,
-        url: '',
-      });
-    },
-    select: (data) => data.data,
-  });
+  const { data } = useProductsQuery('');
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);

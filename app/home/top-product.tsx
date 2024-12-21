@@ -7,23 +7,12 @@ import { useRouter } from 'next/navigation';
 import { LINK } from '../navigation/router';
 import { ProductCard } from '../../components/product-card';
 import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
-import { getProducts } from '@/utils/lib/data-access/products';
-import { useQuery } from '@tanstack/react-query';
-import { axios } from '@/utils';
+import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 
 export const TopProduct = () => {
   const navigate = useRouter();
 
-  const { data } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => {
-      return getProducts({
-        api: axios,
-        url: '',
-      });
-    },
-    select: (data) => data.data,
-  });
+  const { data } = useProductsQuery('');
 
   const handleAddToWhitelist = (product: IProduct) => {
     console.log('Added to whitelist:', product);

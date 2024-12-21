@@ -13,40 +13,19 @@ import { ProductCard } from '@/app/home';
 import { getSpecifications } from '@/app/constants/product';
 import { Input } from '@/components/ui/input';
 import { motion } from 'framer-motion';
-import { useQuery } from '@tanstack/react-query';
-import { getProducts } from '@/utils/lib/data-access/products';
-import { axios } from '@/utils';
+import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 
 const ProductPage = () => {
   const params = useParams();
   const navigate = useRouter();
+
+  const { data, isLoading } = useProductsQuery(`/${params?.product}`);
+  const { data: allProducts } = useProductsQuery('');
+
   const [quantity, setQuantity] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [product, setProduct] = useState<IProduct | null>(null);
-  const productId = params?.product;
-
-  const { data } = useQuery({
-    queryKey: ['products', productId],
-    queryFn: () => {
-      return getProducts({
-        api: axios,
-        url: `/${productId}`,
-      });
-    },
-    select: (data) => data.data,
-  });
-
-  const { data: allProducts } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => {
-      return getProducts({
-        api: axios,
-        url: '',
-      });
-    },
-    select: (data) => data.data,
-  });
 
   useEffect(() => {
     if (data) {
@@ -80,7 +59,7 @@ const ProductPage = () => {
     navigate.push(`/${LINK.PRODUCT}/${product._id}`);
   };
 
-  if (!product) {
+  if (!product && !isLoading) {
     return (
       <div className="h-screen text-5xl items-center justify-center font-bold font-serif align-middle text-center pt-24">
         Product not found
@@ -88,10 +67,18 @@ const ProductPage = () => {
     );
   }
 
+  if (isLoading) {
+    return (
+      <div className="h-screen text-5xl items-center justify-center font-bold font-serif align-middle text-center pt-24">
+        Loading...
+      </div>
+    );
+  }
+
   const { fullStars, halfStar, emptyStars } = calculateRatingStars(
-    product.rating || 0,
+    product?.rating || 0,
   );
-  const specifications = getSpecifications(product);
+  const specifications = getSpecifications(product || {});
 
   const calculateDiscountPercentage = (
     originalPrice: number,
@@ -101,8 +88,8 @@ const ProductPage = () => {
   };
 
   const discountPercentage =
-    product.price && product.offerPrice
-      ? calculateDiscountPercentage(product.price, product.offerPrice)
+    product?.price && product?.offerPrice
+      ? calculateDiscountPercentage(product?.price, product?.offerPrice)
       : 0;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -125,7 +112,7 @@ const ProductPage = () => {
           onMouseMove={handleMouseMove}
         >
           <Image
-            src={product.image || '/default-image.jpg'}
+            src={product?.image || '/default-image.jpg'}
             alt="Product Image"
             width={600}
             height={600}
@@ -139,7 +126,7 @@ const ProductPage = () => {
               className="absolute w-full h-full left-full top-44 ml-52 p-2 bg-white border border-gray-300 rounded-sm shadow-lg z-10 overflow-hidden hidden md:block"
             >
               <Image
-                src={product.image || '/default-image.jpg'}
+                src={product?.image || '/default-image.jpg'}
                 alt="Zoomed Product Image"
                 width={1980}
                 height={1440}
@@ -156,10 +143,10 @@ const ProductPage = () => {
         </div>
         <div className="flex flex-col items-start gap-6 col-span-2">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">
-            {product.name}
+            {product?.name}
           </h1>
           <p className="text-muted-foreground text-base">
-            {product.description}
+            {product?.description}
           </p>
           <div className="flex gap-4 items-baseline">
             <div className="flex items-center mt-2 gap-1">
@@ -172,15 +159,15 @@ const ProductPage = () => {
               ))}
             </div>
             <p className="text-base font-semibold">
-              {product.rating} ({product.numberOfReviews} reviews)
+              {product?.rating} ({product?.numberOfReviews} reviews)
             </p>
           </div>
           <div className="flex gap-14">
             <div className="flex flex-col justify-center gap-3 w-full">
-              <p className="text-4xl font-semibold">${product.offerPrice}</p>
+              <p className="text-4xl font-semibold">${product?.offerPrice}</p>
               <div className="flex gap-4 items-baseline">
                 <p className="text-lg font-semibold text-gray-700 line-through">
-                  $ {product.price}
+                  $ {product?.price}
                 </p>
                 <p className="text-[12px] font-semibold text-red-500">
                   {discountPercentage.toFixed(2)}% off
@@ -211,7 +198,7 @@ const ProductPage = () => {
             <Button
               variant="default"
               className="w-full"
-              onClick={() => handleAddToCart(product)}
+              onClick={() => handleAddToCart(product || {})}
             >
               <HeartIcon className="size-4 me-1" /> Add to Wishlist
             </Button>
@@ -219,7 +206,7 @@ const ProductPage = () => {
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => handleAddToCart(product)}
+              onClick={() => handleAddToCart(product || {})}
             >
               <PlusIcon className="size-4 me-1" /> Add to Cart
             </Button>
@@ -232,7 +219,7 @@ const ProductPage = () => {
           <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight">
             Product Details
           </h2>
-          <p className="text-base text-gray-800">{product.details}</p>
+          <p className="text-base text-gray-800">{product?.details}</p>
         </div>
         <div className="grid gap-6">
           <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight">

@@ -6,23 +6,12 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { LINK } from '../navigation/router';
 import { ProductCard } from '@/app/home';
-import { useQuery } from '@tanstack/react-query';
-import { getProducts } from '@/utils/lib/data-access/products';
-import { axios } from '@/utils';
+import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 
 const Product = () => {
   const navigate = useRouter();
 
-  const { data } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => {
-      return getProducts({
-        api: axios,
-        url: '',
-      });
-    },
-    select: (data) => data.data,
-  });
+  const { data } = useProductsQuery('');
 
   const handleAddToWhitelist = (product: IProduct) => {
     console.log('Added to whitelist:', product);

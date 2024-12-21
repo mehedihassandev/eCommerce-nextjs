@@ -5,7 +5,7 @@ import { NotificationProvider } from '@/components/notification-hook/notificatio
 import { Header } from './layout/header';
 import { Footer } from './layout/footer';
 import { NetworkDetectorProvider } from '@/components/network-detector/network-detector';
-import { QueryProvider } from './queryProvider/QueryProvider';
+import { QueryProvider } from '@/lib';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
