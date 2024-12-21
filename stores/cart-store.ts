@@ -1,6 +1,7 @@
-import { IProduct } from '@/app/models/products';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
+import { IProduct } from '@/app/models/products';
 
 interface ICartStoreState {
   cartItems: IProduct[];

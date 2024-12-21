@@ -1,8 +1,10 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+
 import { Button } from '@/components/ui/button';
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+
 import { slides } from '../data/banner';
 
 export const Banner = () => {

@@ -1,8 +1,8 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { format, formatDistance } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
-import { useEffect, useState } from 'react';
 
 export const useLocalDateTime = () => {
   const [userTimeZone, setUserTimeZone] = useState<string>('');

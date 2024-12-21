@@ -1,12 +1,15 @@
 'use client';
 
-import React from 'react';
-import { IProduct } from '@/app/models/products';
-import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { LINK } from '../navigation/router';
-import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
+
+import React from 'react';
+
+import { IProduct } from '@/app/models/products';
 import ProductCard from '@/components/product-card';
+import { Button } from '@/components/ui/button';
+import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
+
+import { LINK } from '../navigation/router';
 
 const Product = () => {
   const navigate = useRouter();
