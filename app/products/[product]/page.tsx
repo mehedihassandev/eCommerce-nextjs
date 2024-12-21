@@ -20,7 +20,8 @@ const ProductPage = () => {
   const navigate = useRouter();
 
   const { data, isLoading } = useProductsQuery(`/${params?.product}`);
-  const { data: allProducts } = useProductsQuery('');
+  const { data: allProducts, isLoading: isAllProductLoading } =
+    useProductsQuery('');
 
   const [quantity, setQuantity] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
@@ -269,6 +270,7 @@ const ProductPage = () => {
                     handleNavigateToProduct={() =>
                       handleNavigateToProduct(product)
                     }
+                    isLoading={isAllProductLoading}
                   />
                 ))}
           </div>
