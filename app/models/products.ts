@@ -17,6 +17,11 @@ export interface IAttachment {
   videoUrl?: string | null;
 }
 
+export interface IValidFor {
+  startDateTime?: Date | null;
+  endDateTime?: Date | null;
+}
+
 export interface ICategory {
   name: string;
   description: string;
@@ -61,14 +66,8 @@ export interface IProductOfferingPrice {
   lastUpdate?: Date | null;
   percentage?: number | null;
   price: IPrice;
-  unitOfMeasure: {
-    amount: number;
-    unit: string;
-  };
-  validFor?: {
-    startDateTime?: Date | null;
-    endDateTime?: Date | null;
-  };
+  unitOfMeasure: IAmount;
+  validFor?: IValidFor;
 }
 
 export interface IProduct {
@@ -87,10 +86,7 @@ export interface IProduct {
   productOfferingPrice: IProductOfferingPrice;
   isSellable?: boolean;
   isBundle?: boolean | null;
-  validFor?: {
-    startDateTime?: Date | null;
-    endDateTime?: Date | null;
-  };
+  validFor?: IValidFor;
   createdAt?: Date;
   updatedAt?: Date;
 }

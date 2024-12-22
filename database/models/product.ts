@@ -194,7 +194,7 @@ const ProductOfferingPriceSchema = new Schema({
     required: true,
   },
   unitOfMeasure: {
-    amount: {
+    value: {
       type: Number,
       required: true,
     },
