@@ -1,10 +1,15 @@
 import type { Metadata } from 'next';
-import './globals.css';
-import { NotificationProvider } from '@/components/notification-hook/notification-hook';
-import { Header } from './layout/header';
-import { Footer } from './layout/footer';
+
+import { ReactNode } from 'react';
+
 import { NetworkDetectorProvider } from '@/components/network-detector/network-detector';
+import { NotificationProvider } from '@/components/notification-hook/notification-hook';
 import { QueryProvider } from '@/utils';
+
+import { Footer } from './layout/footer';
+import { Header } from './layout/header';
+
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'e-com',
@@ -14,7 +19,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">

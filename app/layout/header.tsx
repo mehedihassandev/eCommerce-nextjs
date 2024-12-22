@@ -1,5 +1,16 @@
 'use client';
 
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+
+import {
+  ComponentPropsWithoutRef,
+  forwardRef,
+  useEffect,
+  useState,
+} from 'react';
+import { MenuIcon, XIcon } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
@@ -11,16 +22,8 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
-import { MenuIcon, XIcon } from 'lucide-react';
-import Link from 'next/link';
-import {
-  useState,
-  useEffect,
-  ComponentPropsWithoutRef,
-  forwardRef,
-} from 'react';
+
 import { navItems } from '../navigation/menu';
-import { usePathname, useRouter } from 'next/navigation';
 import { ROUTER } from '../navigation/router';
 
 export const Header = () => {
@@ -37,6 +40,7 @@ export const Header = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };

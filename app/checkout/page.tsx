@@ -1,16 +1,14 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { MinusIcon, MoveRight, PlusIcon } from 'lucide-react';
 import Image from 'next/image';
-import { CiCircleRemove } from 'react-icons/ci';
-import { useState } from 'react';
-import { IProduct } from '../models/products';
-import { LINK } from '../navigation/router';
 import { useRouter } from 'next/navigation';
-import { Input } from '@/components/ui/input';
-import { useCartStore } from '@/stores/cart-store';
-import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
+
+import { useState } from 'react';
+import { CiCircleRemove } from 'react-icons/ci';
+import { MinusIcon, MoveRight, PlusIcon } from 'lucide-react';
+
+import { ProductCard } from '@/components/product-card';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -18,7 +16,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ProductCard } from '@/components/product-card';
+import { Input } from '@/components/ui/input';
+import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
+import { useCartStore } from '@/stores/cart-store';
+
+import { IProduct } from '../models/products';
+import { LINK } from '../navigation/router';
 
 export default function Checkout() {
   const navigate = useRouter();
@@ -158,6 +161,7 @@ export default function Checkout() {
                 <Button
                   variant="ghost"
                   className="w-full font-poppins font-medium text-sm"
+                  onClick={() => navigate.push(LINK.HOME)}
                 >
                   Continue Shopping
                   <MoveRight className="h-4 w-4" />
@@ -165,7 +169,10 @@ export default function Checkout() {
 
                 <Button
                   variant="outline"
-                  className="w-full font-poppins font-medium text-sm "
+                  className="w-full font-poppins font-medium text-sm"
+                  onClick={() =>
+                    navigate.push(`${LINK.CHECKOUT}/${LINK.BILLING_DETAILS}`)
+                  }
                 >
                   Proceed to Checkout
                 </Button>

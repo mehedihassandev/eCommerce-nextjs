@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from 'next/server';
+
+import { Types } from 'mongoose';
+
 import connect from '@/database/db';
 import Product from '@/database/models/product';
-import { Types } from 'mongoose';
-import { NextResponse } from 'next/server';
 
 export const GET = async (request: Request, context: { params: any }) => {
   const productId = context.params.product;

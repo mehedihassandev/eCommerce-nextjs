@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from 'next/server';
+
+import { Types } from 'mongoose';
+
 import connect from '@/database/db';
 import User from '@/database/models/user';
-import { Types } from 'mongoose';
-import { NextResponse } from 'next/server';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const ObjectId = require('mongoose').Types.ObjectId;
@@ -12,6 +14,7 @@ export const GET = async () => {
     await connect();
 
     const users = await User.find();
+
     return NextResponse.json(users, { status: 200 });
   } catch (error: any) {
     return new NextResponse('Internal server error' + error.message, {
