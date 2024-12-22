@@ -35,7 +35,7 @@ const formInputFieldType = {
   Select: RhfSelect,
 };
 
-export const BillingDetails = () => {
+const BillingDetails = () => {
   const [billingDetails, setBillingDetails] =
     useState<IBillingDetailsFormData>(formValues);
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
