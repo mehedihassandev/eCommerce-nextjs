@@ -22,9 +22,9 @@ export const ProductCard: FC<IProductCard> = ({
   handleNavigateToProduct,
   isLoading,
 }) => {
-  const { name, image, price, offerPrice, category, rating, numberOfReviews } =
-    data;
-  const { fullStars, halfStar, emptyStars } = calculateRatingStars(rating || 0);
+  const { fullStars, halfStar, emptyStars } = calculateRatingStars(
+    Number(data.review?.rating) || 0,
+  );
   const { addToCart } = useCartStore();
 
   const handleAddToCart = () => {
@@ -42,10 +42,13 @@ export const ProductCard: FC<IProductCard> = ({
         ) : (
           <Image
             className="w-full rounded-lg aspect-square object-cover cursor-pointer"
-            src={image || '/default-image.jpg'}
+            src={
+              data?.attachment?.imageUrl ||
+              'https://img.freepik.com/premium-vector/vector-illustration-about-concept-no-items-found-no-results-found_675567-6604.jpg?w=826'
+            }
             width={300}
             height={500}
-            alt={name || 'Product image'}
+            alt={data?.name || 'Product image'}
           />
         )}
       </CardHeader>
@@ -70,28 +73,21 @@ export const ProductCard: FC<IProductCard> = ({
           <>
             <div className="flex flex-col justify-between items-baseline">
               <p className="text-lg text-muted-foreground font-playfair font-medium">
-                {category}
+                {data?.category?.name ?? 'Category'}
               </p>
               <CardTitle className="text-xl font-noto font-semibold">
-                {(name ?? '').length > 30
-                  ? `${(name ?? '').substring(0, 30)}...`
-                  : name}
+                {(data?.name ?? '').length > 30
+                  ? `${(data?.name ?? '').substring(0, 30)}...`
+                  : data?.name}
               </CardTitle>
             </div>
             <div className="flex flex-col justify-center items-baseline gap-1 pt-3">
-              <p className="text-xl font-semibold font-noto">${offerPrice}</p>
-              <div className="flex items-baseline gap-3">
-                <p className="text-base text-muted-foreground line-through font-noto">
-                  ${price}
-                </p>
-                <p className="text-[12px] text-black font-semibold font-noto">
-                  {(
-                    (((price ?? 0) - (offerPrice ?? 0)) / (price ?? 0)) *
-                    100
-                  ).toFixed(2)}
-                  % off
-                </p>
-              </div>
+              <p className="text-xl font-semibold font-noto">
+                ${' '}
+                {data?.productOfferingPrice?.price?.dutyFreeAmount?.value ?? 0}{' '}
+                {data?.productOfferingPrice?.price?.dutyFreeAmount?.unit ??
+                  'USD'}
+              </p>
             </div>
             <div className="flex gap-3 py-2">
               <div className="flex items-center mt-1">
@@ -106,7 +102,7 @@ export const ProductCard: FC<IProductCard> = ({
                 ))}
               </div>
               <p className="text-base font-medium text-muted-foreground font-noto">
-                ({numberOfReviews} reviews)
+                ({data?.review?.numberOfReview ?? 0} reviews)
               </p>
             </div>
             <div className="flex gap-4 pt-4">

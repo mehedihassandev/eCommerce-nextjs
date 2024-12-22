@@ -72,7 +72,10 @@ export default function Checkout() {
                   <CardHeader>
                     <Image
                       className="h-32 w-44 dark:hidden object-cover rounded-lg"
-                      src={product.image || '/path/to/default/image.jpg'}
+                      src={
+                        product?.attachment?.imageUrl ||
+                        'https://img.freepik.com/premium-vector/vector-illustration-about-concept-no-items-found-no-results-found_675567-6604.jpg?w=826'
+                      }
                       alt={product.name || 'Product Image'}
                       width={300}
                       height={300}
@@ -83,10 +86,10 @@ export default function Checkout() {
                       {product.name}
                     </CardTitle>
                     <CardDescription className="text-base text-gray-500 dark:text-gray-400 font-noto">
-                      Category: {product.category}
+                      Category: {product?.category?.name ?? 'N/A'}
                     </CardDescription>
                     <CardDescription className="text-base text-gray-500 dark:text-gray-400 font-noto">
-                      Color: {product.specifications?.color ?? 'N/A'}
+                      Color: {product?.specifications?.color ?? 'N/A'}
                     </CardDescription>
                     <div className="flex items-center">
                       <Button variant="ghost" onClick={handleDecrease}>

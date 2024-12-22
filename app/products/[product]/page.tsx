@@ -13,6 +13,7 @@ import { getSpecifications } from '@/app/constants/product';
 import { Input } from '@/components/ui/input';
 import { motion } from 'framer-motion';
 import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
+import { useCartStore } from '@/stores/cart-store';
 import ProductCard from '@/components/product-card';
 
 const ProductPage = () => {
@@ -22,6 +23,8 @@ const ProductPage = () => {
   const { data, isLoading } = useProductsQuery(`/${params?.product}`);
   const { data: allProducts, isLoading: isAllProductLoading } =
     useProductsQuery('');
+
+  const { addToCart } = useCartStore();
 
   const [quantity, setQuantity] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
@@ -49,7 +52,7 @@ const ProductPage = () => {
   };
 
   const handleAddToCart = (product: IProduct) => {
-    console.log('Added to cart:', product);
+    addToCart(product);
   };
 
   const handleAddToWhitelist = (product: IProduct) => {
@@ -77,21 +80,9 @@ const ProductPage = () => {
   }
 
   const { fullStars, halfStar, emptyStars } = calculateRatingStars(
-    product?.rating || 0,
+    Number(product?.review?.rating) || 0,
   );
-  const specifications = getSpecifications(product || {});
-
-  const calculateDiscountPercentage = (
-    originalPrice: number,
-    offerPrice: number,
-  ) => {
-    return ((originalPrice - offerPrice) / originalPrice) * 100;
-  };
-
-  const discountPercentage =
-    product?.price && product?.offerPrice
-      ? calculateDiscountPercentage(product?.price, product?.offerPrice)
-      : 0;
+  const specifications = product ? getSpecifications(product) : [];
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const { left, top } = e.currentTarget.getBoundingClientRect();
@@ -113,7 +104,10 @@ const ProductPage = () => {
           onMouseMove={handleMouseMove}
         >
           <Image
-            src={product?.image || '/default-image.jpg'}
+            src={
+              product?.attachment?.imageUrl ||
+              'https://img.freepik.com/premium-vector/vector-illustration-about-concept-no-items-found-no-results-found_675567-6604.jpg?w=826'
+            }
             alt="Product Image"
             width={600}
             height={600}
@@ -127,7 +121,10 @@ const ProductPage = () => {
               className="absolute w-full h-full left-full top-44 ml-52 p-2 bg-white border border-gray-300 rounded-sm shadow-lg z-10 overflow-hidden hidden md:block"
             >
               <Image
-                src={product?.image || '/default-image.jpg'}
+                src={
+                  product?.attachment?.imageUrl ||
+                  'https://img.freepik.com/premium-vector/vector-illustration-about-concept-no-items-found-no-results-found_675567-6604.jpg?w=826'
+                }
                 alt="Zoomed Product Image"
                 width={1980}
                 height={1440}
@@ -168,22 +165,19 @@ const ProductPage = () => {
               ))}
             </div>
             <p className="text-base font-semibold font-noto text-gray-700">
-              {product?.rating} ({product?.numberOfReviews} reviews)
+              {product?.review?.rating} ({product?.review?.numberOfReview}{' '}
+              reviews)
             </p>
           </div>
           <div className="flex gap-14">
             <div className="flex flex-col justify-center gap-3 w-full">
               <p className="text-4xl font-semibold font-noto">
-                $ {product?.offerPrice}
+                ${' '}
+                {product?.productOfferingPrice?.price?.dutyFreeAmount?.value ??
+                  0}{' '}
+                {data?.productOfferingPrice?.price?.dutyFreeAmount?.unit ??
+                  'USD'}
               </p>
-              <div className="flex gap-4 items-baseline">
-                <p className="text-lg font-semibold text-gray-700 line-through font-noto">
-                  $ {product?.price}
-                </p>
-                <p className="text-[12px] font-semibold text-red-500 font-noto">
-                  {discountPercentage.toFixed(2)}% off
-                </p>
-              </div>
             </div>
           </div>
 
@@ -209,7 +203,7 @@ const ProductPage = () => {
             <Button
               variant="default"
               className="w-full"
-              onClick={() => handleAddToCart(product || {})}
+              onClick={() => product && handleAddToCart(product)}
             >
               <HeartIcon className="size-4 me-1" /> Add to Wishlist
             </Button>
@@ -217,7 +211,7 @@ const ProductPage = () => {
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => handleAddToCart(product || {})}
+              onClick={() => product && handleAddToCart(product)}
             >
               <PlusIcon className="size-4 me-1" /> Add to Cart
             </Button>
