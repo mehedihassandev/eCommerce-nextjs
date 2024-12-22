@@ -24,7 +24,7 @@ const formInputFieldType = {
   Select: RhfSelect,
 };
 
-const BillingDetails = () => {
+export const BillingDetails = () => {
   const [billingDetails, setBillingDetails] =
     useState<IBillingDetailsFormData>(formValues);
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
@@ -42,12 +42,7 @@ const BillingDetails = () => {
     promo_code: Yup.string(),
   });
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<IBillingDetailsFormData>({
+  const { control, handleSubmit, reset } = useForm<IBillingDetailsFormData>({
     resolver: yupResolver(
       schema,
     ) as unknown as Resolver<IBillingDetailsFormData>,
@@ -71,9 +66,6 @@ const BillingDetails = () => {
     reset();
   };
 
-  console.log('billingDetails', billingDetails);
-  console.log('errors', errors);
-
   const handlePaymentMethod = (method: string) => {
     setBillingDetails((prevState) => ({
       ...prevState,
@@ -81,6 +73,8 @@ const BillingDetails = () => {
     }));
     setSelectedMethod(method);
   };
+
+  console.log('billingDetails:', billingDetails);
 
   return (
     <ContentWrapper className="mt-20">
