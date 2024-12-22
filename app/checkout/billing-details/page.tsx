@@ -17,8 +17,7 @@ import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
 import { RhfSelect } from '@/components/rhf-select/rhf-select';
 import { RhfTextField } from '@/components/rhf-textfield/rhf-textfield';
 import { Button } from '@/components/ui/button';
-
-import { cn } from '../../../lib/utils';
+import { cn } from '@/lib/utils';
 
 const formInputFieldType = {
   TextField: RhfTextField,

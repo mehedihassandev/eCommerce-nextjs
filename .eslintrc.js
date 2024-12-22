@@ -25,6 +25,14 @@ module.exports = {
           ['^react', '^@?\\w'],
           // Internal packages.
           ['^(@|components)(/.*|$)'],
+          // lib imports
+          ['^(@|lib)(/.*|$)'],
+          // Database imports.
+          ['^(@|database)(/.*|$)'],
+          // Hooks imports.
+          ['^(@|hooks)(/.*|$)'],
+          // Utils imports.
+          ['^(@|utils)(/.*|$)'],
           // Parent imports. Put `..` last.
           ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
           // Other relative imports. Put same-folder imports and `.` last.

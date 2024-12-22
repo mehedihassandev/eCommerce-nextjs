@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 
+import { ReactNode } from 'react';
+
 import { NetworkDetectorProvider } from '@/components/network-detector/network-detector';
 import { NotificationProvider } from '@/components/notification-hook/notification-hook';
 import { QueryProvider } from '@/utils';
@@ -17,7 +19,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">
