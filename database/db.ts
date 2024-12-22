@@ -7,11 +7,13 @@ const connect = async () => {
 
   if (connectionState === 1) {
     console.log('Database is already connected');
+
     return;
   }
 
   if (connectionState === 2) {
     console.log('Database is connecting...');
+
     return;
   }
 

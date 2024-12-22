@@ -1,11 +1,15 @@
-import React, { FC } from 'react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
+
+import React, { FC } from 'react';
+import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { HeartIcon, PlusIcon } from 'lucide-react';
+
 import { IProduct } from '@/app/models/products';
-import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
-import { calculateRatingStars } from '../app/helper/product';
+import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/stores/cart-store';
+
+import { calculateRatingStars } from '../app/helper/product';
+
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Skeleton } from './ui/skeleton';
 

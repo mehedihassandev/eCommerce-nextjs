@@ -1,7 +1,9 @@
 import React from 'react';
+
+import BannerCard from '@/components/banner-card';
+
 import { Banner } from './banner';
 import { TopProduct } from './top-product';
-import BannerCard from '@/components/banner-card';
 
 export const HomePage = () => {
   return (

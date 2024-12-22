@@ -1,25 +1,28 @@
 'use client';
 
-import { useState, ChangeEvent, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { useParams, useRouter } from 'next/navigation';
+
+import { ChangeEvent, useEffect, useState } from 'react';
+import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { HeartIcon, PlusIcon } from 'lucide-react';
+
+import { getSpecifications } from '@/app/constants/product';
+import { calculateRatingStars } from '@/app/helper/product';
 import { IProduct } from '@/app/models/products';
 import { LINK } from '@/app/navigation/router';
-import { calculateRatingStars } from '@/app/helper/product';
-import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
-import { HeartIcon, PlusIcon } from 'lucide-react';
-import { getSpecifications } from '@/app/constants/product';
-import { Input } from '@/components/ui/input';
-import { motion } from 'framer-motion';
-import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 import ProductCard from '@/components/product-card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 
 const ProductPage = () => {
   const params = useParams();
   const navigate = useRouter();
 
   const { data, isLoading } = useProductsQuery(`/${params?.product}`);
+
   const { data: allProducts, isLoading: isAllProductLoading } =
     useProductsQuery('');
 

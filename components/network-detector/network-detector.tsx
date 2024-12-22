@@ -2,13 +2,14 @@
 
 import {
   createContext,
+  FC,
+  ReactNode,
   useContext,
   useEffect,
   useState,
-  ReactNode,
-  FC,
 } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+
 import { cn } from '@/lib/utils';
 
 const NetworkContext = createContext<boolean | null>(null);

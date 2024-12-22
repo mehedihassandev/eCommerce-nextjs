@@ -1,12 +1,14 @@
-import { Button } from '@/components/ui/button';
+import { FaCcAmex, FaCcDiscover, FaPaypal } from 'react-icons/fa';
+import { TbBrandMastercard, TbBrandVisa } from 'react-icons/tb';
 import {
   FacebookIcon,
   InstagramIcon,
   TwitterIcon,
   YoutubeIcon,
 } from 'lucide-react';
-import { TbBrandVisa, TbBrandMastercard } from 'react-icons/tb';
-import { FaCcAmex, FaPaypal, FaCcDiscover } from 'react-icons/fa';
+
+import { Button } from '@/components/ui/button';
+
 import { footerMenu } from '../navigation/menu';
 
 export const Footer = () => {

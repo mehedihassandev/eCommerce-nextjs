@@ -1,5 +1,6 @@
-import { axios, getProducts } from '@/utils';
 import { useQuery } from '@tanstack/react-query';
+
+import { axios, getProducts } from '@/utils';
 
 export const useProductsQuery = (url: string) => {
   return useQuery({

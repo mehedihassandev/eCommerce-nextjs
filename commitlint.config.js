@@ -14,6 +14,7 @@ module.exports = {
           }
 
           const scopePattern = /^[0-9]{3}$/; // Match 3-digit numeric scope
+
           return [
             scopePattern.test(parsed.scope),
             `Scope must be a 3-digit number (e.g., 000, 123).`,

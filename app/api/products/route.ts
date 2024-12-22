@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from 'next/server';
+
 import connect from '@/database/db';
 import Product from '@/database/models/product';
-import { NextResponse } from 'next/server';
 
 export const GET = async () => {
   try {
     await connect();
 
     const products = await Product.find();
+
     return NextResponse.json(products, { status: 200 });
   } catch (error: any) {
     return NextResponse.json(

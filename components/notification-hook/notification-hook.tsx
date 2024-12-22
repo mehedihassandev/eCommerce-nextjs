@@ -1,7 +1,8 @@
 'use client';
 
 import { createContext, useCallback, useContext, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+
 import { cn } from '@/lib/utils';
 
 // Define the NotificationType type
@@ -24,6 +25,7 @@ export const useNotification = (): NotificationContextType => {
       'useNotification must be used within a NotificationProvider',
     );
   }
+
   return context;
 };
 
