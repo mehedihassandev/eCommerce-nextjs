@@ -10,3 +10,11 @@ export interface IBillingDetailsFormData {
   paymentMethod: string;
   promo_code: string;
 }
+
+export interface IFormField {
+  name: keyof IBillingDetailsFormData;
+  inputType: string;
+  label: string;
+  options?: { label: string; value: string }[];
+  placeholder?: string;
+}

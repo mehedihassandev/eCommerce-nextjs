@@ -1,6 +1,6 @@
-import { IBillingDetailsFormData } from '../models/billing-details';
+import { IBillingDetailsFormData, IFormField } from '../models/billing-details';
 
-export const formFields = [
+export const formFields: IFormField[] = [
   {
     name: 'country',
     inputType: 'Select',

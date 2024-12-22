@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Resolver, SubmitHandler, useForm } from 'react-hook-form';
+import { Control, Resolver, SubmitHandler, useForm } from 'react-hook-form';
 import { BiSolidOffer } from 'react-icons/bi';
 import { MdDiscount } from 'react-icons/md';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -19,6 +19,17 @@ import { RhfTextField } from '@/components/rhf-textfield/rhf-textfield';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
+export interface IFormFieldProps {
+  field: {
+    name: keyof IBillingDetailsFormData;
+    inputType: string;
+    label: string;
+    options?: { label: string; value: string }[];
+    placeholder?: string;
+  };
+  control: Control<IBillingDetailsFormData>;
+}
+
 const formInputFieldType = {
   TextField: RhfTextField,
   Select: RhfSelect,
@@ -28,6 +39,33 @@ export const BillingDetails = () => {
   const [billingDetails, setBillingDetails] =
     useState<IBillingDetailsFormData>(formValues);
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
+
+  const FormField = ({ field, control }: IFormFieldProps) => {
+    const { name, label, inputType, options, placeholder } = field;
+
+    const FormInputField =
+      formInputFieldType[inputType as keyof typeof formInputFieldType];
+
+    return (
+      <div className="w-full">
+        <FormInputField
+          control={control}
+          name={name as keyof IBillingDetailsFormData}
+          label={label}
+          options={options || []}
+          placeholder={placeholder}
+        />
+      </div>
+    );
+  };
+
+  const renderFields = (fieldNames: string[]) => {
+    return formFields
+      .filter((field) => fieldNames.includes(field.name))
+      .map((field, index) => (
+        <FormField key={index} field={field} control={control} />
+      ));
+  };
 
   const schema = Yup.object().shape({
     first_name: Yup.string().required('First Name is required'),
@@ -111,92 +149,15 @@ export const BillingDetails = () => {
             Billing Details
           </h2>
           <div className="flex gap-6 w-full mb-4">
-            {formFields
-              .filter(
-                (field) =>
-                  field.name === 'first_name' || field.name === 'last_name',
-              )
-              .map((field, index) => {
-                const { name, label, inputType, options, placeholder } = field;
-
-                const FormInputField =
-                  formInputFieldType[
-                    inputType as keyof typeof formInputFieldType
-                  ];
-
-                return (
-                  <div key={index} className="w-full">
-                    <FormInputField
-                      control={control}
-                      name={name as keyof IBillingDetailsFormData}
-                      label={label}
-                      options={options || []}
-                      placeholder={placeholder}
-                      width="100&"
-                    />
-                  </div>
-                );
-              })}
+            {renderFields(['first_name', 'last_name'])}
           </div>
 
           <div className="space-y-4">
-            {formFields
-              .filter(
-                (field) =>
-                  field.name === 'address' ||
-                  field.name === 'phone' ||
-                  field.name === 'email',
-              )
-              .map((field, index) => {
-                const { name, label, inputType, options, placeholder } = field;
-
-                const FormInputField =
-                  formInputFieldType[
-                    inputType as keyof typeof formInputFieldType
-                  ];
-
-                return (
-                  <FormInputField
-                    key={index}
-                    control={control}
-                    name={name as keyof IBillingDetailsFormData}
-                    label={label}
-                    options={options || []}
-                    placeholder={placeholder}
-                  />
-                );
-              })}
+            {renderFields(['address', 'phone', 'email'])}
           </div>
 
           <div className="flex flex-col md:flex-row gap-6 w-full mt-6">
-            {formFields
-              .filter(
-                (field) =>
-                  field.name === 'country' ||
-                  field.name === 'state' ||
-                  field.name === 'zip',
-              )
-              .map((field, index) => {
-                const { name, label, inputType, options, placeholder } = field;
-
-                const FormInputField =
-                  formInputFieldType[
-                    inputType as keyof typeof formInputFieldType
-                  ];
-
-                return (
-                  <div key={index} className="w-full">
-                    <FormInputField
-                      key={index}
-                      control={control}
-                      name={name as keyof IBillingDetailsFormData}
-                      label={label}
-                      options={options || []}
-                      placeholder={placeholder}
-                    />
-                  </div>
-                );
-              })}
+            {renderFields(['country', 'state', 'zip'])}
           </div>
         </div>
 
