@@ -4,15 +4,15 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 
 import { ChangeEvent, useEffect, useState } from 'react';
-import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { HeartIcon, PlusIcon } from 'lucide-react';
 
 import { getSpecifications } from '@/app/constants/product';
-import { calculateRatingStars } from '@/app/helper/product';
+import { calculateAverageRatingAndStars } from '@/app/helper/product';
 import { IProduct } from '@/app/models/products';
 import { LINK } from '@/app/navigation/router';
 import { ProductCard } from '@/components/product-card';
+import StarRating from '@/components/star-rating';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
@@ -33,6 +33,10 @@ const ProductPage = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [product, setProduct] = useState<IProduct | null>(null);
+
+  const { averageRating } = calculateAverageRatingAndStars(
+    product?.review ?? [],
+  );
 
   useEffect(() => {
     if (data) {
@@ -82,9 +86,6 @@ const ProductPage = () => {
     );
   }
 
-  const { fullStars, halfStar, emptyStars } = calculateRatingStars(
-    Number(product?.review?.rating) || 0,
-  );
   const specifications = product ? getSpecifications(product) : [];
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -108,7 +109,7 @@ const ProductPage = () => {
         >
           <Image
             src={
-              product?.attachment?.imageUrl ||
+              product?.image?.absUrl ||
               'https://img.freepik.com/premium-vector/vector-illustration-about-concept-no-items-found-no-results-found_675567-6604.jpg?w=826'
             }
             alt="Product Image"
@@ -125,7 +126,7 @@ const ProductPage = () => {
             >
               <Image
                 src={
-                  product?.attachment?.imageUrl ||
+                  product?.image?.absUrl ||
                   'https://img.freepik.com/premium-vector/vector-illustration-about-concept-no-items-found-no-results-found_675567-6604.jpg?w=826'
                 }
                 alt="Zoomed Product Image"
@@ -150,36 +151,16 @@ const ProductPage = () => {
             {product?.description}
           </p>
           <div className="flex gap-4 items-stretch">
-            <div className="flex items-center gap-1">
-              {[...Array(fullStars)].map((_, i) => (
-                <FaStar
-                  key={i}
-                  className="text-yellow-500 font-noto text-base"
-                />
-              ))}
-              {halfStar && (
-                <FaStarHalfAlt className="text-yellow-500 font-noto text-base" />
-              )}
-              {[...Array(emptyStars)].map((_, i) => (
-                <FaRegStar
-                  key={i}
-                  className="text-yellow-500 font-noto text-base"
-                />
-              ))}
-            </div>
+            <StarRating reviews={product?.review ?? []} />
             <p className="text-base font-semibold font-noto text-gray-700">
-              {product?.review?.rating} ({product?.review?.numberOfReview}{' '}
-              reviews)
+              {averageRating} ({product?.review?.length} reviews)
             </p>
           </div>
           <div className="flex gap-14">
             <div className="flex flex-col justify-center gap-3 w-full">
               <p className="text-4xl font-semibold font-noto">
-                ${' '}
-                {product?.productOfferingPrice?.price?.dutyFreeAmount?.value ??
-                  0}{' '}
-                {data?.productOfferingPrice?.price?.dutyFreeAmount?.unit ??
-                  'USD'}
+                $ {product?.price?.totalAmount ?? 0}{' '}
+                {product?.price?.unit ?? 'USD'}
               </p>
             </div>
           </div>
@@ -228,7 +209,7 @@ const ProductPage = () => {
             Product Details
           </h2>
           <p className="text-sm md:text-base text-gray-800 font-noto leading-relaxed">
-            {product?.details}
+            {product?.description}
           </p>
         </div>
         <div className="grid gap-4">
@@ -238,7 +219,8 @@ const ProductPage = () => {
           <div className="grid sm:grid-cols-1 gap-2">
             {specifications.map(
               (spec, index) =>
-                spec.value && (
+                spec.value &&
+                spec.value !== 'N/A' && (
                   <div key={index} className="flex gap-4 items-center">
                     <p className="text-sm md:text-base font-semibold font-noto">
                       {spec.label}:{' '}
