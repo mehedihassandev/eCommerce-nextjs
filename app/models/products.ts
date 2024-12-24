@@ -4,24 +4,24 @@ export interface IAmount {
 }
 
 export interface IReview {
-  _id: string;
-  rating?: number;
-  comment?: string;
-  date?: Date;
-  reviewerName?: string;
-  reviewerEmail?: string;
+  _id: number;
+  rating: number;
+  comment: string;
+  date: Date;
+  reviewerName: string;
+  reviewerEmail: string;
 }
 
 export interface ICategory {
-  _id: string;
-  name?: string;
-  lifecycleStatus?: string;
+  _id: number;
+  name: string;
+  lifecycleStatus: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export interface ISpecifications {
-  _id?: string;
+  _id: number;
   color?: string | null;
   weight?: string | null;
   dimensions?: string | null;
@@ -39,38 +39,38 @@ export interface ISpecifications {
 }
 
 interface IPrice {
-  _id: string;
-  taxCategory?: string;
-  taxRate?: string;
-  unit?: string;
-  totalAmount?: number;
-  dutyFreeAmount?: IAmount;
-  taxIncludedAmount?: IAmount;
+  _id: number;
+  taxCategory: string;
+  taxRate: string;
+  unit: string;
+  totalAmount: number;
+  dutyFreeAmount: IAmount;
+  taxIncludedAmount: IAmount;
 }
 
 interface IImage {
-  _id?: string;
-  absUrl?: string;
-  alt?: string;
-  title?: string | null;
+  _id: number;
+  absUrl: string;
+  alt: string;
+  title: string | null;
 }
 
 interface IVariantValues {
-  color?: string | null;
-  memorySize?: string | null;
+  color: string | null;
+  memorySize: string | null;
 }
 
 interface IVariants {
   productId: string;
-  variationValues?: IVariantValues[];
+  variationValues: IVariantValues[];
 }
 
 export interface IProduct {
-  _id?: string;
-  name?: string;
-  description?: string;
-  details?: string;
-  brand?: string;
+  _id: number;
+  name: string;
+  description: string;
+  details: string;
+  brand: string;
   version?: string;
   isSellable?: boolean;
   isBundle?: boolean | null;
