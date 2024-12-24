@@ -19,7 +19,7 @@ export const GET = async (request: Request, context: { params: any }) => {
 
     await connect();
 
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId).populate('categories');
 
     if (!product) {
       return NextResponse.json(

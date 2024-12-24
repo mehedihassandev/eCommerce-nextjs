@@ -1,25 +1,5 @@
 import { model, models, Schema } from 'mongoose';
 
-const CategorySchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  lifecycleStatus: {
-    type: String,
-    required: true,
-  },
-  parentId: {
-    type: String,
-    required: false,
-    default: null,
-  },
-});
-
 const ImageSchema = new Schema({
   absUrl: {
     type: String,
@@ -62,14 +42,24 @@ const VariantSchema = new Schema({
 
 const ReviewSchema = new Schema({
   rating: {
-    type: String,
-    required: false,
-    default: null,
+    type: Number,
+    required: true,
   },
-  numberOfReview: {
+  comment: {
     type: String,
-    required: false,
-    default: null,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
+  reviewerName: {
+    type: String,
+    required: true,
+  },
+  reviewerEmail: {
+    type: String,
+    required: true,
   },
 });
 
@@ -216,10 +206,13 @@ const ProductSchema = new Schema(
       type: String,
       required: true,
     },
-    categories: {
-      type: [CategorySchema],
-      required: true,
-    },
+    categories: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true,
+      },
+    ],
     image: {
       type: ImageSchema,
       required: true,
@@ -233,7 +226,7 @@ const ProductSchema = new Schema(
       required: false,
     },
     review: {
-      type: ReviewSchema,
+      type: [ReviewSchema],
       required: false,
     },
     specifications: {
