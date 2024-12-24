@@ -4,32 +4,24 @@ export interface IAmount {
 }
 
 export interface IReview {
-  rating?: string | null;
-  numberOfReview?: string | null;
-}
-
-export interface IChannel {
-  name?: string | null;
-}
-
-export interface IAttachment {
-  imageUrl: string;
-  videoUrl?: string | null;
-}
-
-export interface IValidFor {
-  startDateTime?: Date | null;
-  endDateTime?: Date | null;
+  _id: string;
+  rating?: number;
+  comment?: string;
+  date?: Date;
+  reviewerName?: string;
+  reviewerEmail?: string;
 }
 
 export interface ICategory {
-  name: string;
-  description: string;
-  lifecycleStatus: string;
-  parentId?: string | null;
+  _id: string;
+  name?: string;
+  lifecycleStatus?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface ISpecifications {
+  _id?: string;
   color?: string | null;
   weight?: string | null;
   dimensions?: string | null;
@@ -46,47 +38,49 @@ export interface ISpecifications {
   storage?: string | null;
 }
 
-export interface IPrice {
-  taxCategory: string;
-  taxRate: string;
-  unit: string;
-  value: number;
-  dutyFreeAmount: IAmount;
-  taxIncludedAmount: IAmount;
+interface IPrice {
+  _id: string;
+  taxCategory?: string;
+  taxRate?: string;
+  unit?: string;
+  totalAmount?: number;
+  dutyFreeAmount?: IAmount;
+  taxIncludedAmount?: IAmount;
 }
 
-export interface IProductOfferingPrice {
-  name: string;
-  description?: string | null;
-  isBundle?: string | null;
-  lifecycleStatus?: string | null;
-  recurringChargePeriodLength?: number | null;
-  priceType?: number | null;
-  version?: number | null;
-  lastUpdate?: Date | null;
-  percentage?: number | null;
-  price: IPrice;
-  unitOfMeasure: IAmount;
-  validFor?: IValidFor;
+interface IImage {
+  _id?: string;
+  absUrl?: string;
+  alt?: string;
+  title?: string | null;
+}
+
+interface IVariantValues {
+  color?: string | null;
+  memorySize?: string | null;
+}
+
+interface IVariants {
+  productId: string;
+  variationValues?: IVariantValues[];
 }
 
 export interface IProduct {
-  _id?: number;
-  name: string;
-  description: string;
-  brand: string;
-  details: string;
-  version: string;
-  lifecycleStatus: string;
-  review?: IReview;
-  category: ICategory;
-  channel?: IChannel;
-  specifications: ISpecifications;
-  attachment: IAttachment;
-  productOfferingPrice: IProductOfferingPrice;
+  _id?: string;
+  name?: string;
+  description?: string;
+  brand?: string;
+  version?: string;
   isSellable?: boolean;
   isBundle?: boolean | null;
-  validFor?: IValidFor;
+  lifecycleStatus?: string;
+  categories?: ICategory[];
+  image?: IImage;
+  imageGroups?: IImage[];
+  variants?: IVariants[];
+  review?: IReview[];
+  specifications?: ISpecifications;
+  price?: IPrice;
   createdAt?: Date;
   updatedAt?: Date;
 }
