@@ -1,17 +1,15 @@
 import Image from 'next/image';
 
 import React, { FC } from 'react';
-import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { HeartIcon, PlusIcon } from 'lucide-react';
 
 import { IProduct } from '@/app/models/products';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/stores/cart-store';
 
-import { calculateRatingStars } from '../app/helper/product';
-
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Skeleton } from './ui/skeleton';
+import StarRating from './star-rating';
 
 interface IProductCard {
   data: IProduct;
@@ -26,9 +24,6 @@ export const ProductCard: FC<IProductCard> = ({
   handleNavigateToProduct,
   isLoading,
 }) => {
-  const { fullStars, halfStar, emptyStars } = calculateRatingStars(
-    Number(data.review?.rating) || 0,
-  );
   const { addToCart } = useCartStore();
 
   const handleAddToCart = () => {
@@ -47,12 +42,12 @@ export const ProductCard: FC<IProductCard> = ({
           <Image
             className="w-full rounded-lg aspect-square object-cover cursor-pointer"
             src={
-              data?.attachment?.imageUrl ||
+              data?.image?.absUrl ||
               'https://img.freepik.com/premium-vector/vector-illustration-about-concept-no-items-found-no-results-found_675567-6604.jpg?w=826'
             }
             width={300}
             height={500}
-            alt={data?.name || 'Product image'}
+            alt={data?.image?.alt || 'Product image'}
           />
         )}
       </CardHeader>
@@ -77,7 +72,9 @@ export const ProductCard: FC<IProductCard> = ({
           <>
             <div className="flex flex-col justify-between items-baseline">
               <p className="text-lg text-muted-foreground font-playfair font-medium">
-                {data?.category?.name ?? 'Category'}
+                {data?.categories
+                  ?.map((category) => category.name)
+                  .join(', ') ?? 'Category'}
               </p>
               <CardTitle className="text-xl font-noto font-semibold">
                 {(data?.name ?? '').length > 30
@@ -87,26 +84,13 @@ export const ProductCard: FC<IProductCard> = ({
             </div>
             <div className="flex flex-col justify-center items-baseline gap-1 pt-3">
               <p className="text-xl font-semibold font-noto">
-                ${' '}
-                {data?.productOfferingPrice?.price?.dutyFreeAmount?.value ?? 0}{' '}
-                {data?.productOfferingPrice?.price?.dutyFreeAmount?.unit ??
-                  'USD'}
+                $ {data?.price?.totalAmount ?? 0} {data?.price?.unit ?? 'USD'}
               </p>
             </div>
             <div className="flex gap-3 py-2">
-              <div className="flex items-center mt-1">
-                {[...Array(fullStars)].map((_, i) => (
-                  <FaStar key={i} className="text-yellow-500 text-sm" />
-                ))}
-                {halfStar && (
-                  <FaStarHalfAlt className="text-yellow-500 text-sm" />
-                )}
-                {[...Array(emptyStars)].map((_, i) => (
-                  <FaRegStar key={i} className="text-yellow-500 text-sm" />
-                ))}
-              </div>
+              <StarRating reviews={data?.review ?? []} />
               <p className="text-base font-medium text-muted-foreground font-noto">
-                ({data?.review?.numberOfReview ?? 0} reviews)
+                ({data?.review?.length ?? 0} reviews)
               </p>
             </div>
             <div className="flex gap-4 pt-4">
