@@ -69,6 +69,7 @@ export interface IProduct {
   _id?: string;
   name?: string;
   description?: string;
+  details?: string;
   brand?: string;
   version?: string;
   isSellable?: boolean;

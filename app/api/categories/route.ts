@@ -30,7 +30,7 @@ export const POST = async (request: Request) => {
     return NextResponse.json(
       {
         message: 'Category created successfully',
-        product: newCategory,
+        category: newCategory,
       },
       { status: 200 },
     );
@@ -64,7 +64,7 @@ export const PATCH = async (request: Request) => {
     return NextResponse.json(
       {
         message: 'Category updated successfully',
-        product: updatedCategory,
+        category: updatedCategory,
       },
       { status: 200 },
     );
@@ -94,7 +94,7 @@ export const DELETE = async (request: Request) => {
     return NextResponse.json(
       {
         message: 'Category deleted successfully',
-        product: deletedCategory,
+        category: deletedCategory,
       },
       { status: 200 },
     );

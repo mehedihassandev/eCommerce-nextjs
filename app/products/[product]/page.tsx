@@ -209,7 +209,7 @@ const ProductPage = () => {
             Product Details
           </h2>
           <p className="text-sm md:text-base text-gray-800 font-noto leading-relaxed">
-            {product?.description}
+            {product?.details || 'No details available'}
           </p>
         </div>
         <div className="grid gap-4">
