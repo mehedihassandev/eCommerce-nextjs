@@ -7,7 +7,7 @@ export interface IReview {
   _id: number;
   rating: number;
   comment: string;
-  date: Date;
+  date: string;
   reviewerName: string;
   reviewerEmail: string;
 }
@@ -16,8 +16,8 @@ export interface ICategory {
   _id: number;
   name: string;
   lifecycleStatus: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ISpecifications {
@@ -42,8 +42,7 @@ interface IPrice {
   _id: number;
   taxCategory: string;
   taxRate: string;
-  unit: string;
-  totalAmount: number;
+  totalAmount: IAmount;
   dutyFreeAmount: IAmount;
   taxIncludedAmount: IAmount;
 }
@@ -71,12 +70,12 @@ export interface IProduct {
   description: string;
   details: string;
   brand: string;
-  version?: string;
+  version: string;
   isSellable?: boolean;
   isBundle?: boolean | null;
-  lifecycleStatus?: string;
-  categories?: ICategory[];
-  image?: IImage;
+  lifecycleStatus: string;
+  categories: ICategory[];
+  image: IImage;
   imageGroups?: IImage[];
   variants?: IVariants[];
   review?: IReview[];

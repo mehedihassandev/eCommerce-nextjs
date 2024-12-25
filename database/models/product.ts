@@ -145,13 +145,15 @@ const PriceSchema = new Schema({
     type: String,
     required: true,
   },
-  unit: {
-    type: String,
-    required: true,
-  },
   totalAmount: {
-    type: Number,
-    required: true,
+    unit: {
+      type: String,
+      required: true,
+    },
+    value: {
+      type: Number,
+      required: true,
+    },
   },
   dutyFreeAmount: {
     unit: {
@@ -200,6 +202,7 @@ const ProductSchema = new Schema(
     isSellable: {
       type: Boolean,
       required: false,
+      default: null,
     },
     isBundle: {
       type: Boolean,
