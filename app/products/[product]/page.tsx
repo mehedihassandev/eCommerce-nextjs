@@ -24,6 +24,10 @@ import { useCartStore } from '@/stores/cart-store';
 const ProductDetails = () => {
   const params = useParams();
   const navigate = useRouter();
+  const [quantity, setQuantity] = useState(1);
+  const [isHovered, setIsHovered] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [product, setProduct] = useState<IProduct | null>(null);
 
   const { data, isLoading } = useProductsQuery(`/${params?.product}`);
 
@@ -31,11 +35,6 @@ const ProductDetails = () => {
     useProductsQuery('');
 
   const { addToCart } = useCartStore();
-
-  const [quantity, setQuantity] = useState(1);
-  const [isHovered, setIsHovered] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [product, setProduct] = useState<IProduct | null>(null);
 
   const { averageRating } = calculateAverageRatingAndStars(
     product?.review ?? [],
@@ -151,7 +150,7 @@ const ProductDetails = () => {
                   height={1440}
                   className="rounded-lg w-full aspect-square object-cover"
                   style={{
-                    transform: `scale(2) translate(-${
+                    transform: `scale(1.5) translate(-${
                       mousePosition.x / 2
                     }px, -${mousePosition.y / 2}px)`,
                     transformOrigin: 'top left',
@@ -195,7 +194,6 @@ const ProductDetails = () => {
                 -
               </Button>
               <Input
-                type="number"
                 className="w-12 text-center font-noto"
                 value={quantity}
                 onChange={handleQuantityChange}
