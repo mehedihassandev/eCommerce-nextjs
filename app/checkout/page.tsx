@@ -7,6 +7,7 @@ import { CiCircleRemove } from 'react-icons/ci';
 import { MinusIcon, MoveRight, PlusIcon } from 'lucide-react';
 
 import { ProductCard } from '@/components/product-card';
+import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -217,10 +218,12 @@ export default function Checkout() {
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8 mt-6">
-            {data &&
-              data
-                .slice(0, 4)
-                .map((product: IProduct, index: number) => (
+            {isLoading
+              ? Array.from({ length: 8 }).map((_, index) => (
+                  <ProductCardSkeleton key={index} />
+                ))
+              : data &&
+                data.map((product: IProduct, index: number) => (
                   <ProductCard
                     key={index}
                     data={product}
@@ -228,7 +231,6 @@ export default function Checkout() {
                     handleNavigateToProduct={() =>
                       handleNavigateToProduct(product)
                     }
-                    isLoading={isLoading}
                   />
                 ))}
           </div>

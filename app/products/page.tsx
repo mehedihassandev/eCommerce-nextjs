@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { IProduct } from '@/app/models/products';
-import ProductCard from '@/components/product-card';
+import { ProductCard } from '@/components/product-card';
+import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { Button } from '@/components/ui/button';
 import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 
@@ -31,16 +32,19 @@ const Product = () => {
         <Button>View All</Button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
-        {data &&
-          data.map((product: IProduct, index: number) => (
-            <ProductCard
-              key={index}
-              data={product}
-              handleAddToWhitelist={() => handleAddToWhitelist(product)}
-              handleNavigateToProduct={() => handleNavigateToProduct(product)}
-              isLoading={isLoading}
-            />
-          ))}
+        {isLoading
+          ? Array.from({ length: 8 }).map((_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))
+          : data &&
+            data.map((product: IProduct, index: number) => (
+              <ProductCard
+                key={index}
+                data={product}
+                handleAddToWhitelist={() => handleAddToWhitelist(product)}
+                handleNavigateToProduct={() => handleNavigateToProduct(product)}
+              />
+            ))}
       </div>
     </div>
   );
