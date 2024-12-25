@@ -84,7 +84,8 @@ export const ProductCard: FC<IProductCard> = ({
             </div>
             <div className="flex flex-col justify-center items-baseline gap-1 pt-3">
               <p className="text-xl font-semibold font-noto">
-                $ {data?.price?.totalAmount ?? 0} {data?.price?.unit ?? 'USD'}
+                $ {data?.price?.totalAmount?.value ?? 0}{' '}
+                {data?.price?.totalAmount?.unit ?? 'USD'}
               </p>
             </div>
             <div className="flex gap-3 py-2">

@@ -159,8 +159,8 @@ const ProductPage = () => {
           <div className="flex gap-14">
             <div className="flex flex-col justify-center gap-3 w-full">
               <p className="text-4xl font-semibold font-noto">
-                $ {product?.price?.totalAmount ?? 0}{' '}
-                {product?.price?.unit ?? 'USD'}
+                $ {product?.price?.totalAmount?.value ?? 0}{' '}
+                {product?.price?.totalAmount?.unit ?? 'USD'}
               </p>
             </div>
           </div>
