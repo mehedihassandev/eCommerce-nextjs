@@ -11,6 +11,7 @@ import {
 } from 'react';
 import { MenuIcon, XIcon } from 'lucide-react';
 
+import { Badge } from '@/components/badge';
 import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
@@ -22,6 +23,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
+import { useCartStore } from '@/stores/cart-store';
 
 import { navItems } from '../navigation/menu';
 import { ROUTER } from '../navigation/router';
@@ -33,6 +35,8 @@ export const Header = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const { cartItems } = useCartStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,7 +58,7 @@ export const Header = () => {
       )}
     >
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-        <div className="flex items-center">
+        <div className="flex items-center justify-between">
           <span
             className={cn(
               'text-3xl font-bold cursor-pointer font-noto',
@@ -68,13 +72,39 @@ export const Header = () => {
         <nav className="hidden md:flex space-x-8">
           <NavigationMenu>
             <NavigationMenuList>
-              {navItems.map((item) =>
-                item.type === 'nav' ? (
-                  <NavigationMenuItem key={item.title}>
-                    {item.hasSubMenu ? (
-                      <>
-                        <NavigationMenuTrigger
+              {navItems.map((item) => (
+                <NavigationMenuItem key={item.title}>
+                  {item.hasSubMenu ? (
+                    <>
+                      <NavigationMenuTrigger
+                        className={cn(
+                          'bg-transparent hover:bg-transparent font-medium font-noto text-sm',
+                          isScrolled || !isHome
+                            ? 'text-gray-700'
+                            : 'text-white hover:bg-accent hover:text-accent-foreground',
+                        )}
+                      >
+                        {item.title}
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] font-medium font-noto text-sm">
+                          {item.subMenu?.map((subItem) => (
+                            <Item
+                              key={subItem.title}
+                              title={subItem.title}
+                              href={subItem.href}
+                              description={subItem.description}
+                            />
+                          ))}
+                        </ul>
+                      </NavigationMenuContent>
+                    </>
+                  ) : (
+                    item.href && (
+                      <Link href={item.href} legacyBehavior passHref>
+                        <NavigationMenuLink
                           className={cn(
+                            navigationMenuTriggerStyle(),
                             'bg-transparent hover:bg-transparent font-medium font-noto text-sm',
                             isScrolled || !isHome
                               ? 'text-gray-700'
@@ -82,60 +112,43 @@ export const Header = () => {
                           )}
                         >
                           {item.title}
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                          <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] font-medium font-noto text-sm">
-                            {item.subMenu?.map((subItem) => (
-                              <Item
-                                key={subItem.title}
-                                title={subItem.title}
-                                href={subItem.href}
-                                description={subItem.description}
-                              />
-                            ))}
-                          </ul>
-                        </NavigationMenuContent>
-                      </>
-                    ) : (
-                      item.href && (
-                        <Link href={item.href} legacyBehavior passHref>
-                          <NavigationMenuLink
-                            className={cn(
-                              navigationMenuTriggerStyle(),
-                              'bg-transparent hover:bg-transparent font-medium font-noto text-sm',
-                              isScrolled || !isHome
-                                ? 'text-gray-700'
-                                : 'text-white hover:bg-accent hover:text-accent-foreground',
-                            )}
-                          >
-                            {item.title}
-                          </NavigationMenuLink>
-                        </Link>
-                      )
-                    )}
-                  </NavigationMenuItem>
-                ) : null,
-              )}
+                        </NavigationMenuLink>
+                      </Link>
+                    )
+                  )}
+                </NavigationMenuItem>
+              ))}
             </NavigationMenuList>
           </NavigationMenu>
         </nav>
-        <div className="flex space-x-2">
-          {navItems.map((item) =>
-            item.type === 'button' && item.icon ? (
-              <Button
-                key={item.ariaLabel}
-                variant="ghost"
-                size="icon"
-                aria-label={item.ariaLabel}
+        <div className="flex space-x-6">
+          {navItems.map((item) => (
+            <Link
+              key={item.ariaLabel}
+              className={cn(
+                'hover:bg-transparent font-medium font-noto',
+                isScrolled || !isHome
+                  ? 'text-gray-700'
+                  : 'text-white hover:text-white',
+              )}
+              href={item.href || ''}
+            >
+              <Badge
+                count={
+                  item.ariaLabel === 'Wishlist'
+                    ? 0
+                    : item.ariaLabel === 'Cart'
+                    ? cartItems.length
+                    : 0
+                }
                 className={cn(
-                  'hover:bg-transparent hover:text-white font-medium font-noto',
                   isScrolled || !isHome ? 'text-gray-700' : 'text-white',
                 )}
               >
-                <item.icon className="h-6 w-6" />
-              </Button>
-            ) : null,
-          )}
+                {item.icon && <item.icon className="h-4 w-4" />}
+              </Badge>
+            </Link>
+          ))}
           <Button
             variant="ghost"
             size="icon"
@@ -177,54 +190,52 @@ export const Header = () => {
             </div>
             <NavigationMenu>
               <NavigationMenuList className="flex flex-col p-4 space-y-4">
-                {navItems.map((item) =>
-                  item.type === 'nav' ? (
-                    <NavigationMenuItem key={item.title}>
-                      {item.hasSubMenu ? (
-                        <>
-                          <NavigationMenuTrigger
+                {navItems.map((item) => (
+                  <NavigationMenuItem key={item.title}>
+                    {item.hasSubMenu ? (
+                      <>
+                        <NavigationMenuTrigger
+                          className={cn(
+                            'bg-transparent hover:bg-transparent font-medium font-noto text-sm',
+                            isScrolled || !isHome
+                              ? 'text-gray-700'
+                              : 'text-white',
+                          )}
+                        >
+                          {item.title}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                          <ul className="grid gap-3 p-6">
+                            {item.subMenu?.map((subItem) => (
+                              <Item
+                                key={subItem.title}
+                                title={subItem.title}
+                                href={subItem.href}
+                                description={subItem.description}
+                              />
+                            ))}
+                          </ul>
+                        </NavigationMenuContent>
+                      </>
+                    ) : (
+                      item.href && (
+                        <Link href={item.href} legacyBehavior passHref>
+                          <NavigationMenuLink
                             className={cn(
+                              navigationMenuTriggerStyle(),
                               'bg-transparent hover:bg-transparent font-medium font-noto text-sm',
                               isScrolled || !isHome
                                 ? 'text-gray-700'
-                                : 'text-white',
+                                : 'text-black',
                             )}
                           >
                             {item.title}
-                          </NavigationMenuTrigger>
-                          <NavigationMenuContent>
-                            <ul className="grid gap-3 p-6">
-                              {item.subMenu?.map((subItem) => (
-                                <Item
-                                  key={subItem.title}
-                                  title={subItem.title}
-                                  href={subItem.href}
-                                  description={subItem.description}
-                                />
-                              ))}
-                            </ul>
-                          </NavigationMenuContent>
-                        </>
-                      ) : (
-                        item.href && (
-                          <Link href={item.href} legacyBehavior passHref>
-                            <NavigationMenuLink
-                              className={cn(
-                                navigationMenuTriggerStyle(),
-                                'bg-transparent hover:bg-transparent font-medium font-noto text-sm',
-                                isScrolled || !isHome
-                                  ? 'text-gray-700'
-                                  : 'text-black',
-                              )}
-                            >
-                              {item.title}
-                            </NavigationMenuLink>
-                          </Link>
-                        )
-                      )}
-                    </NavigationMenuItem>
-                  ) : null,
-                )}
+                          </NavigationMenuLink>
+                        </Link>
+                      )
+                    )}
+                  </NavigationMenuItem>
+                ))}
               </NavigationMenuList>
             </NavigationMenu>
           </div>

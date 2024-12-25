@@ -9,6 +9,7 @@ import { HeartIcon, PlusIcon } from 'lucide-react';
 
 import { getSpecifications } from '@/app/constants/product';
 import { calculateAverageRatingAndStars } from '@/app/helper/product';
+import { ICartItem } from '@/app/models/cart';
 import { IProduct } from '@/app/models/products';
 import { LINK } from '@/app/navigation/router';
 import { ProductCard } from '@/components/product-card';
@@ -59,7 +60,26 @@ const ProductPage = () => {
   };
 
   const handleAddToCart = (product: IProduct) => {
-    addToCart(product);
+    const id = product?._id ?? 0;
+
+    const cartItem = {
+      id,
+      action: 'add',
+      quantity,
+      item: {
+        _id: product._id,
+        name: product.name,
+        description: product.description,
+        details: product.details,
+        brand: product.brand,
+        version: product.version,
+        price: product.price,
+        image: product.image,
+        categories: product.categories,
+      },
+    };
+
+    addToCart(cartItem as ICartItem);
   };
 
   const handleAddToWhitelist = (product: IProduct) => {

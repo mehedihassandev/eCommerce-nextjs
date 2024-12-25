@@ -1,7 +1,6 @@
 import { ComponentType, SVGProps } from 'react';
 
 export interface INavItem {
-  type: 'nav' | 'button';
   title?: string;
   href?: string;
   hasSubMenu?: boolean;

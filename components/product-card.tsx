@@ -3,6 +3,7 @@ import Image from 'next/image';
 import React, { FC } from 'react';
 import { HeartIcon, PlusIcon } from 'lucide-react';
 
+import { ICartItem } from '@/app/models/cart';
 import { IProduct } from '@/app/models/products';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/stores/cart-store';
@@ -27,7 +28,26 @@ export const ProductCard: FC<IProductCard> = ({
   const { addToCart } = useCartStore();
 
   const handleAddToCart = () => {
-    addToCart(data);
+    const id = data?._id ?? 0;
+
+    const cartItem = {
+      id,
+      action: 'add',
+      quantity: 1,
+      item: {
+        _id: data._id,
+        name: data.name,
+        description: data.description,
+        details: data.details,
+        brand: data.brand,
+        version: data.version,
+        price: data.price,
+        image: data.image,
+        categories: data.categories,
+      },
+    };
+
+    addToCart(cartItem as ICartItem);
   };
 
   return (

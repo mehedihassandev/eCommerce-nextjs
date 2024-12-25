@@ -38,7 +38,7 @@ export interface ISpecifications {
   storage?: string | null;
 }
 
-interface IPrice {
+export interface IPrice {
   _id: number;
   taxCategory: string;
   taxRate: string;
@@ -66,21 +66,21 @@ interface IVariants {
 
 export interface IProduct {
   _id: number;
-  name: string;
-  description: string;
-  details: string;
-  brand: string;
-  version: string;
+  name?: string;
+  description?: string;
+  details?: string;
+  brand?: string;
+  version?: string;
   isSellable?: boolean;
   isBundle?: boolean | null;
   lifecycleStatus: string;
-  categories: ICategory[];
-  image: IImage;
+  categories?: ICategory[];
+  image?: IImage;
   imageGroups?: IImage[];
   variants?: IVariants[];
   review?: IReview[];
   specifications?: ISpecifications;
   price?: IPrice;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: string;
+  updatedAt?: string;
 }
