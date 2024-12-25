@@ -3,37 +3,14 @@ import { NextResponse } from 'next/server';
 
 import connect from '@/database/db';
 import Category from '@/database/models/category';
-import Product from '@/database/models/product';
 
-export const GET = async (request: Request) => {
+export const GET = async () => {
   try {
     await connect();
 
-    const { searchParams } = new URL(request.url);
-    const categoryId = searchParams.get('categoryId');
-    const categoryName = searchParams.get('categoryName');
+    const category = await Category.find();
 
-    let products;
-    if (categoryId || categoryName) {
-      const categoryQuery = [];
-      if (categoryId) {
-        categoryQuery.push({ _id: categoryId });
-      }
-      if (categoryName) {
-        categoryQuery.push({ name: categoryName });
-      }
-
-      const categories = await Category.find({ $or: categoryQuery });
-      const categoryIds = categories.map((category) => category._id);
-
-      products = await Product.find({
-        categories: { $in: categoryIds },
-      }).populate('categories');
-    } else {
-      products = await Product.find().populate('categories');
-    }
-
-    return NextResponse.json(products, { status: 200 });
+    return NextResponse.json(category, { status: 200 });
   } catch (error: any) {
     return NextResponse.json(
       { message: 'Internal server error', error: error.message },
@@ -47,13 +24,13 @@ export const POST = async (request: Request) => {
     const body = await request.json();
     await connect();
 
-    const newProduct = new Product(body);
-    await newProduct.save();
+    const newCategory = new Category(body);
+    await newCategory.save();
 
     return NextResponse.json(
       {
-        message: 'Product created successfully',
-        product: newProduct,
+        message: 'Category created successfully',
+        category: newCategory,
       },
       { status: 200 },
     );
@@ -68,26 +45,26 @@ export const POST = async (request: Request) => {
 export const PATCH = async (request: Request) => {
   try {
     const body = await request.json();
-    const { productId, ...updateData } = body;
+    const { categoryId, ...updateData } = body;
     await connect();
 
-    const updatedProduct = await Product.findByIdAndUpdate(
-      productId,
+    const updatedCategory = await Category.findByIdAndUpdate(
+      categoryId,
       updateData,
       { new: true },
     );
 
-    if (!updatedProduct) {
+    if (!updatedCategory) {
       return NextResponse.json(
-        { message: 'Product not found' },
+        { message: 'Category not found' },
         { status: 404 },
       );
     }
 
     return NextResponse.json(
       {
-        message: 'Product updated successfully',
-        product: updatedProduct,
+        message: 'Category updated successfully',
+        category: updatedCategory,
       },
       { status: 200 },
     );
@@ -102,22 +79,22 @@ export const PATCH = async (request: Request) => {
 export const DELETE = async (request: Request) => {
   try {
     const { searchParams } = new URL(request.url);
-    const productId = searchParams.get('productId');
+    const categoryId = searchParams.get('categoryId');
     await connect();
 
-    const deletedProduct = await Product.findByIdAndDelete(productId);
+    const deletedCategory = await Category.findByIdAndDelete(categoryId);
 
-    if (!deletedProduct) {
+    if (!deletedCategory) {
       return NextResponse.json(
-        { message: 'Product not found' },
+        { message: 'Category not found' },
         { status: 404 },
       );
     }
 
     return NextResponse.json(
       {
-        message: 'Product deleted successfully',
-        product: deletedProduct,
+        message: 'Category deleted successfully',
+        category: deletedCategory,
       },
       { status: 200 },
     );

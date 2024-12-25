@@ -1,4 +1,27 @@
-export interface IProductSpecification {
+export interface IAmount {
+  value: number;
+  unit: string;
+}
+
+export interface IReview {
+  _id: number;
+  rating: number;
+  comment: string;
+  date: string;
+  reviewerName: string;
+  reviewerEmail: string;
+}
+
+export interface ICategory {
+  _id: number;
+  name: string;
+  lifecycleStatus: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ISpecifications {
+  _id: number;
   color?: string | null;
   weight?: string | null;
   dimensions?: string | null;
@@ -7,19 +30,57 @@ export interface IProductSpecification {
   range?: string | null;
   compatibility?: string | null;
   dpi?: string | null;
+  modelNumber?: number | null;
+  sku?: string | null;
+  releaseDate?: string | null;
+  warranty?: string | null;
+  material?: string | null;
+  storage?: string | null;
+}
+
+export interface IPrice {
+  _id: number;
+  taxCategory: string;
+  taxRate: string;
+  totalAmount: IAmount;
+  dutyFreeAmount: IAmount;
+  taxIncludedAmount: IAmount;
+}
+
+interface IImage {
+  _id: number;
+  absUrl: string;
+  alt: string;
+  title: string | null;
+}
+
+interface IVariantValues {
+  color: string | null;
+  memorySize: string | null;
+}
+
+interface IVariants {
+  productId: string;
+  variationValues: IVariantValues[];
 }
 
 export interface IProduct {
-  _id?: number;
+  _id: number;
   name?: string;
-  offerPrice?: number;
-  price?: number;
-  image?: string;
-  category?: string;
   description?: string;
-  brand?: string;
   details?: string;
-  rating?: number;
-  numberOfReviews?: number;
-  specifications?: IProductSpecification;
+  brand?: string;
+  version?: string;
+  isSellable?: boolean;
+  isBundle?: boolean | null;
+  lifecycleStatus: string;
+  categories?: ICategory[];
+  image?: IImage;
+  imageGroups?: IImage[];
+  variants?: IVariants[];
+  review?: IReview[];
+  specifications?: ISpecifications;
+  price?: IPrice;
+  createdAt?: string;
+  updatedAt?: string;
 }

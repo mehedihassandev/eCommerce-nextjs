@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { useState } from 'react';
 import { CiCircleRemove } from 'react-icons/ci';
 import { MinusIcon, MoveRight, PlusIcon } from 'lucide-react';
 
@@ -26,19 +25,17 @@ import { LINK } from '../navigation/router';
 export default function Checkout() {
   const navigate = useRouter();
 
-  const [quantity, setQuantity] = useState(1);
-
-  const { cartItems } = useCartStore();
+  const { cartItems, removeFromCart, updateQuantity } = useCartStore();
 
   const { data, isLoading } = useProductsQuery('');
 
-  const handleIncrease = () => {
-    setQuantity(quantity + 1);
+  const handleIncrease = (productId: number, currentQuantity: number) => {
+    updateQuantity(productId, currentQuantity + 1);
   };
 
-  const handleDecrease = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+  const handleDecrease = (productId: number, currentQuantity: number) => {
+    if (currentQuantity > 1) {
+      updateQuantity(productId, currentQuantity - 1);
     }
   };
 
@@ -62,43 +59,61 @@ export default function Checkout() {
             <div className="space-y-6">
               {cartItems.map((product) => (
                 <Card
-                  key={product._id}
+                  key={product?.item?._id}
                   className="relative rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800 flex"
                 >
                   <Button
                     variant="ghost"
                     className="absolute top-4 right-4"
-                    onClick={() => {}}
+                    onClick={() => {
+                      removeFromCart(product?.item?._id);
+                    }}
                   >
                     <CiCircleRemove className="dark:text-white text-red-600 text-lg" />
                   </Button>
                   <CardHeader>
                     <Image
                       className="h-32 w-44 dark:hidden object-cover rounded-lg"
-                      src={product.image || '/path/to/default/image.jpg'}
-                      alt={product.name || 'Product Image'}
+                      src={
+                        product?.item?.image?.absUrl ||
+                        'https://img.freepik.com/premium-vector/vector-illustration-about-concept-no-items-found-no-results-found_675567-6604.jpg?w=826'
+                      }
+                      alt={product?.item.name || 'Product Image'}
                       width={300}
                       height={300}
                     />
                   </CardHeader>
                   <CardContent className="mt-5">
                     <CardTitle className="text-2xl font-medium text-gray-900 dark:text-white font-playfair pb-2">
-                      {product.name}
+                      {product?.item?.name}
                     </CardTitle>
                     <CardDescription className="text-base text-gray-500 dark:text-gray-400 font-noto">
-                      Category: {product.category}
+                      Category:{' '}
+                      {product?.item?.categories?.map(
+                        (category) => category.name,
+                      ) ?? 'N/A'}
                     </CardDescription>
                     <CardDescription className="text-base text-gray-500 dark:text-gray-400 font-noto">
-                      Color: {product.specifications?.color ?? 'N/A'}
+                      Color: {product?.item?.specifications?.color ?? 'N/A'}
                     </CardDescription>
                     <div className="flex items-center">
-                      <Button variant="ghost" onClick={handleDecrease}>
+                      <Button
+                        variant="ghost"
+                        onClick={() =>
+                          handleDecrease(product?.item?._id, product.quantity)
+                        }
+                      >
                         <MinusIcon className="h-2.5 w-2.5 text-gray-900 dark:text-white" />
                       </Button>
                       <h4 className="text-base font-semibold font-noto text-gray-900 dark:text-white mx-4">
-                        {quantity}
+                        {product.quantity}
                       </h4>
-                      <Button variant="ghost" onClick={handleIncrease}>
+                      <Button
+                        variant="ghost"
+                        onClick={() =>
+                          handleIncrease(product?.item?._id, product.quantity)
+                        }
+                      >
                         <PlusIcon className="h-2.5 w-2.5 text-gray-900 dark:text-white" />
                       </Button>
                     </div>

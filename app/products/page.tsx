@@ -32,17 +32,15 @@ const Product = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
         {data &&
-          data
-            .slice(0, 4)
-            .map((product: IProduct, index: number) => (
-              <ProductCard
-                key={index}
-                data={product}
-                handleAddToWhitelist={() => handleAddToWhitelist(product)}
-                handleNavigateToProduct={() => handleNavigateToProduct(product)}
-                isLoading={isLoading}
-              />
-            ))}
+          data.map((product: IProduct, index: number) => (
+            <ProductCard
+              key={index}
+              data={product}
+              handleAddToWhitelist={() => handleAddToWhitelist(product)}
+              handleNavigateToProduct={() => handleNavigateToProduct(product)}
+              isLoading={isLoading}
+            />
+          ))}
       </div>
     </div>
   );

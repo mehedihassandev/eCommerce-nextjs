@@ -4,18 +4,20 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 
 import { ChangeEvent, useEffect, useState } from 'react';
-import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { HeartIcon, PlusIcon } from 'lucide-react';
 
 import { getSpecifications } from '@/app/constants/product';
-import { calculateRatingStars } from '@/app/helper/product';
+import { calculateAverageRatingAndStars } from '@/app/helper/product';
+import { ICartItem } from '@/app/models/cart';
 import { IProduct } from '@/app/models/products';
 import { LINK } from '@/app/navigation/router';
-import ProductCard from '@/components/product-card';
+import { ProductCard } from '@/components/product-card';
+import StarRating from '@/components/star-rating';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
+import { useCartStore } from '@/stores/cart-store';
 
 const ProductPage = () => {
   const params = useParams();
@@ -26,10 +28,16 @@ const ProductPage = () => {
   const { data: allProducts, isLoading: isAllProductLoading } =
     useProductsQuery('');
 
+  const { addToCart } = useCartStore();
+
   const [quantity, setQuantity] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [product, setProduct] = useState<IProduct | null>(null);
+
+  const { averageRating } = calculateAverageRatingAndStars(
+    product?.review ?? [],
+  );
 
   useEffect(() => {
     if (data) {
@@ -52,7 +60,26 @@ const ProductPage = () => {
   };
 
   const handleAddToCart = (product: IProduct) => {
-    console.log('Added to cart:', product);
+    const id = product?._id ?? 0;
+
+    const cartItem = {
+      id,
+      action: 'add',
+      quantity,
+      item: {
+        _id: product._id,
+        name: product.name,
+        description: product.description,
+        details: product.details,
+        brand: product.brand,
+        version: product.version,
+        price: product.price,
+        image: product.image,
+        categories: product.categories,
+      },
+    };
+
+    addToCart(cartItem as ICartItem);
   };
 
   const handleAddToWhitelist = (product: IProduct) => {
@@ -79,22 +106,7 @@ const ProductPage = () => {
     );
   }
 
-  const { fullStars, halfStar, emptyStars } = calculateRatingStars(
-    product?.rating || 0,
-  );
-  const specifications = getSpecifications(product || {});
-
-  const calculateDiscountPercentage = (
-    originalPrice: number,
-    offerPrice: number,
-  ) => {
-    return ((originalPrice - offerPrice) / originalPrice) * 100;
-  };
-
-  const discountPercentage =
-    product?.price && product?.offerPrice
-      ? calculateDiscountPercentage(product?.price, product?.offerPrice)
-      : 0;
+  const specifications = product ? getSpecifications(product) : [];
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const { left, top } = e.currentTarget.getBoundingClientRect();
@@ -116,7 +128,10 @@ const ProductPage = () => {
           onMouseMove={handleMouseMove}
         >
           <Image
-            src={product?.image || '/default-image.jpg'}
+            src={
+              product?.image?.absUrl ||
+              'https://img.freepik.com/premium-vector/vector-illustration-about-concept-no-items-found-no-results-found_675567-6604.jpg?w=826'
+            }
             alt="Product Image"
             width={600}
             height={600}
@@ -130,7 +145,10 @@ const ProductPage = () => {
               className="absolute w-full h-full left-full top-44 ml-52 p-2 bg-white border border-gray-300 rounded-sm shadow-lg z-10 overflow-hidden hidden md:block"
             >
               <Image
-                src={product?.image || '/default-image.jpg'}
+                src={
+                  product?.image?.absUrl ||
+                  'https://img.freepik.com/premium-vector/vector-illustration-about-concept-no-items-found-no-results-found_675567-6604.jpg?w=826'
+                }
                 alt="Zoomed Product Image"
                 width={1980}
                 height={1440}
@@ -153,40 +171,17 @@ const ProductPage = () => {
             {product?.description}
           </p>
           <div className="flex gap-4 items-stretch">
-            <div className="flex items-center gap-1">
-              {[...Array(fullStars)].map((_, i) => (
-                <FaStar
-                  key={i}
-                  className="text-yellow-500 font-noto text-base"
-                />
-              ))}
-              {halfStar && (
-                <FaStarHalfAlt className="text-yellow-500 font-noto text-base" />
-              )}
-              {[...Array(emptyStars)].map((_, i) => (
-                <FaRegStar
-                  key={i}
-                  className="text-yellow-500 font-noto text-base"
-                />
-              ))}
-            </div>
+            <StarRating reviews={product?.review ?? []} />
             <p className="text-base font-semibold font-noto text-gray-700">
-              {product?.rating} ({product?.numberOfReviews} reviews)
+              {averageRating} ({product?.review?.length} reviews)
             </p>
           </div>
           <div className="flex gap-14">
             <div className="flex flex-col justify-center gap-3 w-full">
               <p className="text-4xl font-semibold font-noto">
-                $ {product?.offerPrice}
+                $ {product?.price?.totalAmount?.value ?? 0}{' '}
+                {product?.price?.totalAmount?.unit ?? 'USD'}
               </p>
-              <div className="flex gap-4 items-baseline">
-                <p className="text-lg font-semibold text-gray-700 line-through font-noto">
-                  $ {product?.price}
-                </p>
-                <p className="text-[12px] font-semibold text-red-500 font-noto">
-                  {discountPercentage.toFixed(2)}% off
-                </p>
-              </div>
             </div>
           </div>
 
@@ -212,7 +207,7 @@ const ProductPage = () => {
             <Button
               variant="default"
               className="w-full"
-              onClick={() => handleAddToCart(product || {})}
+              onClick={() => product && handleAddToCart(product)}
             >
               <HeartIcon className="size-4 me-1" /> Add to Wishlist
             </Button>
@@ -220,7 +215,7 @@ const ProductPage = () => {
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => handleAddToCart(product || {})}
+              onClick={() => product && handleAddToCart(product)}
             >
               <PlusIcon className="size-4 me-1" /> Add to Cart
             </Button>
@@ -234,7 +229,7 @@ const ProductPage = () => {
             Product Details
           </h2>
           <p className="text-sm md:text-base text-gray-800 font-noto leading-relaxed">
-            {product?.details}
+            {product?.details || 'No details available'}
           </p>
         </div>
         <div className="grid gap-4">
@@ -244,7 +239,8 @@ const ProductPage = () => {
           <div className="grid sm:grid-cols-1 gap-2">
             {specifications.map(
               (spec, index) =>
-                spec.value && (
+                spec.value &&
+                spec.value !== 'N/A' && (
                   <div key={index} className="flex gap-4 items-center">
                     <p className="text-sm md:text-base font-semibold font-noto">
                       {spec.label}:{' '}

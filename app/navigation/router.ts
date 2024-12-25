@@ -10,6 +10,7 @@ export const ROUTER = {
   CONTACT_US: 'contact-us',
   CHECKOUT: 'checkout',
   BILLING_DETAILS: 'billing-details',
+  WHITELIST: 'whitelist',
 };
 
 export const LINK = {
@@ -24,4 +25,5 @@ export const LINK = {
   CONTACT_US: 'contact-us',
   CHECKOUT: 'checkout',
   BILLING_DETAILS: 'billing-details',
+  WHITELIST: 'whitelist',
 };

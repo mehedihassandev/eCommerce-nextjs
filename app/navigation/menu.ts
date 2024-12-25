@@ -5,44 +5,46 @@ import { INavItem } from '../models/menu';
 import { ROUTER } from './router';
 
 export const navItems: INavItem[] = [
-  { type: 'nav', title: 'Home', href: ROUTER.HOME },
+  { title: 'Home', href: ROUTER.HOME },
   {
-    type: 'nav',
     title: 'Shop',
-    href: ROUTER.SHOP,
+    href: `/${ROUTER.SHOP}`,
     hasSubMenu: true,
     subMenu: [
       {
         title: 'Mobile Store',
-        href: ROUTER.MOBILE_STORE,
+        href: `/${ROUTER.MOBILE_STORE}`,
       },
       {
         title: 'Laptop Store',
-        href: ROUTER.LAPTOP_STORE,
+        href: `/${ROUTER.LAPTOP_STORE}`,
       },
     ],
   },
   {
-    type: 'nav',
     title: 'Products',
-    href: ROUTER.PRODUCT,
+    href: `/${ROUTER.PRODUCT}`,
     hasSubMenu: true,
     subMenu: [
       {
         title: 'Popular Products',
-        href: ROUTER.POPULAR_PRODUCTS,
+        href: `/${ROUTER.POPULAR_PRODUCTS}`,
       },
       {
         title: 'New Arrivals',
-        href: ROUTER.NEW_ARRIVALS,
+        href: `/${ROUTER.NEW_ARRIVALS}`,
       },
     ],
   },
-  { type: 'nav', title: 'Blog', href: ROUTER.BLOG },
-  { type: 'nav', title: 'Contact Us', href: ROUTER.CONTACT_US },
-  { type: 'button', ariaLabel: 'Search', icon: SearchIcon },
-  { type: 'button', ariaLabel: 'Wishlist', icon: HeartIcon },
-  { type: 'button', ariaLabel: 'Cart', icon: ShoppingCart },
+  { title: 'Blog', href: `/${ROUTER.BLOG}` },
+  { title: 'Contact Us', href: `/${ROUTER.CONTACT_US}` },
+  { ariaLabel: 'Search', icon: SearchIcon },
+  { ariaLabel: 'Wishlist', icon: HeartIcon, href: `/${ROUTER.WHITELIST}` },
+  {
+    ariaLabel: 'Cart',
+    icon: ShoppingCart,
+    href: `/${ROUTER.CHECKOUT}`,
+  },
 ];
 
 export const footerMenu = {

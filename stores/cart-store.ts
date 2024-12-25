@@ -1,25 +1,54 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { IProduct } from '@/app/models/products';
+import { ICartItem } from '@/app/models/cart';
 
 interface ICartStoreState {
-  cartItems: IProduct[];
-  addToCart: (product: IProduct) => void;
+  resetCart: () => void;
+  cartItems: ICartItem[];
+  addToCart: (product: ICartItem) => void;
   removeFromCart: (productId: number) => void;
+  updateQuantity: (productId: number, quantity: number) => void;
 }
 
 export const useCartStore = create(
   persist<ICartStoreState>(
     (set) => ({
       cartItems: [],
-      addToCart: (product: IProduct) =>
-        set((state) => ({ cartItems: [...state.cartItems, product] })),
+      addToCart: (product: ICartItem) =>
+        set((state) => {
+          const existingProduct = state.cartItems.find(
+            (item) => item.id === product.item?._id,
+          );
+          if (existingProduct) {
+            return {
+              cartItems: state.cartItems.map((item) =>
+                item.id === product.item?._id
+                  ? { ...item, quantity: item.quantity + 1 }
+                  : item,
+              ),
+            };
+          } else {
+            return {
+              cartItems: [...state.cartItems, product],
+            };
+          }
+        }),
       removeFromCart: (productId: number) =>
         set((state) => ({
           cartItems: state.cartItems.filter(
-            (product) => product._id !== productId,
+            (product) => product.id !== productId,
           ),
+        })),
+      updateQuantity: (productId: number, quantity: number) =>
+        set((state) => ({
+          cartItems: state.cartItems.map((item) =>
+            item.id === productId ? { ...item, quantity } : item,
+          ),
+        })),
+      resetCart: () =>
+        set(() => ({
+          cartItems: [],
         })),
     }),
     {
