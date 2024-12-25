@@ -12,8 +12,9 @@ import { calculateAverageRatingAndStars } from '@/app/helper/product';
 import { ICartItem } from '@/app/models/cart';
 import { IProduct } from '@/app/models/products';
 import { LINK } from '@/app/navigation/router';
+import Loader from '@/components/loaders/loader';
 import { ProductCard } from '@/components/product-card';
-import StarRating from '@/components/star-rating';
+import { StarRating } from '@/components/star-rating';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
@@ -99,11 +100,7 @@ const ProductPage = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className="h-screen text-5xl items-center justify-center font-bold font-serif align-middle text-center pt-24">
-        Loading...
-      </div>
-    );
+    return <Loader />;
   }
 
   const specifications = product ? getSpecifications(product) : [];

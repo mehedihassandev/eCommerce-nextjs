@@ -1,0 +1,25 @@
+/* From Uiverse.io by doniaskima */
+.loader {
+  width: fit-content;
+  font-weight: bold;
+  font-size: 4rem;
+  background: radial-gradient(circle closest-side, #000 94%, #0000)
+    right/calc(200% - 1.4em) 100%;
+  animation: l24 1.5s infinite alternate linear;
+}
+
+.loader::before {
+  content: 'Loading...';
+  line-height: 1.3em;
+  color: #0000;
+  background: inherit;
+  background-image: radial-gradient(circle closest-side, #fff 94%, #000);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+@keyframes l24 {
+  100% {
+    background-position: left;
+  }
+}

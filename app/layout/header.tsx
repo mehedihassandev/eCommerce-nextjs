@@ -73,7 +73,7 @@ export const Header = () => {
           <NavigationMenu>
             <NavigationMenuList>
               {navItems.map((item) => (
-                <NavigationMenuItem key={item.title}>
+                <NavigationMenuItem key={`${item.title}-${item.href}`}>
                   {item.hasSubMenu ? (
                     <>
                       <NavigationMenuTrigger
@@ -124,7 +124,7 @@ export const Header = () => {
         <div className="flex space-x-6">
           {navItems.map((item) => (
             <Link
-              key={item.ariaLabel}
+              key={`${item.ariaLabel}-${item.href}`}
               className={cn(
                 'hover:bg-transparent font-medium font-noto',
                 isScrolled || !isHome

@@ -1,0 +1,30 @@
+/* From Uiverse.io by Juanes200122 */
+.Buttons {
+  color: #000;
+  width: 10px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: l37-1 0.75s infinite linear alternate, l37-2 1.5s infinite linear;
+}
+
+@keyframes l37-1 {
+  0%,
+  20% {
+    box-shadow: 50px 0 0 5px, 16.67px 0 0 5px, -16.67px 0 0 5px, -50px 0 0 5px;
+  }
+  60%,
+  100% {
+    box-shadow: 20px 0 0 5px, 23.33px 0 0 10px, -23.33px 0 0 10px, -20px 0 0 5px;
+  }
+}
+
+@keyframes l37-2 {
+  0%,
+  25% {
+    transform: rotate(0);
+  }
+  50%,
+  100% {
+    transform: rotate(0.5turn);
+  }
+}
