@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 
 import { ChangeEvent, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { HeartIcon, PlusIcon } from 'lucide-react';
 
@@ -13,11 +14,16 @@ import { ICartItem } from '@/app/models/cart';
 import { IProduct } from '@/app/models/products';
 import { LINK } from '@/app/navigation/router';
 import { ProductCard } from '@/components/product-card';
+import { RhfTextField } from '@/components/rhf-textfield/rhf-textfield';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { ProductDetailsSkeleton } from '@/components/skeleton/product-details-skeleton';
 import { StarRating } from '@/components/star-rating';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 import { useCartStore } from '@/stores/cart-store';
 
@@ -39,6 +45,8 @@ const ProductDetails = () => {
   const { averageRating } = calculateAverageRatingAndStars(
     product?.review ?? [],
   );
+
+  const { control } = useForm();
 
   useEffect(() => {
     if (data) {
@@ -230,35 +238,133 @@ const ProductDetails = () => {
       )}
 
       <div className="container grid gap-8 mt-14">
-        <div className="grid gap-4">
-          <h2 className="text-3xl md:text-4xl font-semibold font-playfair">
-            Product Details
-          </h2>
-          <p className="text-sm md:text-base text-gray-800 font-noto leading-relaxed">
-            {product?.details || 'No details available'}
-          </p>
-        </div>
-        <div className="grid gap-4">
-          <h2 className="text-3xl md:text-4xl font-semibold font-playfair">
-            Product Specifications
-          </h2>
-          <div className="grid sm:grid-cols-1 gap-2">
-            {specifications.map(
-              (spec, index) =>
-                spec.value &&
-                spec.value !== 'N/A' && (
-                  <div key={index} className="flex gap-4 items-center">
-                    <p className="text-sm md:text-base font-semibold font-noto">
-                      {spec.label}:{' '}
-                    </p>
-                    <p className="text-sm md:text-base text-gray-800 font-noto">
-                      {spec.value}
-                    </p>
+        <Tabs defaultValue="detailsSpecifications">
+          <TabsList className="flex justify-end w-full h-12 p-3 gap-4">
+            <TabsTrigger
+              value="detailsSpecifications"
+              className="text-xl font-semibold font-playfair shadow-sm"
+            >
+              Details & Specifications
+            </TabsTrigger>
+            <TabsTrigger
+              value="reviews"
+              className="text-xl font-semibold font-playfair shadow-sm"
+              color="green"
+            >
+              Reviews
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="detailsSpecifications">
+            <div className="my-8 flex flex-col gap-4">
+              <h2 className="text-3xl md:text-4xl font-semibold font-playfair">
+                Product Details
+              </h2>
+              <p className="text-sm md:text-base text-gray-800 font-noto leading-relaxed">
+                {product?.details || 'No details available'}
+              </p>
+            </div>
+
+            <div className="my-8 flex flex-col gap-4">
+              <h2 className="text-3xl md:text-4xl font-semibold font-playfair">
+                Product Specifications
+              </h2>
+              <div className="grid sm:grid-cols-1 gap-2">
+                {specifications.map(
+                  (spec, index) =>
+                    spec.value &&
+                    spec.value !== 'N/A' && (
+                      <div key={index} className="flex gap-4 items-center">
+                        <p className="text-sm md:text-base font-semibold font-noto">
+                          {spec.label}:{' '}
+                        </p>
+                        <p className="text-sm md:text-base text-gray-800 font-noto">
+                          {spec.value}
+                        </p>
+                      </div>
+                    ),
+                )}
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="reviews">
+            <div className="flex flex-col gap-4 my-8">
+              <h2 className="text-4xl font-semibold font-playfair">Reviews</h2>
+              <p className="text-gray-800 mb-4 font-noto text-xl font-semibold">
+                {(product?.review?.length ?? 0) > 0
+                  ? `This product has ${product?.review?.length} ${
+                      product?.review?.length === 1 ? 'review' : 'reviews'
+                    }.`
+                  : 'Be the first to review this product!'}
+              </p>
+
+              {product?.review?.map((review, index) => (
+                <div className="grid gap-4 my-4" key={index}>
+                  <div className="flex gap-6 items-start">
+                    <Avatar className="w-14 h-14">
+                      <AvatarImage
+                        src={`https://randomuser.me/api/portraits/lego/${index}.jpg`}
+                        alt="Reviewer Avatar"
+                        className="rounded-full"
+                      />
+                      <AvatarFallback>{review?.reviewerName}</AvatarFallback>
+                    </Avatar>
+
+                    <div className="flex flex-col gap-2">
+                      <p className="text-lg font-semibold font-noto">
+                        {review?.reviewerName}
+                      </p>
+                      <p className="text-sm font-noto text-gray-700">
+                        {review?.comment}
+                      </p>
+                      <StarRating reviews={[review]} />
+                    </div>
                   </div>
-                ),
-            )}
-          </div>
-        </div>
+                </div>
+              ))}
+
+              <div className="flex flex-col gap-4">
+                {/* Review Textarea */}
+                <div>
+                  <Label
+                    htmlFor="review"
+                    className="mb-2 text-sm font-medium font-noto block"
+                  >
+                    Review *
+                  </Label>
+                  <Textarea
+                    placeholder="Write your review here..."
+                    rows={4}
+                    className="mb-4"
+                  />
+                </div>
+
+                {/* Name Input */}
+                <RhfTextField
+                  control={control}
+                  name="name"
+                  label="Name *"
+                  placeholder="Enter your name"
+                />
+
+                {/* Email Input */}
+                <RhfTextField
+                  control={control}
+                  name="email"
+                  label="Email *"
+                  type="email"
+                  placeholder="Enter your email"
+                />
+
+                {/* Submit Button */}
+                <Button variant="default" className="w-44 mt-8">
+                  Submit
+                </Button>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
 
         <div className="grid gap-6 mt-14">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight font-playfair">
