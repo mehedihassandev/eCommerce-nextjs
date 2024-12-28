@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import { FC, useState } from 'react';
 import { motion } from 'framer-motion';
-import { MoveLeft, MoveRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
 import { ProductCard } from '@/components/product-card';
@@ -64,22 +64,22 @@ export const DailyDeal: FC<IDailyDealProps> = ({
 
         <div className="col-span-2">
           <div className="flex justify-between items-center w-14 mb-10">
-            <MoveLeft
+            <ArrowLeft
               size={24}
               onClick={handlePrev}
               className={
                 currentIndex === 0
                   ? 'cursor-not-allowed opacity-50'
-                  : 'cursor-pointer'
+                  : 'cursor-pointer text-primary'
               }
             />
-            <MoveRight
+            <ArrowRight
               size={24}
               onClick={handleNext}
               className={
                 currentIndex >= totalItems - itemsPerPage
                   ? 'cursor-not-allowed opacity-50'
-                  : 'cursor-pointer'
+                  : 'cursor-pointer text-primary'
               }
             />
           </div>

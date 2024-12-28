@@ -125,22 +125,21 @@ const BillingDetails = () => {
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               {paymentMethods.map((method, index) => (
-                <Button
+                <button
                   key={index}
                   className={cn(
-                    'flex flex-col items-center justify-center p-4 h-32 w-full border border-b shadow-md hover:shadow-lg transition-shadow text-center text-base font-playfair font-bold',
+                    'flex flex-col items-center justify-center p-4 h-32 w-full border border-b shadow-md hover:shadow-lg transition-shadow text-center text-base font-playfair font-bold rounded-md',
                     method.disable ? 'bg-slate-100 cursor-not-allowed' : '',
                     selectedMethod === method.name
-                      ? 'bg-amber-200 text-black'
+                      ? 'bg-primary text-white'
                       : '',
                   )}
                   disabled={method.disable}
-                  variant="ghost"
                   onClick={() => handlePaymentMethod(method.name)}
                 >
                   <div className="text-3xl pb-2">{method.icon}</div>
                   {method.name}
-                </Button>
+                </button>
               ))}
             </div>
           </div>

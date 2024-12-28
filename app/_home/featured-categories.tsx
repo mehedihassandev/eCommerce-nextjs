@@ -4,15 +4,11 @@ import Image from 'next/image';
 
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { MoveLeft, MoveRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 import { categories } from '../constants/categories';
 
@@ -49,22 +45,22 @@ export const FeaturedCategories = () => {
           </h2>
 
           <div className="flex justify-between items-center w-16">
-            <MoveLeft
+            <ArrowLeft
               size={24}
               onClick={handlePrev}
-              className={
+              className={cn(
                 currentIndex === 0
                   ? 'cursor-not-allowed opacity-50'
-                  : 'cursor-pointer'
-              }
+                  : 'cursor-pointer text-primary',
+              )}
             />
-            <MoveRight
+            <ArrowRight
               size={24}
               onClick={handleNext}
               className={
                 currentIndex >= totalItems - itemsPerPage
                   ? 'cursor-not-allowed opacity-50'
-                  : 'cursor-pointer'
+                  : 'cursor-pointer text-primary'
               }
             />
           </div>
@@ -83,10 +79,10 @@ export const FeaturedCategories = () => {
                   animate={{ x: 0, opacity: 1 }}
                   exit={{ x: -100, opacity: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="cursor-pointer shadow-md border-none rounded-lg"
+                  className="cursor-pointer shadow-md border-none rounded-lg overflow-hidden"
                 >
                   <Card>
-                    <CardContent className="text-center p-2 space-y-2">
+                    <CardContent className="text-center p-2 space-y-1">
                       <Image
                         src={category.imageUrl}
                         alt={category.title}
@@ -94,10 +90,12 @@ export const FeaturedCategories = () => {
                         height={200}
                         className="rounded-lg w-full object-cover h-28"
                       />
-                      <CardTitle className="text-lg font-playfair">
+                      <h3 className="text-xl font-playfair text-primary font-bold pt-4">
                         {category.title}
-                      </CardTitle>
-                      <CardDescription>{category.description}</CardDescription>
+                      </h3>
+                      <p className="text-sm font-noto pb-2">
+                        {category.description}
+                      </p>
                     </CardContent>
                   </Card>
                 </motion.div>

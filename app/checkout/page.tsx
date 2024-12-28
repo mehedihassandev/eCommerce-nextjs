@@ -88,7 +88,7 @@ export default function Checkout() {
                     <CardTitle className="text-2xl font-medium text-gray-900 dark:text-white font-playfair pb-2">
                       {product?.item?.name}
                     </CardTitle>
-                    <CardDescription className="text-base text-gray-500 dark:text-gray-400 font-noto">
+                    <CardDescription className="text-base text-gray-500 dark:text-gray-400 font-noto pb-2">
                       Category:{' '}
                       {product?.item?.categories?.map(
                         (category) => category.name,
@@ -181,10 +181,10 @@ export default function Checkout() {
                 </Button>
 
                 <Button
-                  variant="outline"
+                  variant="default"
                   className="w-full font-poppins font-medium text-sm"
                   onClick={() =>
-                    navigate.push(`${LINK.CHECKOUT}/${LINK.BILLING_DETAILS}`)
+                    navigate.push(`/${LINK.CHECKOUT}/${LINK.BILLING_DETAILS}`)
                   }
                 >
                   Proceed to Checkout

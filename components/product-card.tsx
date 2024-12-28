@@ -63,7 +63,7 @@ export const ProductCard: FC<IProductCard> = ({
         />
         <div className="p-4">
           <div className="flex flex-col justify-between items-baseline">
-            <p className="text-lg text-muted-foreground font-playfair font-medium">
+            <p className="text-lg text-muted-foreground font-playfair font-medium text-primary">
               {data?.categories?.map((category) => category.name).join(', ') ??
                 'Category'}
             </p>
@@ -81,13 +81,15 @@ export const ProductCard: FC<IProductCard> = ({
 
           <div className="flex gap-3 py-2">
             <StarRating reviews={data?.review ?? []} />
-            <p className="text-base font-medium text-muted-foreground font-noto">
+            <p className="text-base font-medium text-muted-foreground font-noto text-primary">
               ({data?.review?.length ?? 0} reviews)
             </p>
           </div>
           <div className="flex gap-4 pt-4 w-full justify-between items-center">
-            <p className="text-lg font-semibold font-noto">
-              $ {data?.price?.totalAmount?.value ?? 0}{' '}
+            <p className="text-sm font-semibold font-noto text-gray-600">
+              <span className="text-primary text-lg font-bold">
+                $ {data?.price?.totalAmount?.value ?? 0}{' '}
+              </span>
               {data?.price?.totalAmount?.unit ?? 'USD'}
             </p>
             <div className="flex gap-2">
@@ -101,7 +103,7 @@ export const ProductCard: FC<IProductCard> = ({
               </Button>
               <Button
                 variant="outline"
-                className="font-poppins text-base font-medium"
+                className="font-poppins text-base font-medium text-primary"
                 onClick={handleAddToCart}
                 disabled={cartItems.some((item) => item.id === data._id)}
               >

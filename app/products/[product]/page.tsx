@@ -242,13 +242,13 @@ const ProductDetails = () => {
           <TabsList className="flex justify-end w-full h-12 p-3 gap-4">
             <TabsTrigger
               value="detailsSpecifications"
-              className="text-xl font-semibold font-playfair shadow-sm"
+              className="text-xl font-semibold font-playfair shadow-sm text-primary"
             >
               Details & Specifications
             </TabsTrigger>
             <TabsTrigger
               value="reviews"
-              className="text-xl font-semibold font-playfair shadow-sm"
+              className="text-xl font-semibold font-playfair shadow-sm text-primary"
               color="green"
             >
               Reviews
@@ -312,7 +312,7 @@ const ProductDetails = () => {
                     </Avatar>
 
                     <div className="flex flex-col gap-2">
-                      <p className="text-lg font-semibold font-noto">
+                      <p className="text-lg font-semibold font-noto text-primary">
                         {review?.reviewerName}
                       </p>
                       <p className="text-sm font-noto text-gray-700">

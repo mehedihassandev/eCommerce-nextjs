@@ -57,7 +57,7 @@ export const Banner = () => {
                         {slide.title}
                       </motion.span>
                       <motion.h5
-                        className="text-6xl font-bold pb-2 font-playfair w-9/12 leading-tight"
+                        className="text-6xl font-bold pb-2 font-playfair w-9/12 leading-tight text-primary"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
@@ -74,7 +74,10 @@ export const Banner = () => {
                         {slide.details}
                       </motion.p>
 
-                      <Button className="w-48 h-11 mt-16 font-poppins text-base">
+                      <Button
+                        className="w-48 h-11 mt-16 font-poppins text-base"
+                        variant="default"
+                      >
                         Shop Now
                       </Button>
                     </div>

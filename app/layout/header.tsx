@@ -61,8 +61,7 @@ export const Header = () => {
         <div className="flex items-center justify-between">
           <span
             className={cn(
-              'text-3xl font-bold cursor-pointer font-noto',
-              isScrolled || !isHome ? 'text-gray-700' : 'text-white',
+              'text-3xl font-bold cursor-pointer font-noto text-primary',
             )}
             onClick={() => navigate.push(ROUTER.HOME)}
           >

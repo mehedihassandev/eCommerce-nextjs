@@ -42,7 +42,7 @@ export const BannerCard: FC<IBannerCardProps> = ({
       {/* Text Content */}
       <div className="relative text-white w-full px-6">
         <motion.h3
-          className="text-xs font-semibold font-noto uppercase tracking-wide text-gray-300"
+          className="text-sm font-bold font-noto uppercase tracking-wide text-gray-300"
           initial={{ y: -20, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3 }}
@@ -50,7 +50,7 @@ export const BannerCard: FC<IBannerCardProps> = ({
           {subtitle}
         </motion.h3>
         <motion.h1
-          className="text-3xl font-semibold mb-2 font-playfair leading-relaxed tracking-wide"
+          className="text-4xl font-semibold mb-2 font-playfair leading-relaxed tracking-wide text-primary"
           initial={{ y: -20, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5 }}
@@ -58,7 +58,7 @@ export const BannerCard: FC<IBannerCardProps> = ({
           {title}
         </motion.h1>
         <motion.h1
-          className="text-sm font-normal font-noto leading-[1.75rem]"
+          className="text-sm font-medium font-noto leading-[1.75rem]"
           initial={{ y: -20, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.7 }}
@@ -66,8 +66,8 @@ export const BannerCard: FC<IBannerCardProps> = ({
           {descriptions}
         </motion.h1>
         <Button
-          variant="secondary"
-          className="mt-6 px-6 py-2 rounded-lg shadow-md font-medium font-poppins text-gray-800 text-xs"
+          variant="default"
+          className="mt-6 px-6 py-2 rounded-lg shadow-md font-semibold font-poppins text-sm"
         >
           {buttonText}
         </Button>

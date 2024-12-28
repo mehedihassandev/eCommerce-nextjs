@@ -30,7 +30,7 @@ export const TopProduct: FC<ITopProductProps> = ({
       <div className="flex justify-between mb-6">
         <h2 className="text-4xl font-bold font-playfair">Top Products</h2>
         <Button
-          className="w-44 font-poppins "
+          className="w-44 font-poppins text-primary text-base font-semibold"
           onClick={() => {
             navigate.push(`/${LINK.PRODUCT}`);
           }}
