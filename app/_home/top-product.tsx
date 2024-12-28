@@ -2,32 +2,31 @@
 
 import { useRouter } from 'next/navigation';
 
-import React from 'react';
+import React, { FC } from 'react';
+import { ChevronRight } from 'lucide-react';
 
 import { IProduct } from '@/app/models/products';
 import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
 import { ProductCard } from '@/components/product-card';
-import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { Button } from '@/components/ui/button';
-import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 
 import { LINK } from '../navigation/router';
 
-export const TopProduct = () => {
+interface ITopProductProps {
+  data: IProduct[] | undefined;
+  handleAddToWhitelist: (product: IProduct) => void;
+  handleNavigateToProduct: (product: IProduct) => void;
+}
+
+export const TopProduct: FC<ITopProductProps> = ({
+  data,
+  handleAddToWhitelist,
+  handleNavigateToProduct,
+}) => {
   const navigate = useRouter();
 
-  const { data, isLoading } = useProductsQuery('');
-
-  const handleAddToWhitelist = (product: IProduct) => {
-    console.log('Added to whitelist:', product);
-  };
-
-  const handleNavigateToProduct = (product: IProduct) => {
-    navigate.push(`/${LINK.PRODUCT}/${product._id}`);
-  };
-
   return (
-    <ContentWrapper>
+    <ContentWrapper className="lg:py-4">
       <div className="flex justify-between mb-6">
         <h2 className="text-4xl font-bold font-playfair">Top Products</h2>
         <Button
@@ -35,24 +34,21 @@ export const TopProduct = () => {
           onClick={() => {
             navigate.push(`/${LINK.PRODUCT}`);
           }}
+          variant="ghost"
         >
-          View All
+          View All <ChevronRight className="h-4 w-4" />
         </Button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
-        {isLoading
-          ? Array.from({ length: 8 }).map((_, index) => (
-              <ProductCardSkeleton key={index} />
-            ))
-          : data &&
-            data.map((product: IProduct, index: number) => (
-              <ProductCard
-                key={index}
-                data={product}
-                handleAddToWhitelist={() => handleAddToWhitelist(product)}
-                handleNavigateToProduct={() => handleNavigateToProduct(product)}
-              />
-            ))}
+        {data &&
+          data.map((product: IProduct, index: number) => (
+            <ProductCard
+              key={index}
+              data={product}
+              handleAddToWhitelist={() => handleAddToWhitelist(product)}
+              handleNavigateToProduct={() => handleNavigateToProduct(product)}
+            />
+          ))}
       </div>
     </ContentWrapper>
   );
