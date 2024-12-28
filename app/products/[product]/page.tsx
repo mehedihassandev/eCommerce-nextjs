@@ -13,7 +13,7 @@ import { calculateAverageRatingAndStars } from '@/app/helper/product';
 import { ICartItem } from '@/app/models/cart';
 import { IProduct } from '@/app/models/products';
 import { LINK } from '@/app/navigation/router';
-import { ProductCard } from '@/components/product-card';
+import { ProductCard } from '@/components/cards/product-card';
 import { RhfTextField } from '@/components/rhf-textfield/rhf-textfield';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { ProductDetailsSkeleton } from '@/components/skeleton/product-details-skeleton';

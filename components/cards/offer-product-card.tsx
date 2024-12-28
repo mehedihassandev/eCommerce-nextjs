@@ -8,14 +8,14 @@ import { ICartItem } from '@/app/models/cart';
 import { IProduct } from '@/app/models/products';
 import { useCartStore } from '@/stores/cart-store';
 
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 
-interface IOfferCardProps {
+interface IProductOfferCardProps {
   data: IProduct;
   handleNavigateToProduct: () => void;
 }
 
-export const OfferCard: FC<IOfferCardProps> = ({
+export const ProductOfferCard: FC<IProductOfferCardProps> = ({
   data,
   handleNavigateToProduct,
 }) => {
@@ -99,4 +99,4 @@ export const OfferCard: FC<IOfferCardProps> = ({
   );
 };
 
-export default OfferCard;
+export default ProductOfferCard;

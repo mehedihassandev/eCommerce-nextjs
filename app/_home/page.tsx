@@ -3,11 +3,14 @@
 import { useRouter } from 'next/navigation';
 
 import React from 'react';
+import { LucideIcon } from 'lucide-react';
 
-import { BannerCard } from '@/components/banner-card';
+import { BannerCard } from '@/components/cards/banner-card';
+import { FeatureCard } from '@/components/cards/feature-card';
 import { Loader } from '@/components/loaders/loader';
 import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 
+import { features } from '../constants/feature';
 import { IProduct } from '../models/products';
 import { LINK } from '../navigation/router';
 
@@ -65,6 +68,17 @@ export const HomePage = () => {
         data={data ?? []}
         handleNavigateToProduct={handleNavigateToProduct}
       />
+
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-8 max-w-screen-2xl mx-auto px-8 py-2 mt-8">
+        {features.map((feature, index) => (
+          <FeatureCard
+            key={index}
+            icon={feature.icon as LucideIcon}
+            title={feature.title}
+            description={feature.description}
+          />
+        ))}
+      </div>
     </>
   );
 };

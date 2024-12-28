@@ -6,8 +6,8 @@ import React, { FC } from 'react';
 import { ChevronRight } from 'lucide-react';
 
 import { IProduct } from '@/app/models/products';
+import { ProductCard } from '@/components/cards/product-card';
 import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
-import { ProductCard } from '@/components/product-card';
 import { Button } from '@/components/ui/button';
 
 import { LINK } from '../navigation/router';

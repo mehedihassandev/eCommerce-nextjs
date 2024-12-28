@@ -8,8 +8,8 @@ import { IProduct } from '@/app/models/products';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/stores/cart-store';
 
-import { Card, CardContent } from './ui/card';
-import StarRating from './star-rating';
+import StarRating from '../star-rating';
+import { Card, CardContent } from '../ui/card';
 
 interface IProductCard {
   data: IProduct;

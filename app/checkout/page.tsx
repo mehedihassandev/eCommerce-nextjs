@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { CiCircleRemove } from 'react-icons/ci';
 import { MinusIcon, MoveRight, PlusIcon } from 'lucide-react';
 
-import { ProductCard } from '@/components/product-card';
+import { ProductCard } from '@/components/cards/product-card';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { Button } from '@/components/ui/button';
 import {

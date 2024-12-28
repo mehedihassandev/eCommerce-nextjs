@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
+import { ProductOfferCard } from '@/components/cards/offer-product-card';
 import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
-import { OfferCard } from '@/components/offer-product-card';
 
 import { IProduct } from '../models/products';
 
@@ -28,7 +28,7 @@ export const DealsOfTheDay: FC<IDealsOfTheDayProps> = ({
           <div className="grid grid-cols-4 gap-8 mt-6">
             {randomProducts &&
               randomProducts?.map((product: IProduct) => (
-                <OfferCard
+                <ProductOfferCard
                   key={product._id}
                   data={product}
                   handleNavigateToProduct={() =>

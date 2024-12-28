@@ -6,8 +6,8 @@ import { FC, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
+import { ProductCard } from '@/components/cards/product-card';
 import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
-import { ProductCard } from '@/components/product-card';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 
 import { IProduct } from '../models/products';
