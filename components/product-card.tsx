@@ -88,9 +88,9 @@ export const ProductCard: FC<IProductCard> = ({
           <div className="flex gap-4 pt-4 w-full justify-between items-center">
             <p className="text-sm font-semibold font-noto text-gray-600">
               <span className="text-primary text-lg font-bold">
-                $ {data?.price?.totalAmount?.value ?? 0}{' '}
+                $ {data?.price?.totalAmount?.value.toFixed(2) ?? 0}{' '}
               </span>
-              {data?.price?.totalAmount?.unit ?? 'USD'}
+              {/* {data?.price?.totalAmount?.unit ?? 'USD'} */}
             </p>
             <div className="flex gap-2">
               <Button
@@ -102,8 +102,8 @@ export const ProductCard: FC<IProductCard> = ({
                 <HeartIcon className="size-4 text-red-600" />
               </Button>
               <Button
-                variant="outline"
-                className="font-poppins text-base font-medium text-primary"
+                variant="default"
+                className="font-poppins text-base font-medium text-white"
                 onClick={handleAddToCart}
                 disabled={cartItems.some((item) => item.id === data._id)}
               >

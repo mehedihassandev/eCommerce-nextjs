@@ -54,10 +54,10 @@ export const DailyDeal: FC<IDailyDealProps> = ({
         <div className="flex flex-col space-y-6">
           <h2 className="text-4xl font-bold font-playfair">Daily Best Sells</h2>
           <Image
-            src="https://cdn.pixabay.com/photo/2016/12/06/18/49/santa-claus-1887306_960_720.png"
+            src="https://cdn.pixabay.com/photo/2020/12/05/15/55/christmas-tree-5806329_1280.jpg"
             alt="Christmas Sale"
-            width={400}
-            height={400}
+            width={600}
+            height={600}
             className="rounded-lg w-full h-full object-cover"
           />
         </div>

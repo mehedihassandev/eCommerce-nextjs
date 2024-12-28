@@ -13,6 +13,7 @@ import { LINK } from '../navigation/router';
 
 import { Banner } from './banner';
 import { DailyDeal } from './daily-deal';
+import { DealsOfTheDay } from './deals-of-the-day';
 import { FeaturedCategories } from './featured-categories';
 import { TopProduct } from './top-product';
 
@@ -58,6 +59,10 @@ export const HomePage = () => {
       <DailyDeal
         data={data ?? []}
         handleAddToWhitelist={handleAddToWhitelist}
+        handleNavigateToProduct={handleNavigateToProduct}
+      />
+      <DealsOfTheDay
+        data={data ?? []}
         handleNavigateToProduct={handleNavigateToProduct}
       />
     </>

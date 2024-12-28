@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { HeartIcon, PlusIcon } from 'lucide-react';
+import { HeartIcon, ShoppingCart } from 'lucide-react';
 
 import { getSpecifications } from '@/app/constants/product';
 import { calculateAverageRatingAndStars } from '@/app/helper/product';
@@ -230,7 +230,7 @@ const ProductDetails = () => {
                 className="w-full"
                 onClick={() => product && handleAddToCart(product)}
               >
-                <PlusIcon className="size-4 me-1" /> Add to Cart
+                <ShoppingCart className="size-4 me-1" /> Add to Cart
               </Button>
             </div>
           </div>

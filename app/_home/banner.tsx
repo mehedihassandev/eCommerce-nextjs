@@ -92,7 +92,7 @@ export const Banner = () => {
               key={index}
               onClick={() => goToSlide(index)}
               className={`w-3 h-3 rounded-full ${
-                index === currentIndex ? 'bg-gray-800' : 'bg-gray-400'
+                index === currentIndex ? 'bg-primary' : 'bg-gray-400'
               }`}
             />
           ))}
