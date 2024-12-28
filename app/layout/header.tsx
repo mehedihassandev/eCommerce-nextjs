@@ -73,7 +73,7 @@ export const Header = () => {
           <NavigationMenu>
             <NavigationMenuList>
               {navItems.map((item) => (
-                <NavigationMenuItem key={item.title}>
+                <NavigationMenuItem key={`${item.title}-${item.href}`}>
                   {item.hasSubMenu ? (
                     <>
                       <NavigationMenuTrigger
@@ -124,7 +124,7 @@ export const Header = () => {
         <div className="flex space-x-6">
           {navItems.map((item) => (
             <Link
-              key={item.ariaLabel}
+              key={`${item.ariaLabel}-${item.href}`}
               className={cn(
                 'hover:bg-transparent font-medium font-noto',
                 isScrolled || !isHome
@@ -142,7 +142,7 @@ export const Header = () => {
                     : 0
                 }
                 className={cn(
-                  isScrolled || !isHome ? 'text-gray-700' : 'text-white',
+                  'bg-red-600 w-5 h-5 rounded-full flex items-center justify-center -top-2 -right-2',
                 )}
               >
                 {item.icon && <item.icon className="h-4 w-4" />}
