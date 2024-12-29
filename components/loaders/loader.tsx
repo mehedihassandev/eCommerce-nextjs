@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
-import Loading from './loading/loading';
-import OrderPlacedLoader from './order-placed/order-placed';
-import Spinner from './spinner/spinner';
-import WheelAndHamster from './wheel-and-hamster/wheel-and-hamster';
+import { Loading } from './loading/loading';
+import { OrderPlacedLoader } from './order-placed/order-placed';
+import { Spinner } from './spinner/spinner';
+import { WheelAndHamster } from './wheel-and-hamster/wheel-and-hamster';
 
 interface ILoaderProps {
   variant?: 'order' | 'hamster' | 'loading';

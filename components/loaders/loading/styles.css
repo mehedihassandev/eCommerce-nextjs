@@ -1,5 +1,5 @@
 /* From Uiverse.io by doniaskima */
-.loader {
+.loader-spinner {
   width: fit-content;
   font-weight: bold;
   font-size: 4rem;
@@ -8,7 +8,7 @@
   animation: l24 1.5s infinite alternate linear;
 }
 
-.loader::before {
+.loader-spinner::before {
   content: 'Loading...';
   line-height: 1.3em;
   color: #0000;

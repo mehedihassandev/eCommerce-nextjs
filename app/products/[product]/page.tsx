@@ -6,14 +6,14 @@ import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { HeartIcon, PlusIcon } from 'lucide-react';
+import { HeartIcon, ShoppingCart } from 'lucide-react';
 
 import { getSpecifications } from '@/app/constants/product';
 import { calculateAverageRatingAndStars } from '@/app/helper/product';
 import { ICartItem } from '@/app/models/cart';
 import { IProduct } from '@/app/models/products';
 import { LINK } from '@/app/navigation/router';
-import { ProductCard } from '@/components/product-card';
+import { ProductCard } from '@/components/cards/product-card';
 import { RhfTextField } from '@/components/rhf-textfield/rhf-textfield';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { ProductDetailsSkeleton } from '@/components/skeleton/product-details-skeleton';
@@ -230,7 +230,7 @@ const ProductDetails = () => {
                 className="w-full"
                 onClick={() => product && handleAddToCart(product)}
               >
-                <PlusIcon className="size-4 me-1" /> Add to Cart
+                <ShoppingCart className="size-4 me-1" /> Add to Cart
               </Button>
             </div>
           </div>
@@ -242,13 +242,13 @@ const ProductDetails = () => {
           <TabsList className="flex justify-end w-full h-12 p-3 gap-4">
             <TabsTrigger
               value="detailsSpecifications"
-              className="text-xl font-semibold font-playfair shadow-sm"
+              className="text-xl font-semibold font-playfair shadow-sm text-primary"
             >
               Details & Specifications
             </TabsTrigger>
             <TabsTrigger
               value="reviews"
-              className="text-xl font-semibold font-playfair shadow-sm"
+              className="text-xl font-semibold font-playfair shadow-sm text-primary"
               color="green"
             >
               Reviews
@@ -312,7 +312,7 @@ const ProductDetails = () => {
                     </Avatar>
 
                     <div className="flex flex-col gap-2">
-                      <p className="text-lg font-semibold font-noto">
+                      <p className="text-lg font-semibold font-noto text-primary">
                         {review?.reviewerName}
                       </p>
                       <p className="text-sm font-noto text-gray-700">

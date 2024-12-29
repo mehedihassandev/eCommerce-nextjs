@@ -3,6 +3,7 @@ import { ComponentType, SVGProps } from 'react';
 export interface INavItem {
   title?: string;
   href?: string;
+  to?: string;
   hasSubMenu?: boolean;
   subMenu?: ISubMenuItem[];
   ariaLabel?: string;

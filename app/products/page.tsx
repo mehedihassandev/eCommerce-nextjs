@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { IProduct } from '@/app/models/products';
-import { ProductCard } from '@/components/product-card';
+import { ProductCard } from '@/components/cards/product-card';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 

@@ -27,18 +27,18 @@ export const Footer = () => {
               </h4>
               <a
                 href="mailto:info@mysite.com"
-                className="text-blue-600 pt-3 font-noto text-base"
+                className="text-primary pt-3 font-noto text-base"
               >
                 info@mysite.com
               </a>
               <a
                 href="tel:+11234567890"
-                className="text-blue-600 font-noto text-base"
+                className="text-primary font-noto text-base"
               >
                 123-456-7890
               </a>
             </div>
-            <div className="flex space-x-4 pt-6">
+            <div className="flex space-x-4 pt-6 text-primary">
               <Button variant="link" size="icon" aria-label="Facebook">
                 <FacebookIcon className="h-6 w-6 text-gray-800" />
               </Button>
@@ -64,7 +64,7 @@ export const Footer = () => {
                   <li key={link.title}>
                     <a
                       href={link.href}
-                      className="text-gray-600 hover:text-gray-900 font-noto text-sm md:text-base"
+                      className="text-gray-600 hover:text-primary font-noto text-sm md:text-base"
                     >
                       {link.title}
                     </a>
@@ -80,17 +80,17 @@ export const Footer = () => {
             <div className="text-sm font-medium font-noto text-gray-600">
               <span>We accept the following paying methods:</span>
               <div className="flex space-x-8 mt-3">
-                <TbBrandVisa className="h-4 w-4 text-gray-800" />
-                <TbBrandMastercard className="h-4 w-4 text-gray-800" />
-                <FaCcAmex className="h-4 w-4 text-gray-800" />
-                <FaCcDiscover className="h-4 w-4 text-gray-800" />
-                <FaPaypal className="h-4 w-4 text-gray-800" />
+                <TbBrandVisa className="h-4 w-4 text-primary" />
+                <TbBrandMastercard className="h-4 w-4 text-primary" />
+                <FaCcAmex className="h-4 w-4 text-primary" />
+                <FaCcDiscover className="h-4 w-4 text-primary" />
+                <FaPaypal className="h-4 w-4 text-primary" />
               </div>
             </div>
             <div className="text-sm text-gray-600 font-medium font-noto">
               <span>
                 © 2024 by Team. Powered and secured by{' '}
-                <a href="https://nextjs.org/" className="text-blue-600">
+                <a href="https://nextjs.org/" className="text-primary">
                   Next.js
                 </a>
                 .

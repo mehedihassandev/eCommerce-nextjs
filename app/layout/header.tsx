@@ -61,8 +61,7 @@ export const Header = () => {
         <div className="flex items-center justify-between">
           <span
             className={cn(
-              'text-3xl font-bold cursor-pointer font-noto',
-              isScrolled || !isHome ? 'text-gray-700' : 'text-white',
+              'text-3xl font-bold cursor-pointer font-noto text-primary',
             )}
             onClick={() => navigate.push(ROUTER.HOME)}
           >
@@ -72,25 +71,25 @@ export const Header = () => {
         <nav className="hidden md:flex space-x-8">
           <NavigationMenu>
             <NavigationMenuList>
-              {navItems.map((item) => (
-                <NavigationMenuItem key={`${item.title}-${item.href}`}>
+              {navItems.map((item, index) => (
+                <NavigationMenuItem key={`${item.title}-${item.href}-${index}`}>
                   {item.hasSubMenu ? (
                     <>
                       <NavigationMenuTrigger
                         className={cn(
-                          'bg-transparent hover:bg-transparent font-medium font-noto text-sm',
+                          'bg-transparent hover:bg-transparent font-medium font-noto text-sm hover:text-primary',
                           isScrolled || !isHome
                             ? 'text-gray-700'
-                            : 'text-white hover:bg-accent hover:text-accent-foreground',
+                            : 'text-white bg-transparent hover:bg-transparent',
                         )}
                       >
                         {item.title}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
                         <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] font-medium font-noto text-sm">
-                          {item.subMenu?.map((subItem) => (
+                          {item.subMenu?.map((subItem, subIndex) => (
                             <Item
-                              key={subItem.title}
+                              key={`${subItem.title}-${subItem.href}-${subIndex}`}
                               title={subItem.title}
                               href={subItem.href}
                               description={subItem.description}
@@ -105,10 +104,10 @@ export const Header = () => {
                         <NavigationMenuLink
                           className={cn(
                             navigationMenuTriggerStyle(),
-                            'bg-transparent hover:bg-transparent font-medium font-noto text-sm',
+                            'bg-transparent hover:bg-transparent font-medium font-noto text-sm hover:text-primary',
                             isScrolled || !isHome
                               ? 'text-gray-700'
-                              : 'text-white hover:bg-accent hover:text-accent-foreground',
+                              : 'text-white hover:bg-transparent',
                           )}
                         >
                           {item.title}
@@ -122,39 +121,42 @@ export const Header = () => {
           </NavigationMenu>
         </nav>
         <div className="flex space-x-6">
-          {navItems.map((item) => (
-            <Link
-              key={`${item.ariaLabel}-${item.href}`}
-              className={cn(
-                'hover:bg-transparent font-medium font-noto',
-                isScrolled || !isHome
-                  ? 'text-gray-700'
-                  : 'text-white hover:text-white',
-              )}
-              href={item.href || ''}
-            >
-              <Badge
-                count={
-                  item.ariaLabel === 'Wishlist'
-                    ? 0
-                    : item.ariaLabel === 'Cart'
-                    ? cartItems.length
-                    : 0
-                }
-                className={cn(
-                  'bg-red-600 w-5 h-5 rounded-full flex items-center justify-center -top-2 -right-2',
-                )}
-              >
-                {item.icon && <item.icon className="h-4 w-4" />}
-              </Badge>
-            </Link>
-          ))}
+          {navItems.map(
+            (item, index) =>
+              item.ariaLabel && (
+                <Link
+                  key={`${item.ariaLabel}-${item.to}-${index}`}
+                  className={cn(
+                    'hover:bg-transparent font-medium font-noto hover:text-primary hidden md:block',
+                    isScrolled || !isHome
+                      ? 'text-gray-700'
+                      : 'text-white hover:text-white',
+                  )}
+                  href={item.to || ''}
+                >
+                  <Badge
+                    count={
+                      item.ariaLabel === 'Wishlist'
+                        ? 0
+                        : item.ariaLabel === 'Cart'
+                        ? cartItems.length
+                        : 0
+                    }
+                    className={cn(
+                      'bg-red-600 w-5 h-5 rounded-full flex items-center justify-center -top-2 -right-2',
+                    )}
+                  >
+                    {item.icon && <item.icon className="h-5 w-5" />}
+                  </Badge>
+                </Link>
+              ),
+          )}
           <Button
             variant="ghost"
             size="icon"
             aria-label="Menu"
             className={cn(
-              'md:hidden',
+              'block md:hidden',
               isScrolled || !isHome ? 'text-gray-700' : 'text-white',
             )}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -190,8 +192,10 @@ export const Header = () => {
             </div>
             <NavigationMenu>
               <NavigationMenuList className="flex flex-col p-4 space-y-4">
-                {navItems.map((item) => (
-                  <NavigationMenuItem key={item.title}>
+                {navItems.map((item, index) => (
+                  <NavigationMenuItem
+                    key={`${item.title}-${item.href}-${index}`}
+                  >
                     {item.hasSubMenu ? (
                       <>
                         <NavigationMenuTrigger
@@ -206,9 +210,9 @@ export const Header = () => {
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
                           <ul className="grid gap-3 p-6">
-                            {item.subMenu?.map((subItem) => (
+                            {item.subMenu?.map((subItem, subIndex) => (
                               <Item
-                                key={subItem.title}
+                                key={`${subItem.title}-${subItem.href}-${subIndex}`}
                                 title={subItem.title}
                                 href={subItem.href}
                                 description={subItem.description}
