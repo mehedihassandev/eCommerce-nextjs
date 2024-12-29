@@ -25,7 +25,7 @@ export const DealsOfTheDay: FC<IDealsOfTheDayProps> = ({
       <div className="grid grid-cols-1 gap-8">
         <div className="flex flex-col">
           <h2 className="text-4xl font-bold font-playfair">Deals Of The Day</h2>
-          <div className="grid grid-cols-4 gap-8 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-6">
             {randomProducts &&
               randomProducts?.map((product: IProduct) => (
                 <ProductOfferCard

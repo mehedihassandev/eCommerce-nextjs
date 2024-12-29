@@ -58,7 +58,7 @@ export const ProductOfferCard: FC<IProductOfferCardProps> = ({
           onClick={handleNavigateToProduct}
           className="w-full rounded-t-md aspect-square object-cover cursor-pointer"
         />
-        <div className="absolute -bottom-4 left-5 flex space-x-1">
+        <div className="absolute -bottom-4 left-8 flex space-x-1">
           {['58 Days', '07 Hours', '07 Mins', '41 Secs'].map((time, index) => (
             <motion.div
               key={index}

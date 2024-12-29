@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
@@ -23,10 +23,30 @@ export const DailyDeal: FC<IDailyDealProps> = ({
   handleAddToWhitelist,
   handleNavigateToProduct,
 }) => {
-  const itemsPerPage = 3; // Number of items visible at a time
+  const [itemsPerPage, setItemsPerPage] = useState(3); // Default to 3 items per page
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const totalItems = data?.length ?? 0;
+
+  useEffect(() => {
+    const updateItemsPerPage = () => {
+      if (window.innerWidth < 640) {
+        setItemsPerPage(1); // Small devices
+      } else if (window.innerWidth < 1024) {
+        setItemsPerPage(2); // Medium devices
+      } else {
+        setItemsPerPage(3); // Large devices
+      }
+    };
+
+    updateItemsPerPage(); // Set initial value
+    window.addEventListener('resize', updateItemsPerPage);
+
+    return () => {
+      window.removeEventListener('resize', updateItemsPerPage);
+    };
+  }, []);
 
   const handleNext = () => {
     // Shift the window forward by 1 item if not at the end
@@ -50,7 +70,7 @@ export const DailyDeal: FC<IDailyDealProps> = ({
 
   return (
     <ContentWrapper>
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="flex flex-col space-y-6">
           <h2 className="text-4xl font-bold font-playfair">Daily Best Sells</h2>
           <Image
@@ -83,7 +103,7 @@ export const DailyDeal: FC<IDailyDealProps> = ({
               }
             />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-5 gap-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-8">
             {visibleItems?.map((item) =>
               item ? (
                 <motion.div

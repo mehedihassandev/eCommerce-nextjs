@@ -43,7 +43,7 @@ export const HomePage = () => {
         handleAddToWhitelist={handleAddToWhitelist}
         handleNavigateToProduct={handleNavigateToProduct}
       />
-      <div className="grid grid-cols-2 gap-8 max-w-screen-2xl mx-auto px-8 py-2 mt-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-screen-2xl mx-auto px-8 py-2 mt-8">
         <BannerCard
           backgroundImage="https://cdn.pixabay.com/photo/2019/07/14/16/27/pen-4337521_1280.jpg"
           title="Christmas Sale"
@@ -69,7 +69,7 @@ export const HomePage = () => {
         handleNavigateToProduct={handleNavigateToProduct}
       />
 
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-8 max-w-screen-2xl mx-auto px-8 py-2 mt-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 max-w-screen-2xl mx-auto px-8 py-2 mt-8">
         {features.map((feature, index) => (
           <FeatureCard
             key={index}

@@ -127,7 +127,7 @@ export const Header = () => {
                 <Link
                   key={`${item.ariaLabel}-${item.to}-${index}`}
                   className={cn(
-                    'hover:bg-transparent font-medium font-noto hover:text-primary',
+                    'hover:bg-transparent font-medium font-noto hover:text-primary hidden md:block',
                     isScrolled || !isHome
                       ? 'text-gray-700'
                       : 'text-white hover:text-white',
