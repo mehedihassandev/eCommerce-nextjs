@@ -1,10 +1,10 @@
 /* From Uiverse.io by Juanes200122 */
 .Buttons {
-  color: #000;
+  color: #5db87f;
   width: 10px;
   aspect-ratio: 1;
   border-radius: 50%;
-  animation: l37-1 0.75s infinite linear alternate, l37-2 1.5s infinite linear;
+  animation: l37-1 0.75s infinite linear alternate, s-l37-2 1.5s infinite linear;
 }
 
 @keyframes l37-1 {
@@ -18,7 +18,7 @@
   }
 }
 
-@keyframes l37-2 {
+@keyframes s-l37-2 {
   0%,
   25% {
     transform: rotate(0);

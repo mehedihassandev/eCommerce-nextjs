@@ -39,11 +39,11 @@ export const navItems: INavItem[] = [
   { title: 'Blog', href: `/${ROUTER.BLOG}` },
   { title: 'Contact Us', href: `/${ROUTER.CONTACT_US}` },
   { ariaLabel: 'Search', icon: SearchIcon },
-  { ariaLabel: 'Wishlist', icon: HeartIcon, href: `/${ROUTER.WHITELIST}` },
+  { ariaLabel: 'Wishlist', icon: HeartIcon, to: `/${ROUTER.WHITELIST}` },
   {
     ariaLabel: 'Cart',
     icon: ShoppingCart,
-    href: `/${ROUTER.CHECKOUT}`,
+    to: `/${ROUTER.CHECKOUT}`,
   },
 ];
 

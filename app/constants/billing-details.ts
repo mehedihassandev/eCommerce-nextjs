@@ -78,6 +78,5 @@ export const formValues: IBillingDetailsFormData = {
   email: '',
   phone: '',
   country: '',
-  paymentMethod: '',
   promo_code: '',
 };
