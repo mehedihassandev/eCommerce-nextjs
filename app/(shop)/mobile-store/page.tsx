@@ -3,56 +3,29 @@
 import { useRouter } from 'next/navigation';
 
 import React, { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
 
-import { DefaultShopFilterValues } from '@/app/constants/shop-constant';
-import { ICategory, IProduct } from '@/app/models/products';
-import { FilterParamsType } from '@/app/models/shop';
+import { IProduct } from '@/app/models/products';
 import { LINK } from '@/app/navigation/router';
 import { ProductCard } from '@/components/cards/product-card';
 import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
-import { RhfAutocomplete } from '@/components/rhf-autocomplete/rhf-autocomplete';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
-import { Button } from '@/components/ui/button';
 import { axios, getProducts } from '@/utils';
-import { getCategories } from '@/utils/lib/data-access/categories';
 
 export const MobileStore = () => {
   const navigate = useRouter();
 
-  const [filterParams, setFilterParams] = useState<FilterParamsType>(
-    DefaultShopFilterValues,
-  );
   const [limit, setLimit] = useState(20);
   const [offset, setOffset] = useState(0);
 
-  const { control, handleSubmit } = useForm<FilterParamsType>({
-    defaultValues: DefaultShopFilterValues,
-  });
-
-  const { data: categories } = useQuery({
-    queryKey: ['categories'],
-    queryFn: () => {
-      return getCategories({
-        api: axios,
-        url: '',
-      });
-    },
-    select: (data) => data.data,
-  });
-
   const { data, isLoading } = useQuery({
-    queryKey: ['products', filterParams],
+    queryKey: ['products', limit, offset],
     queryFn: () => {
       const params = new URLSearchParams();
 
       params.append('limit', limit.toString());
       params.append('offset', offset.toString());
-
-      if (filterParams.category) {
-        params.append('categoryName', filterParams.category);
-      }
+      params.append('categoryName', 'Smartphones');
 
       return getProducts({
         api: axios,
@@ -70,47 +43,12 @@ export const MobileStore = () => {
     navigate.push(`/${LINK.PRODUCT}/${product._id}`);
   };
 
-  const onSubmit: SubmitHandler<FilterParamsType> = (formData) => {
-    setFilterParams((prevState) => ({
-      ...prevState,
-      category: formData.category,
-    }));
-  };
-
-  const categoriesOptions = categories?.map((category: ICategory) => ({
-    label: category.name,
-    value: category.name,
-  }));
-
   return (
     <ContentWrapper>
       <div className="flex flex-col justify-start h-full mt-14 mb-6">
         <h1 className="text-2xl md:text-3xl lg:text-5xl font-semibold font-playfair mb-4">
           Mobile Store
         </h1>
-
-        <div className="flex gap-x-5 gap-y-8 my-6">
-          <RhfAutocomplete
-            control={control}
-            name="category"
-            options={categoriesOptions}
-            label="Category"
-          />
-
-          <div className="flex justify-between items-center space-x-4 mt-6">
-            <Button variant="default" onClick={handleSubmit(onSubmit)}>
-              Filter
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setFilterParams(DefaultShopFilterValues);
-              }}
-            >
-              Reset
-            </Button>
-          </div>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
