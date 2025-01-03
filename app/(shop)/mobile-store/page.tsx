@@ -24,6 +24,8 @@ export const MobileStore = () => {
   const [filterParams, setFilterParams] = useState<FilterParamsType>(
     DefaultShopFilterValues,
   );
+  const [limit, setLimit] = useState(20);
+  const [offset, setOffset] = useState(0);
 
   const { control, handleSubmit } = useForm<FilterParamsType>({
     defaultValues: DefaultShopFilterValues,
@@ -45,6 +47,9 @@ export const MobileStore = () => {
     queryFn: () => {
       const params = new URLSearchParams();
 
+      params.append('limit', limit.toString());
+      params.append('offset', offset.toString());
+
       if (filterParams.category) {
         params.append('categoryName', filterParams.category);
       }
@@ -54,7 +59,7 @@ export const MobileStore = () => {
         url: params as unknown as string,
       });
     },
-    select: (data) => data.data,
+    select: (data) => data.data.products,
   });
 
   const handleAddToWhitelist = (product: IProduct) => {
