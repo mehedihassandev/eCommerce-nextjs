@@ -11,6 +11,7 @@ module.exports = {
   ],
   rules: {
     '@typescript-eslint/no-unused-vars': ['warn'],
+    '@typescript-eslint/no-explicit-any': ['warn'],
     'react/react-in-jsx-scope': 'off',
     'prettier/prettier': ['warn'],
     'simple-import-sort/imports': [

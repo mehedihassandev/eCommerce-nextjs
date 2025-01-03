@@ -1,13 +1,17 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { Button } from '@/components/ui/button';
 
 import { slides } from '../data/banner';
+import { LINK } from '../navigation/router';
 
 export const Banner = () => {
+  const navigate = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -77,6 +81,9 @@ export const Banner = () => {
                       <Button
                         className="w-48 h-11 mt-16 font-poppins text-base"
                         variant="default"
+                        onClick={() => {
+                          navigate.push(LINK.SHOP);
+                        }}
                       >
                         Shop Now
                       </Button>

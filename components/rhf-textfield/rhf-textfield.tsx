@@ -1,4 +1,6 @@
-import { InputHTMLAttributes } from 'react';
+'use client';
+
+import { InputHTMLAttributes, useState } from 'react';
 import {
   Control,
   Controller,
@@ -23,6 +25,8 @@ export const RhfTextField = <T extends FieldValues>({
   label,
   ...props
 }: RhfTextFieldProps<T>) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <Controller
       control={control}
@@ -39,22 +43,33 @@ export const RhfTextField = <T extends FieldValues>({
           if (trimmedValue !== value) {
             onChange(trimmedValue);
           }
+          setIsFocused(false);
+        };
+
+        const handleFocus = () => {
+          setIsFocused(true);
         };
 
         return (
-          <div className="flex flex-col">
-            {label && (
-              <Label className="mb-2 text-sm font-medium font-noto">
-                {label}
-              </Label>
-            )}
+          <div className="relative flex flex-col w-full">
             <Input
               className={`border ${error ? 'border-red-500' : ''} rounded p-2`}
               onChange={onChange}
               onBlur={handleBlur}
+              onFocus={handleFocus}
               value={value}
               {...props}
+              placeholder={isFocused ? props.placeholder : ''}
             />
+            <span
+              className={`absolute left-3 transition-all duration-200 ease-in-out pointer-events-none ${
+                isFocused || value
+                  ? 'text-sm -top-3 bg-white px-1'
+                  : 'text-base top-2'
+              }`}
+            >
+              {props.placeholder}
+            </span>
             {error && (
               <span className="text-red-500 text-sm pt-2 pl-1 font-noto">
                 {error.message}

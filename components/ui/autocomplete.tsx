@@ -24,6 +24,8 @@ type AutocompleteProps = {
   onValueChange: (value: string) => void;
   options: { value: string; label: string }[];
   disabled?: boolean;
+  placeholder?: string;
+  isFocused?: boolean;
 };
 
 export function Autocomplete({
@@ -31,11 +33,13 @@ export function Autocomplete({
   onValueChange,
   options = [],
   disabled = false,
+  placeholder,
+  isFocused,
 }: AutocompleteProps) {
   const [open, setOpen] = React.useState(false);
 
   const selectedOption = options.find((option) => option.value === value) || {
-    label: 'Select an option...',
+    label: isFocused ? placeholder : '',
     value: '',
   };
 
@@ -46,10 +50,13 @@ export function Autocomplete({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={cn(
+            'w-[200px]',
+            isFocused ? 'justify-between' : 'justify-end',
+          )}
           disabled={disabled}
         >
-          {selectedOption.label}
+          {isFocused && placeholder}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>

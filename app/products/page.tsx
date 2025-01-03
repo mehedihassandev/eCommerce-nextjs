@@ -11,15 +11,6 @@ import { ProductCard } from '@/components/cards/product-card';
 import CustomPagination from '@/components/custom-pagination';
 import RhfSelect from '@/components/rhf-select/rhf-select';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
 import { axios, getProducts } from '@/utils';
 
 import { sortFilterOptions } from '../constants/product';
