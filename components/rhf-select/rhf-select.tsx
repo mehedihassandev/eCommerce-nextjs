@@ -14,6 +14,7 @@ type RhfSelectFieldProps<T extends FieldValues> = {
   control: Control<T>;
   options: { value: string; label: string }[];
   label?: string;
+  onChange?: (value: string) => void;
 } & Omit<SelectProps, 'onChange' | 'value'> &
   Omit<ControllerProps<T>, 'render' | 'control'>;
 
@@ -36,6 +37,9 @@ export const RhfSelect = <T extends FieldValues>({
 
         const handleChange = (newValue: string) => {
           onChange(newValue);
+          if (props.onChange) {
+            props.onChange(newValue);
+          }
         };
 
         return (

@@ -18,6 +18,8 @@ export const GET = async (request: Request) => {
     const brand = searchParams.get('brand');
     const minPrice = searchParams.get('minPrice');
     const maxPrice = searchParams.get('maxPrice');
+    const isLatestFirst = searchParams.get('isLatestFirst') === 'true';
+    const sort = searchParams.get('sort');
 
     if (!limit || !offset) {
       return NextResponse.json(
@@ -66,10 +68,23 @@ export const GET = async (request: Request) => {
 
     const totalCount = await Product.countDocuments(query);
 
-    const products = await Product.find(query)
+    let productsQuery = Product.find(query)
       .populate('categories')
       .skip(offsetValue)
       .limit(limitValue);
+
+    // Sort by creation date or price based on parameters
+    if (isLatestFirst) {
+      productsQuery = productsQuery.sort({ createdAt: -1 });
+    } else if (sort === 'priceAsc') {
+      productsQuery = productsQuery.sort({ 'price.totalAmount.value': 1 });
+    } else if (sort === 'priceDesc') {
+      productsQuery = productsQuery.sort({ 'price.totalAmount.value': -1 });
+    } else {
+      productsQuery = productsQuery.sort({ createdAt: 1 });
+    }
+
+    const products = await productsQuery;
 
     return NextResponse.json(
       { products, totalCount, limit: limitValue, offset: offsetValue },

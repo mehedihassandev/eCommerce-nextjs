@@ -31,3 +31,9 @@ export const getSpecifications = (product: IProduct) => [
   { label: 'Material', value: product?.specifications?.material || 'N/A' },
   { label: 'Storage', value: product?.specifications?.storage || 'N/A' },
 ];
+
+export const sortFilterOptions = [
+  { value: 'latest', label: 'Latest' },
+  { value: 'priceLowToHigh', label: 'Price Low to High' },
+  { value: 'priceHighToLow', label: 'Price High to Low' },
+];
