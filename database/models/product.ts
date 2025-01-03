@@ -106,7 +106,7 @@ const SpecificationSchema = new Schema({
     default: null,
   },
   modelNumber: {
-    type: Number,
+    type: String,
     required: false,
     default: null,
   },
