@@ -12,8 +12,25 @@ export const GET = async (request: Request) => {
     const { searchParams } = new URL(request.url);
     const categoryId = searchParams.get('categoryId');
     const categoryName = searchParams.get('categoryName');
+    const limit = searchParams.get('limit');
+    const offset = searchParams.get('offset');
+    const name = searchParams.get('name');
+    const brand = searchParams.get('brand');
+    const minPrice = searchParams.get('minPrice');
+    const maxPrice = searchParams.get('maxPrice');
 
-    let products;
+    if (!limit || !offset) {
+      return NextResponse.json(
+        { message: 'limit and offset are required query parameters' },
+        { status: 400 },
+      );
+    }
+
+    const limitValue = parseInt(limit, 10);
+    const offsetValue = parseInt(offset, 10);
+
+    const query: any = {};
+
     if (categoryId || categoryName) {
       const categoryQuery = [];
       if (categoryId) {
@@ -26,14 +43,38 @@ export const GET = async (request: Request) => {
       const categories = await Category.find({ $or: categoryQuery });
       const categoryIds = categories.map((category) => category._id);
 
-      products = await Product.find({
-        categories: { $in: categoryIds },
-      }).populate('categories');
-    } else {
-      products = await Product.find().populate('categories');
+      query.categories = { $in: categoryIds };
     }
 
-    return NextResponse.json(products, { status: 200 });
+    if (name) {
+      query.name = { $regex: name, $options: 'i' };
+    }
+
+    if (minPrice || maxPrice) {
+      query['price.totalAmount.value'] = {};
+      if (minPrice) {
+        query['price.totalAmount.value'].$gte = parseFloat(minPrice);
+      }
+      if (maxPrice) {
+        query['price.totalAmount.value'].$lte = parseFloat(maxPrice);
+      }
+    }
+
+    if (brand) {
+      query.brand = { $regex: brand, $options: 'i' };
+    }
+
+    const totalCount = await Product.countDocuments(query);
+
+    const products = await Product.find(query)
+      .populate('categories')
+      .skip(offsetValue)
+      .limit(limitValue);
+
+    return NextResponse.json(
+      { products, totalCount, limit: limitValue, offset: offsetValue },
+      { status: 200 },
+    );
   } catch (error: any) {
     return NextResponse.json(
       { message: 'Internal server error', error: error.message },

@@ -37,6 +37,7 @@ const VariantSchema = new Schema({
   variationValues: {
     type: [VariationValueSchema],
     required: false,
+    default: [],
   },
 });
 
@@ -227,14 +228,17 @@ const ProductSchema = new Schema(
     imageGroups: {
       type: [ImageSchema],
       required: false,
+      default: [],
     },
     variants: {
       type: [VariantSchema],
       required: false,
+      default: [],
     },
     review: {
       type: [ReviewSchema],
       required: false,
+      default: [],
     },
     specifications: {
       type: SpecificationSchema,

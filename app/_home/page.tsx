@@ -2,13 +2,14 @@
 
 import { useRouter } from 'next/navigation';
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { LucideIcon } from 'lucide-react';
 
 import { BannerCard } from '@/components/cards/banner-card';
 import { FeatureCard } from '@/components/cards/feature-card';
 import { Loader } from '@/components/loaders/loader';
-import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
+import { axios, getProducts } from '@/utils';
 
 import { features } from '../constants/feature';
 import { IProduct } from '../models/products';
@@ -23,7 +24,24 @@ import { TopProduct } from './top-product';
 export const HomePage = () => {
   const navigate = useRouter();
 
-  const { data, isLoading } = useProductsQuery('');
+  const [limit, setLimit] = useState(20);
+  const [offset, setOffset] = useState(0);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['products', limit, offset],
+    queryFn: () => {
+      const params = new URLSearchParams();
+
+      params.append('limit', limit.toString());
+      params.append('offset', offset.toString());
+
+      return getProducts({
+        api: axios,
+        url: params as unknown as string,
+      });
+    },
+    select: (data) => data.data.products,
+  });
 
   const handleAddToWhitelist = (product: IProduct) => {
     console.log('Added to whitelist:', product);

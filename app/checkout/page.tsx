@@ -3,7 +3,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import { useState } from 'react';
 import { CiCircleRemove } from 'react-icons/ci';
+import { useQuery } from '@tanstack/react-query';
 import { MinusIcon, MoveRight, PlusIcon } from 'lucide-react';
 
 import { ProductCard } from '@/components/cards/product-card';
@@ -17,8 +19,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 import { useCartStore } from '@/stores/cart-store';
+import { axios, getProducts } from '@/utils';
 
 import { IProduct } from '../models/products';
 import { LINK } from '../navigation/router';
@@ -26,9 +28,25 @@ import { LINK } from '../navigation/router';
 export default function Checkout() {
   const navigate = useRouter();
 
+  const [limit, setLimit] = useState(4);
+  const [offset, setOffset] = useState(0);
   const { cartItems, removeFromCart, updateQuantity } = useCartStore();
 
-  const { data, isLoading } = useProductsQuery('');
+  const { data, isLoading } = useQuery({
+    queryKey: ['products', limit, offset],
+    queryFn: () => {
+      const params = new URLSearchParams();
+
+      params.append('limit', limit.toString());
+      params.append('offset', offset.toString());
+
+      return getProducts({
+        api: axios,
+        url: params as unknown as string,
+      });
+    },
+    select: (data) => data.data.products,
+  });
 
   const handleIncrease = (productId: number, currentQuantity: number) => {
     updateQuantity(productId, currentQuantity + 1);

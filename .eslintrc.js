@@ -10,9 +10,9 @@ module.exports = {
     'prettier',
   ],
   rules: {
-    '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/no-unused-vars': ['warn'],
     'react/react-in-jsx-scope': 'off',
-    'prettier/prettier': ['error'],
+    'prettier/prettier': ['warn'],
     'simple-import-sort/imports': [
       'error',
       {

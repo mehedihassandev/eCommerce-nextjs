@@ -29,12 +29,15 @@ type AutocompleteProps = {
 export function Autocomplete({
   value,
   onValueChange,
-  options,
+  options = [],
   disabled = false,
 }: AutocompleteProps) {
   const [open, setOpen] = React.useState(false);
 
-  const selectedOption = options.find((option) => option.value === value);
+  const selectedOption = options.find((option) => option.value === value) || {
+    label: 'Select an option...',
+    value: '',
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -46,7 +49,7 @@ export function Autocomplete({
           className="w-[200px] justify-between"
           disabled={disabled}
         >
-          {selectedOption ? selectedOption.label : 'Select an option...'}
+          {selectedOption.label}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>

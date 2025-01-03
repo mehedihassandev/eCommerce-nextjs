@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { HeartIcon, ShoppingCart } from 'lucide-react';
 
@@ -26,6 +27,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 import { useCartStore } from '@/stores/cart-store';
+import { axios, getProducts } from '@/utils';
 
 const ProductDetails = () => {
   const params = useParams();
@@ -34,11 +36,26 @@ const ProductDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [product, setProduct] = useState<IProduct | null>(null);
+  const [limit, setLimit] = useState(20);
+  const [offset, setOffset] = useState(0);
 
   const { data, isLoading } = useProductsQuery(`/${params?.product}`);
 
-  const { data: allProducts, isLoading: isAllProductLoading } =
-    useProductsQuery('');
+  const { data: allProducts, isLoading: isAllProductLoading } = useQuery({
+    queryKey: ['products', limit, offset],
+    queryFn: () => {
+      const params = new URLSearchParams();
+
+      params.append('limit', limit.toString());
+      params.append('offset', offset.toString());
+
+      return getProducts({
+        api: axios,
+        url: params as unknown as string,
+      });
+    },
+    select: (data) => data.data.products,
+  });
 
   const { addToCart } = useCartStore();
 

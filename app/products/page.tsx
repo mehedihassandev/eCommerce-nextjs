@@ -2,19 +2,37 @@
 
 import { useRouter } from 'next/navigation';
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 import { IProduct } from '@/app/models/products';
 import { ProductCard } from '@/components/cards/product-card';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
-import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
+import { axios, getProducts } from '@/utils';
 
 import { LINK } from '../navigation/router';
 
 const Product = () => {
   const navigate = useRouter();
 
-  const { data, isLoading } = useProductsQuery('');
+  const [limit, setLimit] = useState(20);
+  const [offset, setOffset] = useState(0);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['products', limit, offset],
+    queryFn: () => {
+      const params = new URLSearchParams();
+
+      params.append('limit', limit.toString());
+      params.append('offset', offset.toString());
+
+      return getProducts({
+        api: axios,
+        url: params as unknown as string,
+      });
+    },
+    select: (data) => data.data.products,
+  });
 
   const handleAddToWhitelist = (product: IProduct) => {
     console.log('Added to whitelist:', product);
