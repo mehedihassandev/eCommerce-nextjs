@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { IProduct } from '@/app/models/products';
 import { ProductCard } from '@/components/cards/product-card';
+import CustomBreadcrumb from '@/components/custom-breadcrumb';
 import CustomPagination from '@/components/custom-pagination';
 import RhfSelect from '@/components/rhf-select/rhf-select';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
@@ -81,17 +82,18 @@ const Product = () => {
   };
 
   return (
-    <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:pt-12 lg:pt-28 flex flex-col justify-between">
-      <div className="flex justify-between my-6">
-        <h2 className="text-3xl font-bold">All Products</h2>
+    <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:pt-12 lg:pt-24 flex flex-col justify-between">
+      <CustomBreadcrumb />
+      <div className="flex justify-between my-6 w-full">
+        <h2 className="text-3xl font-bold w-9/12">All Products</h2>
 
-        <div className="flex items-center space-x-4">
-          <span className="text-sm font-noto font-semibold">Sort by:</span>
+        <div className="flex justify-between space-x-4 w-3/12">
           <RhfSelect
             control={control}
             name="sort"
             options={sortFilterOptions}
             onChange={(e) => handleSortChange(e)}
+            placeholder="Sort by"
           />
         </div>
       </div>

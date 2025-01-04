@@ -13,7 +13,7 @@ export const navItems: INavItem[] = [
     subMenu: [
       {
         title: 'Mobile Store',
-        href: `/${ROUTER.MOBILE_STORE}`,
+        href: `/${ROUTER.SHOP}/${ROUTER.MOBILE_STORE}`,
       },
       {
         title: 'Laptop Store',

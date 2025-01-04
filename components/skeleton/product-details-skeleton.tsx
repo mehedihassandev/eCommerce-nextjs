@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export const ProductDetailsSkeleton = () => {
   return (
-    <div className="flex flex-col justify-between">
+    <div className="flex flex-col justify-between mt-8">
       <div className="container grid grid-cols-1 md:grid-cols-3 gap-16">
         <div className="flex flex-col items-start gap-6 col-span-1 relative">
           <Skeleton className="rounded-lg w-full aspect-square object-cover h-96" />

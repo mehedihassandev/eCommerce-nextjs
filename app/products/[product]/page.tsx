@@ -15,6 +15,7 @@ import { ICartItem } from '@/app/models/cart';
 import { IProduct } from '@/app/models/products';
 import { LINK } from '@/app/navigation/router';
 import { ProductCard } from '@/components/cards/product-card';
+import CustomBreadcrumb from '@/components/custom-breadcrumb';
 import { RhfTextField } from '@/components/rhf-textfield/rhf-textfield';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { ProductDetailsSkeleton } from '@/components/skeleton/product-details-skeleton';
@@ -135,11 +136,12 @@ const ProductDetails = () => {
   };
 
   return (
-    <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-12 lg:pt-28 flex flex-col justify-between">
+    <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-12 lg:pt-24 flex flex-col justify-between">
+      <CustomBreadcrumb />
       {isLoading ? (
         <ProductDetailsSkeleton />
       ) : (
-        <div className="container grid grid-cols-1 md:grid-cols-3 gap-16">
+        <div className="container grid grid-cols-1 md:grid-cols-3 gap-16 mt-8">
           <div
             className={`flex flex-col items-start gap-6 col-span-1 relative ${
               isHovered ? 'cursor-zoom-in' : ''

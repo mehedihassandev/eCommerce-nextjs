@@ -7,6 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
 
 import { ProductCard } from '@/components/cards/product-card';
+import CustomBreadcrumb from '@/components/custom-breadcrumb';
 import { CustomPagination } from '@/components/custom-pagination';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { Button } from '@/components/ui/button';
@@ -131,6 +132,7 @@ const Shop = () => {
 
   return (
     <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:pt-12 lg:pt-28 flex flex-col justify-between">
+      <CustomBreadcrumb />
       <div className="flex justify-between my-6">
         <div className="flex items-center space-x-4 w-full">
           {filterParamsFields.map((field: any) => {

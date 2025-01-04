@@ -17,6 +17,7 @@ import {
 import { FORM_INPUT_TYPE } from '@/app/constants/from-input-type';
 import { IBillingDetailsFormData } from '@/app/models/billing-details';
 import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
+import CustomBreadcrumb from '@/components/custom-breadcrumb';
 import { Loader } from '@/components/loaders/loader';
 import { RhfTextField } from '@/components/rhf-textfield/rhf-textfield';
 import { Button } from '@/components/ui/button';
@@ -134,7 +135,10 @@ const BillingDetails = () => {
   return (
     <>
       {isLoading && <Loader variant="order" />}
-      <ContentWrapper className="mt-20">
+      <ContentWrapper className="mt-8">
+        <div className="mb-12">
+          <CustomBreadcrumb />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-[4fr_3fr] gap-16">
           {/* Left Section: Billing Details */}
           <div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'; // Correct import for the app directory
 
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -9,6 +9,7 @@ import { IProduct } from '@/app/models/products';
 import { LINK } from '@/app/navigation/router';
 import { ProductCard } from '@/components/cards/product-card';
 import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
+import CustomBreadcrumb from '@/components/custom-breadcrumb';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { axios, getProducts } from '@/utils';
 
@@ -22,7 +23,6 @@ export const MobileStore = () => {
     queryKey: ['products', limit, offset],
     queryFn: () => {
       const params = new URLSearchParams();
-
       params.append('limit', limit.toString());
       params.append('offset', offset.toString());
       params.append('categoryName', 'Smartphones');
@@ -45,8 +45,9 @@ export const MobileStore = () => {
 
   return (
     <ContentWrapper>
-      <div className="flex flex-col justify-start h-full mt-14 mb-6">
-        <h1 className="text-2xl md:text-3xl lg:text-5xl font-semibold font-playfair mb-4">
+      <div className="flex flex-col justify-start h-full mt-8 mb-6 gap-4">
+        <CustomBreadcrumb />
+        <h1 className="text-2xl md:text-3xl lg:text-5xl font-semibold font-playfair mb-2 mt-4">
           Mobile Store
         </h1>
       </div>
