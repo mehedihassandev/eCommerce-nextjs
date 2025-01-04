@@ -341,7 +341,7 @@ const ProductDetails = () => {
                 </div>
               ))}
 
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 space-y-4">
                 {/* Review Textarea */}
                 <div>
                   <Label
@@ -361,17 +361,14 @@ const ProductDetails = () => {
                 <RhfTextField
                   control={control}
                   name="name"
-                  label="Name *"
-                  placeholder="Enter your name"
+                  placeholder="Enter your name *"
                 />
 
                 {/* Email Input */}
                 <RhfTextField
                   control={control}
                   name="email"
-                  label="Email *"
-                  type="email"
-                  placeholder="Enter your email"
+                  placeholder="Enter your email *"
                 />
 
                 {/* Submit Button */}
