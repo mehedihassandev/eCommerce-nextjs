@@ -4,7 +4,7 @@ export const formFields: IFormField[] = [
   {
     name: 'country',
     inputType: 'Select',
-    label: 'Country *',
+    placeholder: 'Select Country',
     options: [
       { label: 'United States', value: 'us' },
       { label: 'Canada', value: 'ca' },
@@ -14,25 +14,22 @@ export const formFields: IFormField[] = [
   {
     name: 'first_name',
     inputType: 'TextField',
-    label: 'First Name *',
-    placeholder: 'John',
+    placeholder: 'First Name *',
   },
   {
     name: 'last_name',
     inputType: 'TextField',
-    label: 'Last Name *',
-    placeholder: 'Doe',
+    placeholder: 'Last Name *',
   },
   {
     name: 'address',
     inputType: 'TextField',
-    label: 'Address',
     placeholder: 'Enter Your Address',
   },
   {
     name: 'state',
     inputType: 'Select',
-    label: 'State *',
+    placeholder: 'Select State',
     options: [
       { label: 'California', value: 'ca' },
       { label: 'New York', value: 'ny' },
@@ -42,19 +39,16 @@ export const formFields: IFormField[] = [
   {
     name: 'zip',
     inputType: 'TextField',
-    label: 'Zip *',
     placeholder: 'Enter Your Zip',
   },
   {
     name: 'email',
     inputType: 'TextField',
-    label: 'Email *',
     placeholder: 'Enter Your Email',
   },
   {
     name: 'phone',
     inputType: 'TextField',
-    label: 'Phone',
     placeholder: 'Enter Your Phone Number',
   },
 ];

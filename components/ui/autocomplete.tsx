@@ -24,17 +24,24 @@ type AutocompleteProps = {
   onValueChange: (value: string) => void;
   options: { value: string; label: string }[];
   disabled?: boolean;
+  placeholder?: string;
+  isFocused?: boolean;
 };
 
 export function Autocomplete({
   value,
   onValueChange,
-  options,
+  options = [],
   disabled = false,
+  placeholder,
+  isFocused,
 }: AutocompleteProps) {
   const [open, setOpen] = React.useState(false);
 
-  const selectedOption = options.find((option) => option.value === value);
+  const selectedOption = options.find((option) => option.value === value) || {
+    label: isFocused ? placeholder : '',
+    value: '',
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -43,10 +50,13 @@ export function Autocomplete({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={cn(
+            'w-[200px]',
+            isFocused ? 'justify-between' : 'justify-end',
+          )}
           disabled={disabled}
         >
-          {selectedOption ? selectedOption.label : 'Select an option...'}
+          {isFocused && placeholder}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>

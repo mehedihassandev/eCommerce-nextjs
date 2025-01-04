@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { HeartIcon, ShoppingCart } from 'lucide-react';
 
@@ -14,6 +15,7 @@ import { ICartItem } from '@/app/models/cart';
 import { IProduct } from '@/app/models/products';
 import { LINK } from '@/app/navigation/router';
 import { ProductCard } from '@/components/cards/product-card';
+import CustomBreadcrumb from '@/components/custom-breadcrumb';
 import { RhfTextField } from '@/components/rhf-textfield/rhf-textfield';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { ProductDetailsSkeleton } from '@/components/skeleton/product-details-skeleton';
@@ -26,6 +28,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 import { useCartStore } from '@/stores/cart-store';
+import { axios, getProducts } from '@/utils';
 
 const ProductDetails = () => {
   const params = useParams();
@@ -34,11 +37,26 @@ const ProductDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [product, setProduct] = useState<IProduct | null>(null);
+  const [limit, setLimit] = useState(20);
+  const [offset, setOffset] = useState(0);
 
   const { data, isLoading } = useProductsQuery(`/${params?.product}`);
 
-  const { data: allProducts, isLoading: isAllProductLoading } =
-    useProductsQuery('');
+  const { data: allProducts, isLoading: isAllProductLoading } = useQuery({
+    queryKey: ['products', limit, offset],
+    queryFn: () => {
+      const params = new URLSearchParams();
+
+      params.append('limit', limit.toString());
+      params.append('offset', offset.toString());
+
+      return getProducts({
+        api: axios,
+        url: params as unknown as string,
+      });
+    },
+    select: (data) => data.data.products,
+  });
 
   const { addToCart } = useCartStore();
 
@@ -118,11 +136,12 @@ const ProductDetails = () => {
   };
 
   return (
-    <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-12 lg:pt-28 flex flex-col justify-between">
+    <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-12 lg:pt-24 flex flex-col justify-between">
+      <CustomBreadcrumb />
       {isLoading ? (
         <ProductDetailsSkeleton />
       ) : (
-        <div className="container grid grid-cols-1 md:grid-cols-3 gap-16">
+        <div className="container grid grid-cols-1 md:grid-cols-3 gap-16 mt-8">
           <div
             className={`flex flex-col items-start gap-6 col-span-1 relative ${
               isHovered ? 'cursor-zoom-in' : ''
@@ -324,7 +343,7 @@ const ProductDetails = () => {
                 </div>
               ))}
 
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 space-y-4">
                 {/* Review Textarea */}
                 <div>
                   <Label
@@ -344,17 +363,14 @@ const ProductDetails = () => {
                 <RhfTextField
                   control={control}
                   name="name"
-                  label="Name *"
-                  placeholder="Enter your name"
+                  placeholder="Enter your name *"
                 />
 
                 {/* Email Input */}
                 <RhfTextField
                   control={control}
                   name="email"
-                  label="Email *"
-                  type="email"
-                  placeholder="Enter your email"
+                  placeholder="Enter your email *"
                 />
 
                 {/* Submit Button */}

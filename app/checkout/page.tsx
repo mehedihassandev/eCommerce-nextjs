@@ -3,10 +3,13 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import { useState } from 'react';
 import { CiCircleRemove } from 'react-icons/ci';
+import { useQuery } from '@tanstack/react-query';
 import { MinusIcon, MoveRight, PlusIcon } from 'lucide-react';
 
 import { ProductCard } from '@/components/cards/product-card';
+import CustomBreadcrumb from '@/components/custom-breadcrumb';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,8 +20,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 import { useCartStore } from '@/stores/cart-store';
+import { axios, getProducts } from '@/utils';
 
 import { IProduct } from '../models/products';
 import { LINK } from '../navigation/router';
@@ -26,9 +29,25 @@ import { LINK } from '../navigation/router';
 export default function Checkout() {
   const navigate = useRouter();
 
+  const [limit, setLimit] = useState(4);
+  const [offset, setOffset] = useState(0);
   const { cartItems, removeFromCart, updateQuantity } = useCartStore();
 
-  const { data, isLoading } = useProductsQuery('');
+  const { data, isLoading } = useQuery({
+    queryKey: ['products', limit, offset],
+    queryFn: () => {
+      const params = new URLSearchParams();
+
+      params.append('limit', limit.toString());
+      params.append('offset', offset.toString());
+
+      return getProducts({
+        api: axios,
+        url: params as unknown as string,
+      });
+    },
+    select: (data) => data.data.products,
+  });
 
   const handleIncrease = (productId: number, currentQuantity: number) => {
     updateQuantity(productId, currentQuantity + 1);
@@ -50,8 +69,9 @@ export default function Checkout() {
 
   return (
     <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-      <div className="mx-auto max-w-screen-2xl px-6 pt-12">
-        <h2 className="text-3xl font-semibold font-playfair text-gray-900 dark:text-white">
+      <div className="mx-auto max-w-screen-2xl px-6 pt-8">
+        <CustomBreadcrumb />
+        <h2 className="text-3xl font-semibold font-playfair text-gray-900 dark:text-white mt-6">
           Shopping Cart
         </h2>
 

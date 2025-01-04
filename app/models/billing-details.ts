@@ -13,7 +13,6 @@ export interface IBillingDetailsFormData {
 export interface IFormField {
   name: keyof IBillingDetailsFormData;
   inputType: string;
-  label: string;
   options?: { label: string; value: string }[];
   placeholder?: string;
 }
