@@ -9,20 +9,17 @@ import {
 } from 'react-hook-form';
 
 import { Input } from '../ui/input';
-import { Label } from '../ui/label';
 
 // Create a generic type for the RhfTextField component
 type RhfTextFieldProps<T extends FieldValues> = {
   control: Control<T>;
   trim?: boolean; // Add a trim prop to enable/disable trimming
-  label?: string; // Add label prop
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> &
   Omit<ControllerProps<T>, 'render' | 'control'>;
 
 export const RhfTextField = <T extends FieldValues>({
   control,
   trim = true,
-  label,
   ...props
 }: RhfTextFieldProps<T>) => {
   const [isFocused, setIsFocused] = useState(false);

@@ -14,10 +14,10 @@ import {
   formValues,
   paymentMethods,
 } from '@/app/constants/billing-details';
+import { FORM_INPUT_TYPE } from '@/app/constants/from-input-type';
 import { IBillingDetailsFormData } from '@/app/models/billing-details';
 import { ContentWrapper } from '@/components/content-wrapper/content-wrapper';
 import { Loader } from '@/components/loaders/loader';
-import { RhfSelect } from '@/components/rhf-select/rhf-select';
 import { RhfTextField } from '@/components/rhf-textfield/rhf-textfield';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -27,17 +27,11 @@ export interface IFormFieldProps {
   field: {
     name: keyof IBillingDetailsFormData;
     inputType: string;
-    label: string;
     options?: { label: string; value: string }[];
     placeholder?: string;
   };
   control: Control<IBillingDetailsFormData>;
 }
-
-const formInputFieldType = {
-  TextField: RhfTextField,
-  Select: RhfSelect,
-};
 
 const BillingDetails = () => {
   const navigate = useRouter();
@@ -64,17 +58,16 @@ const BillingDetails = () => {
   });
 
   const FormField = ({ field, control }: IFormFieldProps) => {
-    const { name, label, inputType, options, placeholder } = field;
+    const { name, inputType, options, placeholder } = field;
 
     const FormInputField =
-      formInputFieldType[inputType as keyof typeof formInputFieldType];
+      FORM_INPUT_TYPE[inputType as keyof typeof FORM_INPUT_TYPE];
 
     return (
       <div className="w-full">
         <FormInputField
           control={control}
           name={name as keyof IBillingDetailsFormData}
-          label={label}
           options={options || []}
           placeholder={placeholder}
         />
@@ -173,11 +166,11 @@ const BillingDetails = () => {
             <h2 className="text-3xl font-playfair font-bold mb-8">
               Billing Details
             </h2>
-            <div className="flex gap-6 w-full mb-4">
+            <div className="flex gap-6 w-full mb-8">
               {renderFields(['first_name', 'last_name'])}
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-8 mb-8">
               {renderFields(['address', 'phone', 'email'])}
             </div>
 

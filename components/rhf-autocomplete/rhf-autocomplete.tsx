@@ -7,12 +7,10 @@ import {
 } from 'react-hook-form';
 
 import { Autocomplete } from '../ui/autocomplete';
-import { Label } from '../ui/label';
 
 type RhfAutocompleteProps<T extends FieldValues> = {
   control: Control<T>;
   options: { value: string; label: string }[];
-  label?: string;
   disabled?: boolean;
   placeholder?: string;
 } & Omit<ControllerProps<T>, 'render' | 'control'>;
@@ -20,7 +18,6 @@ type RhfAutocompleteProps<T extends FieldValues> = {
 export const RhfAutocomplete = <T extends FieldValues>({
   control,
   options,
-  label,
   disabled = false,
   placeholder,
   ...props
