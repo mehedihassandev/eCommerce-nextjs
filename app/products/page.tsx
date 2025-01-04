@@ -68,8 +68,6 @@ const Product = () => {
     setSortOption(value);
   };
 
-  console.log(count);
-
   const handleNext = () => {
     if (offset + limit < count) {
       setOffset((prev) => prev + limit);

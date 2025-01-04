@@ -14,7 +14,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select';
 type RhfSelectFieldProps<T extends FieldValues> = {
   control: Control<T>;
   options: { value: string; label: string }[];
-  label?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
 } & Omit<SelectProps, 'onChange' | 'value'> &
@@ -23,7 +22,6 @@ type RhfSelectFieldProps<T extends FieldValues> = {
 export const RhfSelect = <T extends FieldValues>({
   control,
   options,
-  label,
   placeholder,
   ...props
 }: RhfSelectFieldProps<T>) => {
@@ -62,7 +60,9 @@ export const RhfSelect = <T extends FieldValues>({
             <div onFocus={handleFocus} onBlur={handleBlur}>
               <Select onValueChange={handleChange} value={value} {...props}>
                 <SelectTrigger
-                  className={cn(isFocused ? 'justify-between' : 'justify-end')}
+                  className={cn(
+                    isFocused || value ? 'justify-between' : 'justify-end',
+                  )}
                 >
                   {selectedLabel}
                 </SelectTrigger>

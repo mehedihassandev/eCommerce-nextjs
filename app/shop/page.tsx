@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
 
-import { ICategory, IProduct } from '@/app/models/products';
 import { ProductCard } from '@/components/cards/product-card';
 import { CustomPagination } from '@/components/custom-pagination';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
@@ -19,6 +18,8 @@ import {
   DefaultShopFilterValues,
   filterParamsFields,
 } from '../constants/shop-constant';
+import { getCategoriesOption } from '../helper/categories';
+import { IProduct } from '../models/products';
 import { FilterParamsType } from '../models/shop';
 import { LINK } from '../navigation/router';
 
@@ -65,7 +66,7 @@ const Shop = () => {
       }
 
       if (filterParams.category) {
-        params.append('categoryId', filterParams.category);
+        params.append('categoryName', filterParams.category);
       }
 
       if (filterParams.minPrice) {
@@ -88,6 +89,8 @@ const Shop = () => {
     select: (data) => data,
   });
 
+  const categoriesOptions = getCategoriesOption(categories);
+
   const handleAddToWhitelist = (product: IProduct) => {
     console.log('Added to whitelist:', product);
   };
@@ -107,11 +110,6 @@ const Shop = () => {
       setOffset((prev) => prev - limit);
     }
   };
-
-  const categoriesOptions = categories?.map((category: ICategory) => ({
-    label: category.name,
-    value: category._id,
-  }));
 
   const onSubmit: SubmitHandler<FilterParamsType> = (formData) => {
     setFilterParams((prevState) => ({
