@@ -13,7 +13,7 @@ import CustomBreadcrumb from '@/components/custom-breadcrumb';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { axios, getProducts } from '@/utils';
 
-export const MobileStore = () => {
+const MobileStore = () => {
   const navigate = useRouter();
 
   const [limit, setLimit] = useState(20);
