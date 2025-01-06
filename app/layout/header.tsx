@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import { useCartStore } from '@/stores/cart-store';
+import { useWhitelistStore } from '@/stores/whitelist-store';
 
 import { navItems } from '../navigation/menu';
 import { ROUTER } from '../navigation/router';
@@ -37,6 +38,7 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const { cartItems } = useCartStore();
+  const { whitelistItems } = useWhitelistStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -137,7 +139,7 @@ export const Header = () => {
                   <Badge
                     count={
                       item.ariaLabel === 'Wishlist'
-                        ? 0
+                        ? whitelistItems.length
                         : item.ariaLabel === 'Cart'
                         ? cartItems.length
                         : 0

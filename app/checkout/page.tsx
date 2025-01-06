@@ -59,10 +59,6 @@ export default function Checkout() {
     }
   };
 
-  const handleAddToWhitelist = (product: IProduct) => {
-    console.log('Added to whitelist:', product);
-  };
-
   const handleNavigateToProduct = (product: IProduct) => {
     navigate.push(`/${LINK.PRODUCT}/${product._id}`);
   };
@@ -247,7 +243,6 @@ export default function Checkout() {
                   <ProductCard
                     key={index}
                     data={product}
-                    handleAddToWhitelist={() => handleAddToWhitelist(product)}
                     handleNavigateToProduct={() =>
                       handleNavigateToProduct(product)
                     }
