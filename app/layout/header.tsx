@@ -9,10 +9,13 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { motion } from 'framer-motion';
 import { MenuIcon, XIcon } from 'lucide-react';
 
 import { Badge } from '@/components/badge';
+import RhfTextField from '@/components/rhf-textfield/rhf-textfield';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -36,6 +39,7 @@ export const Header = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const { cartItems } = useCartStore();
   const { whitelistItems } = useWhitelistStore();
@@ -51,6 +55,10 @@ export const Header = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const handleSearchClick = () => {
+    setIsSearchVisible(!isSearchVisible);
+  };
 
   return (
     <header
@@ -135,6 +143,9 @@ export const Header = () => {
                       : 'text-white hover:text-white',
                   )}
                   href={item.to || ''}
+                  onClick={
+                    item.ariaLabel === 'Search' ? handleSearchClick : undefined
+                  }
                 >
                   <Badge
                     count={
@@ -153,6 +164,7 @@ export const Header = () => {
                 </Link>
               ),
           )}
+
           <Button
             variant="ghost"
             size="icon"
@@ -170,6 +182,23 @@ export const Header = () => {
             )}
           </Button>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, x: '100%' }}
+          animate={{
+            opacity: isSearchVisible ? 1 : 0,
+            x: isSearchVisible ? 0 : '100%',
+          }}
+          transition={{ duration: 0.3 }}
+          className="absolute right-80 top-0 mt-4 mr-4"
+        >
+          {isSearchVisible && (
+            <Input
+              placeholder="Search"
+              className="p-2 rounded-md bg-transparent focus:ring-2 focus:ring-primary focus:outline-none placeholder:text-white text-white"
+            />
+          )}
+        </motion.div>
       </div>
 
       {/** Mobile Menu **/}
