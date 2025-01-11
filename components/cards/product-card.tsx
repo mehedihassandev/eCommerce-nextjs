@@ -1,28 +1,29 @@
 import Image from 'next/image';
 
 import React, { FC } from 'react';
+import { FaHeart } from 'react-icons/fa';
 import { HeartIcon, ShoppingCart } from 'lucide-react';
 
 import { ICartItem } from '@/app/models/cart';
 import { IProduct } from '@/app/models/products';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/stores/cart-store';
+import { useWhitelistStore } from '@/stores/whitelist-store';
 
 import StarRating from '../star-rating';
 import { Card, CardContent } from '../ui/card';
 
 interface IProductCard {
   data: IProduct;
-  handleAddToWhitelist: () => void;
   handleNavigateToProduct: () => void;
 }
 
 export const ProductCard: FC<IProductCard> = ({
   data,
-  handleAddToWhitelist,
   handleNavigateToProduct,
 }) => {
   const { addToCart, cartItems } = useCartStore();
+  const { toggleWhitelistItem, whitelistItems } = useWhitelistStore();
 
   const handleAddToCart = () => {
     const id = data?._id ?? 0;
@@ -45,6 +46,29 @@ export const ProductCard: FC<IProductCard> = ({
     };
 
     addToCart(cartItem as ICartItem);
+  };
+
+  const handleAddToWhitelist = () => {
+    const id = data?._id ?? 0;
+
+    const cartItem = {
+      id,
+      action: 'add',
+      quantity: 1,
+      item: {
+        _id: data._id,
+        name: data.name,
+        description: data.description,
+        details: data.details,
+        brand: data.brand,
+        version: data.version,
+        price: data.price,
+        image: data.image,
+        categories: data.categories,
+      },
+    };
+
+    toggleWhitelistItem(cartItem as ICartItem);
   };
 
   return (
@@ -99,7 +123,11 @@ export const ProductCard: FC<IProductCard> = ({
                 className="flex-shrink-0 font-poppins"
                 onClick={handleAddToWhitelist}
               >
-                <HeartIcon className="size-4 text-red-600" />
+                {whitelistItems.some((item) => item.id === data._id) ? (
+                  <FaHeart className="size-4 text-red-600" />
+                ) : (
+                  <HeartIcon className="size-4 text-red-600" />
+                )}
               </Button>
               <Button
                 variant="default"

@@ -14,13 +14,11 @@ import { LINK } from '../navigation/router';
 
 interface ITopProductProps {
   data: IProduct[] | undefined;
-  handleAddToWhitelist: (product: IProduct) => void;
   handleNavigateToProduct: (product: IProduct) => void;
 }
 
 export const TopProduct: FC<ITopProductProps> = ({
   data,
-  handleAddToWhitelist,
   handleNavigateToProduct,
 }) => {
   const navigate = useRouter();
@@ -45,7 +43,6 @@ export const TopProduct: FC<ITopProductProps> = ({
             <ProductCard
               key={index}
               data={product}
-              handleAddToWhitelist={() => handleAddToWhitelist(product)}
               handleNavigateToProduct={() => handleNavigateToProduct(product)}
             />
           ))}

@@ -15,7 +15,7 @@ import { ICartItem } from '@/app/models/cart';
 import { IProduct } from '@/app/models/products';
 import { LINK } from '@/app/navigation/router';
 import { ProductCard } from '@/components/cards/product-card';
-import CustomBreadcrumb from '@/components/custom-breadcrumb';
+import { CustomBreadcrumb } from '@/components/custom-breadcrumb';
 import { RhfTextField } from '@/components/rhf-textfield/rhf-textfield';
 import { ProductCardSkeleton } from '@/components/skeleton/product-card-skeleton';
 import { ProductDetailsSkeleton } from '@/components/skeleton/product-details-skeleton';
@@ -28,6 +28,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useProductsQuery } from '@/hooks/useProductsQuery/useProductsQuery';
 import { useCartStore } from '@/stores/cart-store';
+import { useWhitelistStore } from '@/stores/whitelist-store';
 import { axios, getProducts } from '@/utils';
 
 const ProductDetails = () => {
@@ -58,7 +59,8 @@ const ProductDetails = () => {
     select: (data) => data.data.products,
   });
 
-  const { addToCart } = useCartStore();
+  const { addToCart, cartItems } = useCartStore();
+  const { addToWhitelist, whitelistItems } = useWhitelistStore();
 
   const { averageRating } = calculateAverageRatingAndStars(
     product?.review ?? [],
@@ -110,7 +112,26 @@ const ProductDetails = () => {
   };
 
   const handleAddToWhitelist = (product: IProduct) => {
-    console.log('Added to whitelist:', product);
+    const id = product?._id ?? 0;
+
+    const cartItem = {
+      id,
+      action: 'add',
+      quantity,
+      item: {
+        _id: product._id,
+        name: product.name,
+        description: product.description,
+        details: product.details,
+        brand: product.brand,
+        version: product.version,
+        price: product.price,
+        image: product.image,
+        categories: product.categories,
+      },
+    };
+
+    addToWhitelist(cartItem as ICartItem);
   };
 
   const handleNavigateToProduct = (product: IProduct) => {
@@ -239,7 +260,10 @@ const ProductDetails = () => {
               <Button
                 variant="default"
                 className="w-full"
-                onClick={() => product && handleAddToCart(product)}
+                onClick={() => product && handleAddToWhitelist(product)}
+                disabled={whitelistItems.some(
+                  (item) => item.id === product?._id,
+                )}
               >
                 <HeartIcon className="size-4 me-1" /> Add to Wishlist
               </Button>
@@ -248,6 +272,7 @@ const ProductDetails = () => {
                 variant="outline"
                 className="w-full"
                 onClick={() => product && handleAddToCart(product)}
+                disabled={cartItems.some((item) => item.id === product?._id)}
               >
                 <ShoppingCart className="size-4 me-1" /> Add to Cart
               </Button>
@@ -398,7 +423,6 @@ const ProductDetails = () => {
                     <ProductCard
                       key={index}
                       data={product}
-                      handleAddToWhitelist={() => handleAddToWhitelist(product)}
                       handleNavigateToProduct={() =>
                         handleNavigateToProduct(product)
                       }

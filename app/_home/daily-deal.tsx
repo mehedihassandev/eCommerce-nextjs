@@ -14,13 +14,11 @@ import { IProduct } from '../models/products';
 
 interface IDailyDealProps {
   data: IProduct[] | undefined;
-  handleAddToWhitelist: (product: IProduct) => void;
   handleNavigateToProduct: (product: IProduct) => void;
 }
 
 export const DailyDeal: FC<IDailyDealProps> = ({
   data,
-  handleAddToWhitelist,
   handleNavigateToProduct,
 }) => {
   const [itemsPerPage, setItemsPerPage] = useState(3); // Default to 3 items per page
@@ -115,7 +113,6 @@ export const DailyDeal: FC<IDailyDealProps> = ({
                 >
                   <ProductCard
                     data={item}
-                    handleAddToWhitelist={() => handleAddToWhitelist(item)}
                     handleNavigateToProduct={() =>
                       handleNavigateToProduct(item)
                     }

@@ -43,10 +43,6 @@ export const HomePage = () => {
     select: (data) => data.data.products,
   });
 
-  const handleAddToWhitelist = (product: IProduct) => {
-    console.log('Added to whitelist:', product);
-  };
-
   const handleNavigateToProduct = (product: IProduct) => {
     navigate.push(`/${LINK.PRODUCT}/${product._id}`);
   };
@@ -58,7 +54,6 @@ export const HomePage = () => {
       <FeaturedCategories />
       <TopProduct
         data={data ?? []}
-        handleAddToWhitelist={handleAddToWhitelist}
         handleNavigateToProduct={handleNavigateToProduct}
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-screen-2xl mx-auto px-8 py-2 mt-8">
@@ -79,7 +74,6 @@ export const HomePage = () => {
       </div>
       <DailyDeal
         data={data ?? []}
-        handleAddToWhitelist={handleAddToWhitelist}
         handleNavigateToProduct={handleNavigateToProduct}
       />
       <DealsOfTheDay

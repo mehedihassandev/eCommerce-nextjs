@@ -59,10 +59,6 @@ export default function Checkout() {
     }
   };
 
-  const handleAddToWhitelist = (product: IProduct) => {
-    console.log('Added to whitelist:', product);
-  };
-
   const handleNavigateToProduct = (product: IProduct) => {
     navigate.push(`/${LINK.PRODUCT}/${product._id}`);
   };
@@ -71,7 +67,7 @@ export default function Checkout() {
     <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
       <div className="mx-auto max-w-screen-2xl px-6 pt-8">
         <CustomBreadcrumb />
-        <h2 className="text-3xl font-semibold font-playfair text-gray-900 dark:text-white mt-6">
+        <h2 className="text-4xl font-bold font-playfair text-gray-900 dark:text-white mt-6">
           Shopping Cart
         </h2>
 
@@ -247,7 +243,6 @@ export default function Checkout() {
                   <ProductCard
                     key={index}
                     data={product}
-                    handleAddToWhitelist={() => handleAddToWhitelist(product)}
                     handleNavigateToProduct={() =>
                       handleNavigateToProduct(product)
                     }
